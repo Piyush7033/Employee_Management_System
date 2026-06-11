@@ -1,0 +1,62 @@
+package EmployeeManagementSystem.entity;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
+@Setter
+@Entity
+@Table(name = "employees")
+public class Employee {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(unique = true)
+    private String email;
+
+    private String phone;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate joiningDate;
+
+    @Lob
+    private byte[] image;
+
+    private String imageName;
+
+    // Department
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "department_id")
+    private Department department;
+
+    // Attendance
+    @OneToMany(mappedBy = "employee",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<Attendance> attendanceList = new ArrayList<>();
+
+    // Salary (ONE-TO-ONE)
+    @OneToOne(mappedBy = "employee",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private Salary salaryDetails;
+
+    // ===== Helper =====
+    public void setSalaryDetails(Salary salaryDetails) {
+        this.salaryDetails = salaryDetails;
+        if (salaryDetails != null) {
+            salaryDetails.setEmployee(this);
+        }
+    }
+}
