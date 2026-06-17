@@ -74,7 +74,26 @@
 </head>
 
 <body>
+<nav style="background-color: #343a40; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; font-family: 'Segoe UI', sans-serif;">
 
+    <div style="color: white; font-size: 20px; font-weight: bold;">
+        <a th:href="@{/employee/dashboard}" style="color: white; text-decoration: none;">EMS Portal</a>
+    </div>
+
+    <div>
+        <a th:if="${isUserLoggedIn == null or !isUserLoggedIn}"
+           th:href="@{/auth/loginPage}"
+           style="background-color: #007bff; color: white; padding: 8px 18px; text-decoration: none; border-radius: 4px; font-weight: bold; margin-left: 10px;">
+            Login
+        </a>
+
+        <a th:if="${isUserLoggedIn != null and isUserLoggedIn}"
+           th:href="@{/auth/logout}"
+           style="background-color: #dc3545; color: white; padding: 8px 18px; text-decoration: none; border-radius: 4px; font-weight: bold; margin-left: 10px;">
+            Logout
+        </a>
+    </div>
+</nav>
 <!-- HEADER -->
 <div class="header">
     <h1>Employee Management System</h1>
