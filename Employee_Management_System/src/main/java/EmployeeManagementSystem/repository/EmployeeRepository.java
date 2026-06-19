@@ -32,6 +32,7 @@
 
 package EmployeeManagementSystem.repository;
 
+import EmployeeManagementSystem.controller.EmployeeController;
 import EmployeeManagementSystem.entity.Employee;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,6 +42,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+    EmployeeController findByUserId(String userId);
 
     @Query("SELECT e FROM Employee e " +
             "LEFT JOIN e.department d " +

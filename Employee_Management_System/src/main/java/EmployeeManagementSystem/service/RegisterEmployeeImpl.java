@@ -1,8 +1,10 @@
 package EmployeeManagementSystem.service;
 
+import EmployeeManagementSystem.controller.EmployeeController;
 import EmployeeManagementSystem.dto.LoginRequest;
 import EmployeeManagementSystem.entity.RegisterEmployee;
 import EmployeeManagementSystem.jwt.JwtUtil;
+import EmployeeManagementSystem.repository.EmployeeRepository;
 import EmployeeManagementSystem.repository.RegisterEmployeeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
@@ -17,6 +19,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class RegisterEmployeeImpl implements RegisterEmployeeService {
     private final RegisterEmployeeRepository repository;
+    //private final EmployeeRepository repository1;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final JavaMailSender mailSender;
@@ -90,7 +93,7 @@ public class RegisterEmployeeImpl implements RegisterEmployeeService {
     public String login(LoginRequest request){
         RegisterEmployee employee=repository.findByUserId(request.getUserId());
         if (passwordEncoder.matches(request.getPassword(),employee.getPassword())){
-            return jwtUtil.generateToken(employee.getUserId());
+            return jwtUtil.generateToken(employee.getUserId(),employee.getRole());
         }
         throw new RuntimeException("Invalid password");
     }
