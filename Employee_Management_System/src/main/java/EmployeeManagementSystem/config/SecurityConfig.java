@@ -22,26 +22,26 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // 1. CSRF disable karein kyunki hum stateless token/cookie use kar rahe hain
                 .csrf(csrf -> csrf.disable())
-
-                // 2. Apne custom logic ke liye default systems ko band karein
                 .formLogin(form -> form.disable())
                 .httpBasic(basic -> basic.disable())
-
-                // 3. Token management ko STATELESS set karein
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-                // 4. URLs ki Permissions config karein
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/css/**", "/js/**", "/images/**").permitAll() // Sabhi public endpoints khule hain
-                        .anyRequest().authenticated() // Dashboard aur baki sab kuch locked rahega
+                        .requestMatchers("/auth/**","/access-denied").permitAll()
+                        .requestMatchers("/leave/apply", "/leave/submit").authenticated()
+                        .requestMatchers("/leave/manage", "/leave/status/**").hasRole("MANAGER")
+                        .anyRequest().authenticated()
+                )
+                .exceptionHandling(exception -> exception
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            response.sendRedirect("/access-denied");
+                        })
                 )
 
-                // 5. Aapka Custom JWT filter lagayein default filter se pehle
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
