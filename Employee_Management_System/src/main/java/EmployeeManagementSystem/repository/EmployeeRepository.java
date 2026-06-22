@@ -44,6 +44,7 @@ import org.springframework.stereotype.Repository;
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     EmployeeController findByUserId(String userId);
 
+
     @Query("SELECT e FROM Employee e " +
             "LEFT JOIN e.department d " +
             "WHERE LOWER(e.name) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
