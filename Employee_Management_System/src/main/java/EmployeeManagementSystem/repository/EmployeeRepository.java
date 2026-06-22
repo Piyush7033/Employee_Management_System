@@ -42,7 +42,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-    EmployeeController findByUserId(String userId);
+    //EmployeeController findByUserId(String userId);
 
     @Query("SELECT e FROM Employee e " +
             "LEFT JOIN e.department d " +

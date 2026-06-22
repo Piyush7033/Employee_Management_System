@@ -20,7 +20,7 @@ public class TimesheetController {
     @GetMapping("/log")
     public String OpenTimesheet(Model model){
         Timesheet sheet = new Timesheet();
-        sheet.setDate(LocalDate.now()); // Default to today's date
+        sheet.setDate(LocalDate.now());
         model.addAttribute("timesheet", sheet);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -28,12 +28,13 @@ public class TimesheetController {
 
         List<Timesheet> myLogs = service.getTimesheetsByEmployee(currentEmpId);
         model.addAttribute("myLogs", myLogs);
-        return "timesheet";
+        return "timesheet-log";
     }
     @PostMapping("/submit")
     public String saveTimeSheet(@ModelAttribute("timesheet")Timesheet timesheet){
         Authentication auth=SecurityContextHolder.getContext().getAuthentication();
         timesheet.setEmployeeName(auth.getName());
+        timesheet.setEmployeeId(auth.getName());
         service.saveTimesheet(timesheet);
         return "redirect:/timesheet/log";
     }
