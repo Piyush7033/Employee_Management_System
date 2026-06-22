@@ -107,6 +107,15 @@
 
         <div class="col-md-3">
             <div class="card-box">
+                <div class="icon"><i class="fa-solid fa-user-tie"></i></div>
+                <h4>My Profile</h4>
+                <p>View & Manage your data</p>
+                <a th:href="@{/profile/view}" class="btn btn-light btn-custom">Open Profile</a>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card-box">
                 <div class="icon"><i class="fa-solid fa-users"></i></div>
                 <h4>Employees</h4>
                 <p>Manage all employees</p>
@@ -153,6 +162,22 @@
                 <h4 class="text-emerald-300">Manage Leaves</h4>
                 <p>Approve or reject requests</p>
                 <a th:href="@{/leave/manage}" class="btn btn-success btn-custom">Review Requests</a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card-box">
+                <div class="icon"><i class="fa-solid fa-clock-column"></i></div>
+                <h4>Timesheet</h4>
+                <p>Log your daily tasks & hours</p>
+                <a th:href="@{/timesheet/log}" class="btn btn-light btn-custom">Open Logs</a>
+            </div>
+        </div>
+        <div class="col-md-3" th:if="${isManager}">
+            <div class="card-box" style="background: rgba(245, 158, 11, 0.25); border: 1px solid rgba(245, 158, 11, 0.4);">
+                <div class="icon text-warning"><i class="fa-solid fa-list-check"></i></div>
+                <h4 class="text-warning">Review Timesheets</h4>
+                <p>Verify employee logging hours</p>
+                <a th:href="@{/timesheet/manage}" class="btn btn-warning btn-custom text-dark fw-bold">Review Logs</a>
             </div>
         </div>
 

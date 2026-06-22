@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final JwtAuthenticationFilter jwtAuthenticationFilter; // Is filter ko direct inject karein
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -31,9 +31,9 @@ public class SecurityConfig {
                 .httpBasic(basic -> basic.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**","/access-denied").permitAll()
+                        .requestMatchers("/auth/**","/access-denied","/profile/**").permitAll()
                         .requestMatchers("/leave/apply", "/leave/submit").authenticated()
-                        .requestMatchers("/leave/manage", "/leave/status/**").hasRole("MANAGER")
+                        .requestMatchers("/leave/manage", "/leave/status/**","/timesheet/manage", "/timesheet/status/**").hasRole("MANAGER")
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception
