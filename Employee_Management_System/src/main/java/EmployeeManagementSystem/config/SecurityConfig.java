@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .httpBasic(basic -> basic.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**","/access-denied").permitAll()
+                        .requestMatchers("/auth/**","/access-denied","/profile/**").permitAll()
                         .requestMatchers("/leave/apply", "/leave/submit").authenticated()
                         .requestMatchers("/leave/manage", "/leave/status/**","/timesheet/manage", "/timesheet/status/**").hasRole("MANAGER")
                         .anyRequest().authenticated()
