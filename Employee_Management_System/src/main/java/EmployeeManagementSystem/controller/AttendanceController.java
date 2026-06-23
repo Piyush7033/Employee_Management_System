@@ -20,8 +20,7 @@ public class AttendanceController {
 
     @Autowired
     private EmployeeService employeeService;
-
-    // ================= LIST ATTENDANCE =================
+  //CHECK
     @GetMapping
     public String getAllAttendance(Model model) {
 
@@ -33,13 +32,11 @@ public class AttendanceController {
         return "attendance-list";
     }
 
-    // ================= SHOW FORM =================
     @GetMapping("/add")
     public String showAttendanceForm(Model model) {
 
         model.addAttribute("attendance", new Attendance());
 
-        // ✅ FIXED LINE
         List<Employee> employees = employeeService.getAllEmployeesList();
 
         model.addAttribute("employees", employees);
@@ -49,7 +46,6 @@ public class AttendanceController {
         return "attendance-form";
     }
 
-    // ================= SAVE ATTENDANCE =================
     @PostMapping("/save")
     public String saveAttendance(
             @ModelAttribute Attendance attendance,
@@ -64,7 +60,6 @@ public class AttendanceController {
         return "redirect:/attendance";
     }
 
-    // ================= DELETE =================
     @GetMapping("/delete/{id}")
     public String deleteAttendance(@PathVariable Long id) {
 
