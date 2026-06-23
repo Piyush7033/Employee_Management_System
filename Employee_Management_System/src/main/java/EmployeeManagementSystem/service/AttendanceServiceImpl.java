@@ -1,8 +1,5 @@
 package EmployeeManagementSystem.service;
 
-//import com.ems.entity.Attendance;
-//import com.ems.repository.AttendanceRepository;
-//import com.ems.service.AttendanceService;
 
 import EmployeeManagementSystem.entity.Attendance;
 import EmployeeManagementSystem.repository.AttendanceRepository;
@@ -18,8 +15,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     private AttendanceRepository attendanceRepository;
 
     @Override
-    public Attendance saveAttendance(
-            Attendance attendance) {
+    public Attendance saveAttendance(Attendance attendance) {
 
         return attendanceRepository.save(
                 attendance);
