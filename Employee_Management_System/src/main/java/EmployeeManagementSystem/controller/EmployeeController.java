@@ -23,7 +23,6 @@ public class EmployeeController {
     @Autowired
     private DepartmentService departmentService;
 
-    // ================= LIST =================
     @GetMapping
     public String getAllEmployees(
             @RequestParam(defaultValue = "") String keyword,
@@ -58,7 +57,7 @@ public class EmployeeController {
         return "employee-list";
     }
 
-    // ================= ADD FORM =================
+
     @GetMapping("/add")
     public String showAddForm(Model model) {
 
@@ -70,14 +69,11 @@ public class EmployeeController {
         return "employee-form";
     }
 
-    // ================= SAVE (FIXED INSERT + UPDATE) =================
     @PostMapping("/save")
     public String saveEmployee(@ModelAttribute Employee employee,
                                @RequestParam("imageFile") MultipartFile file) {
 
         try {
-
-            // ================= IMAGE UPLOAD =================
             if (file != null && !file.isEmpty()) {
 
                 String uploadDirPath = System.getProperty("user.dir") + "/uploads/";
@@ -96,12 +92,9 @@ public class EmployeeController {
                 employee.setImageName(fileName);
             }
 
-            // ================= FIXED SAVE LOGIC =================
             if (employee.getId() != null) {
-                // UPDATE FLOW
                 employeeService.updateEmployee(employee.getId(), employee);
             } else {
-                // INSERT FLOW
                 employeeService.saveEmployee(employee);
             }
 
@@ -113,7 +106,6 @@ public class EmployeeController {
         }
     }
 
-    // ================= EDIT =================
     @GetMapping("/edit/{id}")
     public String editEmployee(@PathVariable Long id, Model model) {
 
@@ -130,7 +122,6 @@ public class EmployeeController {
         return "employee-form";
     }
 
-    // ================= DELETE =================
     @GetMapping("/delete/{id}")
     public String deleteEmployee(@PathVariable Long id) {
         employeeService.deleteEmployee(id);
