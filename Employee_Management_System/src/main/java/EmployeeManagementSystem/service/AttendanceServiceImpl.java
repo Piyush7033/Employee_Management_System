@@ -1,8 +1,5 @@
 package EmployeeManagementSystem.service;
 
-//import com.ems.entity.Attendance;
-//import com.ems.repository.AttendanceRepository;
-//import com.ems.service.AttendanceService;
 
 import EmployeeManagementSystem.entity.Attendance;
 import EmployeeManagementSystem.repository.AttendanceRepository;
@@ -13,13 +10,12 @@ import java.util.List;
 
 @Service
 public class AttendanceServiceImpl implements AttendanceService {
-
+    //just for trail
     @Autowired
     private AttendanceRepository attendanceRepository;
 
     @Override
-    public Attendance saveAttendance(
-            Attendance attendance) {
+    public Attendance saveAttendance(Attendance attendance) {
 
         return attendanceRepository.save(
                 attendance);
