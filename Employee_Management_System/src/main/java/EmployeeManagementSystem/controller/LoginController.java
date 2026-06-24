@@ -2,6 +2,7 @@ package EmployeeManagementSystem.controller;
 
 import EmployeeManagementSystem.dto.LoginRequest;
 import EmployeeManagementSystem.entity.RegisterEmployee;
+import EmployeeManagementSystem.jwt.JwtUtil;
 import EmployeeManagementSystem.service.RegisterEmployeeService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class LoginController {
     private final RegisterEmployeeService service;
+    private final JwtUtil jwtUtil;
     @GetMapping("/employeeRegisterForm")
     public String openForm(Model model){
         model.addAttribute("registerEmployee",new RegisterEmployee());
@@ -48,6 +50,10 @@ public class LoginController {
             jwtCookie.setMaxAge(60 * 60); // 1 hour
 
             response.addCookie(jwtCookie);
+            String role=jwtUtil.extractRole(token);
+            if (("rOLE_EMPLOYEE".equalsIgnoreCase(role))){
+                return "redirect:/employee/dashboar";
+            }
 
             return "redirect:/dashboard";
 
