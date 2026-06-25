@@ -51,13 +51,16 @@ public class LoginController {
 
             response.addCookie(jwtCookie);
             String role = jwtUtil.extractRole(token);
-            System.out.println("ROLE = " + role);
-
-            if ("ROLE_EMPLOYEE".equalsIgnoreCase(role)) {
+            if ("ROLE_EMPLOYEE".equalsIgnoreCase(role)){
                 return "redirect:/employee/dashboard";
             }
-
-            return "redirect:/dashboard";
+            if ("ROLE_MANAGER".equalsIgnoreCase(role)){
+                return "redirect:/manager-dashboard";
+            }
+            if ("ROLE_ADMIN".equalsIgnoreCase(role)){
+                return "redirect:/admin-dashboard";
+            }
+            return "redirect:/login";
 
         } catch (Exception e) {
 
