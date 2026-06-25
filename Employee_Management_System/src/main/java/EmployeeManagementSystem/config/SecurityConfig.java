@@ -33,6 +33,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**","/access-denied","/profile/**").permitAll()
                         .requestMatchers("/employee/**").hasRole("EMPLOYEE")
+                        .requestMatchers("/employee/dashboard").hasRole("EMPLOYEE")
                         .requestMatchers("/leave/apply", "/leave/submit").authenticated()
                         .requestMatchers("/leave/manage", "/leave/status/**","/timesheet/manage", "/timesheet/status/**").hasRole("MANAGER")
                         .anyRequest().authenticated()
