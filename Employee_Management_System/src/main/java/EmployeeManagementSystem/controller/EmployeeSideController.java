@@ -1,16 +1,29 @@
 package EmployeeManagementSystem.controller;
 
+import EmployeeManagementSystem.jwt.JwtUtil;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/employee")
+@RequiredArgsConstructor
 public class EmployeeSideController {
-
+    private final JwtUtil jwtUtil;
     @GetMapping("/dashboard")
-    public String dashboard(){
+    public String dashboard()
+//            (@CookieValue(value = "token", required = false) String token)
+    {
+
+//        String role = jwtUtil.extractRole(token);
+//        if ("ROLE_EMPLOYEE".equalsIgnoreCase(role))
+//        {
+//            return "redirect:/employee/dashboard";
+//        }
         return "employeeside-dashboard";
     }
 
@@ -18,4 +31,5 @@ public class EmployeeSideController {
     public String profile(){
         return "employee/profile";
     }
+
 }
