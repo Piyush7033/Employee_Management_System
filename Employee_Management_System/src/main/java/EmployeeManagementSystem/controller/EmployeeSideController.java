@@ -16,7 +16,6 @@ import java.util.Collection;
 @RequestMapping("/employee")
 @RequiredArgsConstructor
 public class EmployeeSideController {
-    private final JwtUtil jwtUtil;
     @GetMapping("/dashboard")
     public String dashboard(){
         Authentication auth= SecurityContextHolder.getContext().getAuthentication();
