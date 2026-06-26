@@ -15,15 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class EmployeeSideController {
     private final JwtUtil jwtUtil;
     @GetMapping("/dashboard")
-    public String dashboard()
-//            (@CookieValue(value = "token", required = false) String token)
-    {
-
-//        String role = jwtUtil.extractRole(token);
-//        if ("ROLE_EMPLOYEE".equalsIgnoreCase(role))
-//        {
-//            return "redirect:/employee/dashboard";
-//        }
+    public String dashboard() {
         return "employeeside-dashboard";
     }
 

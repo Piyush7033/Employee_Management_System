@@ -37,7 +37,6 @@ public class AttendanceController {
 
         model.addAttribute("attendance", new Attendance());
 
-        // ✅ FIXED LINE
         List<Employee> employees = employeeService.getAllEmployeesList();
 
         model.addAttribute("employees", employees);
