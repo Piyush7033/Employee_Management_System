@@ -20,7 +20,7 @@ public class AttendanceController {
 
     @Autowired
     private EmployeeService employeeService;
-  //CHECK
+
     @GetMapping
     public String getAllAttendance(Model model) {
 

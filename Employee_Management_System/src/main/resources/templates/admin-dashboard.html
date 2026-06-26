@@ -2,13 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Admin Control Panel - EMS</title>
+    <title>Dashboard</title>
 
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Font Awesome Icons -->
+    <!-- Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
     <!-- Chart.js -->
@@ -18,282 +16,239 @@
         body {
             margin: 0;
             font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #0f172a, #1e1b4b);
+            background-color: #f4f6f9;
             min-height: 100vh;
-            color: white;
-        }
-
-        .navbar-custom {
-            background-color: #020617;
-            padding: 15px 30px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #212529;
         }
 
         .header {
             text-align: center;
-            padding: 40px 20px;
+            padding: 35px 20px;
         }
 
         .header h1 {
-            font-weight: 800;
-            letter-spacing: 1.5px;
-            background: linear-gradient(to right, #38bdf8, #f43f5e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            color: #2c3e50;
         }
 
         .header p {
-            opacity: 0.8;
-            font-size: 1.1rem;
+            color: #6c757d;
         }
 
-        /* High-End Glass-morphic Cards */
         .card-box {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(16px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #ffffff;
+            border-radius: 15px;
+            border: 1px solid #dee2e6;
+            transition: all 0.3s ease;
             padding: 25px;
             text-align: center;
-            color: white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            color: #212529;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
         }
 
         .card-box:hover {
-            transform: translateY(-8px);
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(56, 189, 248, 0.4); /* Neon Blue border on hover */
-            box-shadow: 0 15px 35px rgba(56, 189, 248, 0.15);
-        }
-
-        /* Critical Admin Action Cards */
-        .card-critical {
-            background: rgba(244, 63, 94, 0.05);
-            border: 1px solid rgba(244, 63, 94, 0.2);
-        }
-        .card-critical:hover {
-            background: rgba(244, 63, 94, 0.12);
-            border-color: rgba(244, 63, 94, 0.5);
-            box-shadow: 0 15px 35px rgba(244, 63, 94, 0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
         }
 
         .icon {
-            font-size: 45px;
+            font-size: 40px;
             margin-bottom: 15px;
+            color: #0d6efd;
+        }
+
+        .card-box h4 {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .card-box p {
+            color: #6c757d;
         }
 
         .btn-custom {
-            border-radius: 50px;
+            border-radius: 8px;
             width: 100%;
             font-weight: 600;
-            letter-spacing: 0.5px;
-            transition: all 0.2s;
         }
 
         .chart-box {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(16px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 30px;
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 25px;
             margin-top: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
-        .section-heading {
-            font-weight: 700;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            padding-bottom: 10px;
-            margin-bottom: 25px;
-            letter-spacing: 0.5px;
+        .chart-box h4 {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        nav {
+            background: #1f2937 !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        nav a {
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 0.9;
         }
     </style>
 </head>
 
 <body>
+<nav style="background-color: #343a40; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; font-family: 'Segoe UI', sans-serif;">
 
-<!-- NAVIGATION BAR -->
-<nav class="navbar navbar-custom d-flex justify-content-between align-items-center">
-    <div style="font-size: 22px; font-weight: bold;">
-        <a th:href="@{/admin-dashboard}" class="text-white text-decoration-none">
-            <i class="fa-solid fa-screwdriver-wrench me-2 text-danger"></i>EMS Root Console
-        </a>
+    <div style="color: white; font-size: 20px; font-weight: bold;">
+        <a th:href="@{/admin/dashboard}" style="color: white; text-decoration: none;">BlueThink Inc.</a>
     </div>
 
-    <div class="d-flex align-items-center gap-3">
-        <span class="text-white-50"><i class="fa-solid fa-user-shield me-1 text-info"></i> Super Admin: <strong class="text-white" th:text="${adminName != null ? adminName : 'Root'}">Root_Admin</strong></span>
-        <a th:href="@{/auth/logout}" class="btn btn-outline-danger btn-sm px-3 rounded-pill fw-bold">
-            <i class="fa-solid fa-power-off me-1"></i> Terminate Session
+    <div>
+        <a th:if="${isUserLoggedIn == null or !isUserLoggedIn}"
+           th:href="@{/auth/loginPage}"
+           style="background-color: #007bff; color: white; padding: 8px 18px; text-decoration: none; border-radius: 4px; font-weight: bold; margin-left: 10px;">
+            Login
+        </a>
+
+        <a th:if="${isUserLoggedIn != null and isUserLoggedIn}"
+           th:href="@{/auth/logout}"
+           style="background-color: #dc3545; color: white; padding: 8px 18px; text-decoration: none; border-radius: 4px; font-weight: bold; margin-left: 10px;">
+            Logout
         </a>
     </div>
 </nav>
-
 <!-- HEADER -->
 <div class="header">
-    <h1>System Architecture & Root Controls</h1>
-    <p>Global configuration, authorization filters, structure monitoring, and macro-level management</p>
+    <h1>Employee Management System</h1>
+    <p>Dashboard with Analytics</p>
 </div>
 
-<!-- MAIN DASHBOARD CONTENT -->
-<div class="container mb-5">
+<!-- CARDS -->
+<div class="container">
 
-    <!-- SECTION 1: SYSTEM INFRASTRUCTURE -->
-    <h3 class="section-heading text-info"><i class="fa-solid fa-network-wired me-2"></i>Enterprise Structure</h3>
-    <div class="row g-4 mb-5">
+    <div class="row g-4">
 
-        <!-- Global Directory -->
         <div class="col-md-3">
             <div class="card-box">
-                <div>
-                    <div class="icon text-info"><i class="fa-solid fa-address-book"></i></div>
-                    <h4>Global Directory</h4>
-                    <p class="text-white-50 small">Manage roles, override details, and view corporate credentials.</p>
-                </div>
-                <a th:href="@{/employees}" class="btn btn-info text-dark btn-custom mt-3">Access Master DB</a>
+                <div class="icon"><i class="fa-solid fa-user-tie"></i></div>
+                <h4>My Profile</h4>
+                <p>View & Manage your data</p>
+                <a th:href="@{/profile/view}" class="btn btn-light btn-custom">Open Profile</a>
             </div>
         </div>
 
-        <!-- Infrastructure Sectors -->
         <div class="col-md-3">
             <div class="card-box">
-                <div>
-                    <div class="icon text-primary"><i class="fa-solid fa-sitemap"></i></div>
-                    <h4>Organization Hierarchy</h4>
-                    <p class="text-white-50 small">Create new departments, assign branch heads, and edit designations.</p>
-                </div>
-                <a th:href="@{/departments}" class="btn btn-light btn-custom mt-3">Configure Sectors</a>
+                <div class="icon"><i class="fa-solid fa-users"></i></div>
+                <h4>Employees</h4>
+                <p>Manage all employees</p>
+                <a href="/employees" class="btn btn-light btn-custom">Open</a>
             </div>
         </div>
 
-        <!-- Global Financials -->
         <div class="col-md-3">
             <div class="card-box">
-                <div>
-                    <div class="icon text-success"><i class="fa-solid fa-wallet"></i></div>
-                    <h4>Payroll / Budgeting</h4>
-                    <p class="text-white-50 small">Monitor corporate expenses, structure allowances, and edit pay slips.</p>
-                </div>
-                <a th:href="@{/salary}" class="btn btn-light btn-custom mt-3">Finance Panel</a>
+                <div class="icon"><i class="fa-solid fa-sack-dollar"></i></div>
+                <h4>Salary</h4>
+                <p>Manage salary records</p>
+                <a href="/salary" class="btn btn-light btn-custom">Open</a>
             </div>
         </div>
 
-        <!-- System-wide Attendance -->
         <div class="col-md-3">
             <div class="card-box">
-                <div>
-                    <div class="icon text-warning"><i class="fa-solid fa-business-time"></i></div>
-                    <h4>Time & Attendance</h4>
-                    <p class="text-white-50 small">Track attendance logs, shift timings, and check-in exceptions.</p>
-                </div>
-                <a th:href="@{/attendance}" class="btn btn-light btn-custom mt-3">Audit Logs</a>
+                <div class="icon"><i class="fa-solid fa-calendar-check"></i></div>
+                <h4>Attendance</h4>
+                <p>Track attendance</p>
+                <a href="/attendance" class="btn btn-light btn-custom">Open</a>
             </div>
         </div>
-    </div>
 
-    <!-- SECTION 2: ACCESS CONTROL & USER SETTINGS -->
-    <h3 class="section-heading text-danger"><i class="fa-solid fa-shield-halved me-2"></i>Security & Configuration Controls</h3>
-    <div class="row g-4 mb-5">
-
-        <!-- Leave Rules Control -->
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card-box">
-                <div>
-                    <div class="icon text-emerald-400"><i class="fa-solid fa-sliders"></i></div>
-                    <h4 class="text-emerald-400">System Policy Rules</h4>
-                    <p class="text-white-50 small">Set standard leaves allocation quota, holiday calendars, and rules.</p>
-                </div>
-                <a th:href="@{/admin/leave}" class="btn btn-outline-success btn-custom mt-3">Manage Policies</a>
+                <div class="icon"><i class="fa-solid fa-building"></i></div>
+                <h4>Department</h4>
+                <p>Manage departments</p>
+                <a href="/departments" class="btn btn-light btn-custom">Open</a>
             </div>
         </div>
-
-        <!-- Credentials & Security Control -->
-        <div class="col-md-4">
-            <div class="card-box card-critical">
-                <div>
-                    <div class="icon text-danger"><i class="fa-solid fa-user-lock"></i></div>
-                    <h4 class="text-danger">Role Assignments</h4>
-                    <p class="text-white-50 small">Change user access tiers, grant/revoke MANAGER status, reset credentials.</p>
-                </div>
-                <a th:href="@{/admin/roles-control}" class="btn btn-danger btn-custom mt-3">Modify Access Tiers</a>
-            </div>
-        </div>
-
-        <!-- Admin Profile -->
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card-box">
-                <div>
-                    <div class="icon text-light"><i class="fa-solid fa-sliders"></i></div>
-                    <h4>Root Security Profile</h4>
-                    <p class="text-white-50 small">Update primary admin data, security tokens, and encryption logs.</p>
-                </div>
-                <a th:href="@{/profile/view}" class="btn btn-light btn-custom mt-3">Edit Root Data</a>
+                <div class="icon"><i class="fa-solid fa-calendar-minus"></i></div> <h4>Leave</h4>
+                <p>Manage Leave</p>
+                <a th:href="@{/leave/apply}" class="btn btn-light btn-custom">Open</a>
+            </div>
+        </div>
+        <div class="col-md-3" th:if="${isManager}">
+            <div class="card-box" style="background: rgba(16, 185, 129, 0.25); border: 1px solid rgba(16, 185, 129, 0.4);">
+                <div class="icon text-emerald-300"><i class="fa-solid fa-envelope-open-text"></i></div>
+                <h4 class="text-emerald-300">Manage Leaves</h4>
+                <p>Approve or reject requests</p>
+                <a th:href="@{/leave/manage}" class="btn btn-success btn-custom">Review Requests</a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card-box">
+                <div class="icon"><i class="fa-solid fa-clock-column"></i></div>
+                <h4>Timesheet</h4>
+                <p>Log your daily tasks & hours</p>
+                <a th:href="@{/timesheet/log}" class="btn btn-light btn-custom">Open Logs</a>
+            </div>
+        </div>
+        <div class="col-md-3" th:if="${isManager}">
+            <div class="card-box" style="background: rgba(245, 158, 11, 0.25); border: 1px solid rgba(245, 158, 11, 0.4);">
+                <div class="icon text-warning"><i class="fa-solid fa-list-check"></i></div>
+                <h4 class="text-warning">Review Timesheets</h4>
+                <p>Verify employee logging hours</p>
+                <a th:href="@{/timesheet/manage}" class="btn btn-warning btn-custom text-dark fw-bold">Review Logs</a>
             </div>
         </div>
 
     </div>
 
-    <!-- SECTION 3: SYSTEM PERFORMANCES VISUALIZATION -->
-    <div class="chart-box">
-        <h4 class="text-center mb-4"><i class="fa-solid fa-server me-2 text-danger"></i>Macro Server & Resource Metrics</h4>
-        <div style="position: relative; height:340px;">
-            <canvas id="adminMetricsChart"></canvas>
-        </div>
+
+    <div class="chart-box mt-5">
+        <h4 class="text-center mb-3">System Analytics</h4>
+        <canvas id="dashboardChart"></canvas>
     </div>
 
 </div>
 
-<!-- SCRIPT FOR GRAPH DATA (SYSTEM ANALYTICS) -->
+<!-- SCRIPT -->
 <script>
-    const ctx = document.getElementById('adminMetricsChart').getContext('2d');
+    const ctx = document.getElementById('dashboardChart').getContext('2d');
 
     new Chart(ctx, {
-        type: 'line',
+        type: 'bar',
         data: {
-            labels: ['09:00 AM', '11:00 AM', '01:00 PM', '03:00 PM', '05:00 PM', '07:00 PM'],
-            datasets: [
-                {
-                    label: 'Server Traffic API Requests (x10)',
-                    data: [20, 85, 55, 90, 40, 15],
-                    borderColor: '#38bdf8',
-                    backgroundColor: 'rgba(56, 189, 248, 0.1)',
-                    fill: true,
-                    tension: 0.4,
-                    borderWidth: 3
-                },
-                {
-                    label: 'Active Login Sessions',
-                    data: [40, 110, 95, 120, 80, 30],
-                    borderColor: '#f43f5e',
-                    backgroundColor: 'rgba(244, 63, 94, 0.05)',
-                    fill: true,
-                    tension: 0.4,
-                    borderWidth: 3
-                }
-            ]
+            labels: ['Employees', 'Departments', 'Salary Records', 'Attendance'],
+            datasets: [{
+                label: 'Overview',
+                data: [12, 4, 8, 20], // 👉 replace with DB values later
+                backgroundColor: [
+                    '#00c6ff',
+                    '#ff9a9e',
+                    '#fbc2eb',
+                    '#a1c4fd'
+                ],
+                borderRadius: 10
+            }]
         },
         options: {
             responsive: true,
-            maintainAspectRatio: false,
             plugins: {
                 legend: {
-                    labels: { color: 'rgba(255, 255, 255, 0.8)', font: { size: 12 } }
+                    display: false
                 }
             },
             scales: {
-                x: {
-                    grid: { display: false },
-                    ticks: { color: 'rgba(255,255,255,0.6)' }
-                },
                 y: {
-                    beginAtZero: true,
-                    grid: { color: 'rgba(255, 255, 255, 0.05)' },
-                    ticks: { color: 'rgba(255,255,255,0.6)' }
+                    beginAtZero: true
                 }
             }
         }
