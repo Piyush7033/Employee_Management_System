@@ -55,10 +55,13 @@ public class LoginController {
                 return "redirect:/employee/dashboard";
             }
             if ("ROLE_MANAGER".equalsIgnoreCase(role)){
-                return "redirect:/manager-dashboard";
+                return "redirect:/manager/dashboard";
             }
             if ("ROLE_ADMIN".equalsIgnoreCase(role)){
-                return "redirect:/admin-dashboard";
+                return "redirect:/admin/dashboard";
+            }
+            if ("ROLE_HR".equalsIgnoreCase(role)){
+                return "redirect:/hr/dashboard";
             }
             return "redirect:/login";
 
