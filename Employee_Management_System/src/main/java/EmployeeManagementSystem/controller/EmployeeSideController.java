@@ -4,36 +4,21 @@ import EmployeeManagementSystem.jwt.JwtUtil;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Collection;
-
 @Controller
 @RequestMapping("/employee")
 @RequiredArgsConstructor
 public class EmployeeSideController {
-
     private final JwtUtil jwtUtil;
-//    @GetMapping("/dashboard")
-//    public String dashboard()
-////            (@CookieValue(value = "token", required = false) String token)
-//    {
-//
-////        String role = jwtUtil.extractRole(token);
-////        if ("ROLE_EMPLOYEE".equalsIgnoreCase(role))
-////        {
-////            return "redirect:/employee/dashboard";
-////        }
-//        return "employeeside-dashboard";
 
     @GetMapping("/dashboard")
-    public String dashboard(){
-        Authentication auth= SecurityContextHolder.getContext().getAuthentication();
+    public String dashboard() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         boolean isAdmin = auth.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
 
@@ -47,14 +32,12 @@ public class EmployeeSideController {
         if (isEmployee) {
             return "employeeside-dashboard";
         }
-
-        return "redirect:/login";
-
+        return "/";
     }
 
-    @GetMapping("/profile")
-    public String profile(){
-        return "employee/profile";
-    }
 
+        @GetMapping ("/profile")
+       public String profile() {
+            return "employee/profile";
+        }
 }
