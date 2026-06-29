@@ -32,6 +32,8 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**","/access-denied","/profile/**").permitAll()
+                        .requestMatchers("/notifications/**").permitAll()
+//                        .hasAnyAuthority("EMPLOYEE", "ADMIN", "HR", "MANAGER")
                         .requestMatchers("/employee/attendance-tracking").permitAll()
                         .requestMatchers("/employee/**").hasRole("EMPLOYEE")
                         .requestMatchers("/employee/dashboard").hasRole("EMPLOYEE")

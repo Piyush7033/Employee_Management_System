@@ -1,258 +1,1198 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
 
+<!--<head>-->
+<!--    <title>Dashboard</title>-->
+
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">-->
+
+<!--    &lt;!&ndash; Icons &ndash;&gt;-->
+<!--    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">-->
+
+<!--    &lt;!&ndash; Chart.js &ndash;&gt;-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>-->
+
+<!--    <style>-->
+<!--        body {-->
+<!--            margin: 0;-->
+<!--            font-family: 'Segoe UI', sans-serif;-->
+<!--            background-color: #f4f6f9;-->
+<!--            min-height: 100vh;-->
+<!--            color: #212529;-->
+<!--        }-->
+
+<!--        .header {-->
+<!--            text-align: center;-->
+<!--            padding: 35px 20px;-->
+<!--        }-->
+
+<!--        .header h1 {-->
+<!--            font-weight: 700;-->
+<!--            color: #2c3e50;-->
+<!--        }-->
+
+<!--        .header p {-->
+<!--            color: #6c757d;-->
+<!--        }-->
+
+<!--        .card-box {-->
+<!--            background: #ffffff;-->
+<!--            border-radius: 15px;-->
+<!--            border: 1px solid #dee2e6;-->
+<!--            transition: all 0.3s ease;-->
+<!--            padding: 25px;-->
+<!--            text-align: center;-->
+<!--            color: #212529;-->
+<!--            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);-->
+<!--            height: 100%;-->
+<!--        }-->
+
+<!--        .card-box:hover {-->
+<!--            transform: translateY(-5px);-->
+<!--            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);-->
+<!--        }-->
+
+<!--        .icon {-->
+<!--            font-size: 40px;-->
+<!--            margin-bottom: 15px;-->
+<!--            color: #0d6efd;-->
+<!--        }-->
+
+<!--        .card-box h4 {-->
+<!--            color: #2c3e50;-->
+<!--            font-weight: 600;-->
+<!--        }-->
+
+<!--        .card-box p {-->
+<!--            color: #6c757d;-->
+<!--        }-->
+
+<!--        .btn-custom {-->
+<!--            border-radius: 8px;-->
+<!--            width: 100%;-->
+<!--            font-weight: 600;-->
+<!--        }-->
+
+<!--        .chart-box {-->
+<!--            background: #ffffff;-->
+<!--            border-radius: 15px;-->
+<!--            padding: 25px;-->
+<!--            margin-top: 40px;-->
+<!--            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);-->
+<!--        }-->
+
+<!--        .chart-box h4 {-->
+<!--            color: #2c3e50;-->
+<!--            font-weight: 600;-->
+<!--        }-->
+
+<!--        nav {-->
+<!--            background: #1f2937 !important;-->
+<!--            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);-->
+<!--        }-->
+
+<!--        nav a {-->
+<!--            transition: 0.3s;-->
+<!--        }-->
+
+<!--        nav a:hover {-->
+<!--            opacity: 0.9;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+
+<!--<body>-->
+<!--<nav style="background-color: #343a40; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; font-family: 'Segoe UI', sans-serif;">-->
+
+<!--    <div style="color: white; font-size: 20px; font-weight: bold;">-->
+<!--        <a th:href="@{/admin/dashboard}" style="color: white; text-decoration: none;">BlueThink Inc.</a>-->
+<!--    </div>-->
+
+<!--    <div>-->
+<!--        <a th:if="${isUserLoggedIn == null or !isUserLoggedIn}"-->
+<!--           th:href="@{/auth/loginPage}"-->
+<!--           style="background-color: #007bff; color: white; padding: 8px 18px; text-decoration: none; border-radius: 4px; font-weight: bold; margin-left: 10px;">-->
+<!--            Login-->
+<!--        </a>-->
+
+<!--        <a th:if="${isUserLoggedIn != null and isUserLoggedIn}"-->
+<!--           th:href="@{/auth/logout}"-->
+<!--           style="background-color: #dc3545; color: white; padding: 8px 18px; text-decoration: none; border-radius: 4px; font-weight: bold; margin-left: 10px;">-->
+<!--            Logout-->
+<!--        </a>-->
+<!--    </div>-->
+<!--</nav>-->
+<!--&lt;!&ndash; HEADER &ndash;&gt;-->
+<!--<div class="header">-->
+<!--    <h1>Employee Management System</h1>-->
+<!--    <p>Dashboard with Analytics</p>-->
+<!--</div>-->
+
+<!--&lt;!&ndash; CARDS &ndash;&gt;-->
+<!--<div class="container">-->
+
+<!--    <div class="row g-4">-->
+
+<!--        <div class="col-md-3">-->
+<!--            <div class="card-box">-->
+<!--                <div class="icon"><i class="fa-solid fa-user-tie"></i></div>-->
+<!--                <h4>My Profile</h4>-->
+<!--                <p>View & Manage your data</p>-->
+<!--                <a th:href="@{/profile/view}" class="btn btn-light btn-custom">Open Profile</a>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="col-md-3">-->
+<!--            <div class="card-box">-->
+<!--                <div class="icon"><i class="fa-solid fa-users"></i></div>-->
+<!--                <h4>Employees</h4>-->
+<!--                <p>Manage all employees</p>-->
+<!--                <a href="/employees" class="btn btn-light btn-custom">Open</a>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="col-md-3">-->
+<!--            <div class="card-box">-->
+<!--                <div class="icon"><i class="fa-solid fa-sack-dollar"></i></div>-->
+<!--                <h4>Salary</h4>-->
+<!--                <p>Manage salary records</p>-->
+<!--                <a href="/salary" class="btn btn-light btn-custom">Open</a>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="col-md-3">-->
+<!--            <div class="card-box">-->
+<!--                <div class="icon"><i class="fa-solid fa-calendar-check"></i></div>-->
+<!--                <h4>Attendance</h4>-->
+<!--                <p>Track attendance</p>-->
+<!--                <a href="/attendance" class="btn btn-light btn-custom">Open</a>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="col-md-3">-->
+<!--            <div class="card-box">-->
+<!--                <div class="icon"><i class="fa-solid fa-building"></i></div>-->
+<!--                <h4>Department</h4>-->
+<!--                <p>Manage departments</p>-->
+<!--                <a href="/departments" class="btn btn-light btn-custom">Open</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-3">-->
+<!--            <div class="card-box">-->
+<!--                <div class="icon"><i class="fa-solid fa-calendar-minus"></i></div> <h4>Leave</h4>-->
+<!--                <p>Manage Leave</p>-->
+<!--                <a th:href="@{/leave/apply}" class="btn btn-light btn-custom">Open</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-3" th:if="${isManager}">-->
+<!--            <div class="card-box" style="background: rgba(16, 185, 129, 0.25); border: 1px solid rgba(16, 185, 129, 0.4);">-->
+<!--                <div class="icon text-emerald-300"><i class="fa-solid fa-envelope-open-text"></i></div>-->
+<!--                <h4 class="text-emerald-300">Manage Leaves</h4>-->
+<!--                <p>Approve or reject requests</p>-->
+<!--                <a th:href="@{/leave/manage}" class="btn btn-success btn-custom">Review Requests</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-3">-->
+<!--            <div class="card-box">-->
+<!--                <div class="icon"><i class="fa-solid fa-clock-column"></i></div>-->
+<!--                <h4>Timesheet</h4>-->
+<!--                <p>Log your daily tasks & hours</p>-->
+<!--                <a th:href="@{/timesheet/log}" class="btn btn-light btn-custom">Open Logs</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-md-3" th:if="${isManager}">-->
+<!--            <div class="card-box" style="background: rgba(245, 158, 11, 0.25); border: 1px solid rgba(245, 158, 11, 0.4);">-->
+<!--                <div class="icon text-warning"><i class="fa-solid fa-list-check"></i></div>-->
+<!--                <h4 class="text-warning">Review Timesheets</h4>-->
+<!--                <p>Verify employee logging hours</p>-->
+<!--                <a th:href="@{/timesheet/manage}" class="btn btn-warning btn-custom text-dark fw-bold">Review Logs</a>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--    </div>-->
+
+
+<!--    <div class="chart-box mt-5">-->
+<!--        <h4 class="text-center mb-3">System Analytics</h4>-->
+<!--        <canvas id="dashboardChart"></canvas>-->
+<!--    </div>-->
+
+<!--</div>-->
+
+<!--&lt;!&ndash; SCRIPT &ndash;&gt;-->
+<!--<script>-->
+<!--    const ctx = document.getElementById('dashboardChart').getContext('2d');-->
+
+<!--    new Chart(ctx, {-->
+<!--        type: 'bar',-->
+<!--        data: {-->
+<!--            labels: ['Employees', 'Departments', 'Salary Records', 'Attendance'],-->
+<!--            datasets: [{-->
+<!--                label: 'Overview',-->
+<!--                data: [12, 4, 8, 20], // 👉 replace with DB values later-->
+<!--                backgroundColor: [-->
+<!--                    '#00c6ff',-->
+<!--                    '#ff9a9e',-->
+<!--                    '#fbc2eb',-->
+<!--                    '#a1c4fd'-->
+<!--                ],-->
+<!--                borderRadius: 10-->
+<!--            }]-->
+<!--        },-->
+<!--        options: {-->
+<!--            responsive: true,-->
+<!--            plugins: {-->
+<!--                legend: {-->
+<!--                    display: false-->
+<!--                }-->
+<!--            },-->
+<!--            scales: {-->
+<!--                y: {-->
+<!--                    beginAtZero: true-->
+<!--                }-->
+<!--            }-->
+<!--        }-->
+<!--    });-->
+<!--</script>-->
+
+<!--</body>-->
+<!--</html>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<!DOCTYPE html>-->
+
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <title>Admin Dashboard</title>-->
+
+<!--    ```-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+
+<!--    &lt;!&ndash; Bootstrap &ndash;&gt;-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">-->
+
+<!--    &lt;!&ndash; Font Awesome &ndash;&gt;-->
+<!--    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">-->
+
+<!--    &lt;!&ndash; Chart JS &ndash;&gt;-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>-->
+
+<!--    <style>-->
+
+<!--        *{-->
+<!--            margin:0;-->
+<!--            padding:0;-->
+<!--            box-sizing:border-box;-->
+<!--        }-->
+
+<!--        body{-->
+<!--            background:#f4f6f9;-->
+<!--            font-family:'Segoe UI',sans-serif;-->
+<!--        }-->
+
+<!--        .wrapper{-->
+<!--            display:flex;-->
+<!--        }-->
+
+<!--        /* Sidebar */-->
+
+<!--        #sidebar{-->
+<!--            width:280px;-->
+<!--            min-height:100vh;-->
+<!--            background:#111827;-->
+<!--            color:white;-->
+<!--            position:fixed;-->
+<!--            overflow-y:auto;-->
+<!--        }-->
+
+<!--        .sidebar-header{-->
+<!--            padding:25px;-->
+<!--            text-align:center;-->
+<!--            border-bottom:1px solid rgba(255,255,255,0.1);-->
+<!--        }-->
+
+<!--        .sidebar-header h3{-->
+<!--            font-family:cursive;-->
+<!--            color:#4facfe;-->
+<!--            margin:0;-->
+<!--        }-->
+
+<!--        #sidebar ul{-->
+<!--            padding-left:0;-->
+<!--        }-->
+
+<!--        #sidebar ul li{-->
+<!--            list-style:none;-->
+<!--            padding:5px 15px;-->
+<!--        }-->
+
+<!--        #sidebar ul li a{-->
+<!--            color:white;-->
+<!--            text-decoration:none;-->
+<!--            display:block;-->
+<!--            padding:12px;-->
+<!--            border-radius:10px;-->
+<!--            transition:.3s;-->
+<!--        }-->
+
+<!--        #sidebar ul li a:hover{-->
+<!--            background:#374151;-->
+<!--        }-->
+
+<!--        #sidebar ul li ul li a{-->
+<!--            font-size:14px;-->
+<!--            color:#d1d5db;-->
+<!--        }-->
+
+<!--        /* Main Content */-->
+
+<!--        #content{-->
+<!--            margin-left:280px;-->
+<!--            width:100%;-->
+<!--            padding:30px;-->
+<!--        }-->
+
+<!--        .welcome-card{-->
+<!--            background:linear-gradient(135deg,#4facfe,#00f2fe);-->
+<!--            color:white;-->
+<!--            padding:30px;-->
+<!--            border-radius:20px;-->
+<!--            box-shadow:0 5px 20px rgba(0,0,0,0.1);-->
+<!--        }-->
+
+<!--        .stat-card{-->
+<!--            background:white;-->
+<!--            padding:25px;-->
+<!--            border-radius:15px;-->
+<!--            text-align:center;-->
+<!--            box-shadow:0 4px 15px rgba(0,0,0,0.08);-->
+<!--            transition:.3s;-->
+<!--        }-->
+
+<!--        .stat-card:hover{-->
+<!--            transform:translateY(-5px);-->
+<!--        }-->
+
+<!--        .stat-card i{-->
+<!--            font-size:35px;-->
+<!--            color:#0d6efd;-->
+<!--            margin-bottom:10px;-->
+<!--        }-->
+
+<!--        .stat-card h3{-->
+<!--            font-weight:700;-->
+<!--        }-->
+
+<!--        .chart-container{-->
+<!--            background:white;-->
+<!--            padding:25px;-->
+<!--            border-radius:15px;-->
+<!--            margin-top:30px;-->
+<!--            box-shadow:0 4px 15px rgba(0,0,0,0.08);-->
+<!--        }-->
+
+<!--        .badge-notify{-->
+<!--            background:red;-->
+<!--            color:white;-->
+<!--            border-radius:50%;-->
+<!--            padding:4px 8px;-->
+<!--            font-size:12px;-->
+<!--        }-->
+
+<!--        @media(max-width:768px){-->
+
+<!--            #sidebar{-->
+<!--                width:100%;-->
+<!--                position:relative;-->
+<!--                min-height:auto;-->
+<!--            }-->
+
+<!--            #content{-->
+<!--                margin-left:0;-->
+<!--            }-->
+
+<!--            .wrapper{-->
+<!--                flex-direction:column;-->
+<!--            }-->
+<!--        }-->
+
+<!--    </style>-->
+<!--    ```-->
+
+<!--</head>-->
+
+<!--<body>-->
+
+<!--<div class="wrapper">-->
+
+<!--    ```-->
+<!--    &lt;!&ndash; SIDEBAR &ndash;&gt;-->
+
+<!--    <nav id="sidebar">-->
+
+<!--        <div class="sidebar-header">-->
+<!--            <h3>BlueThink Inc.</h3>-->
+<!--        </div>-->
+
+<!--        <ul class="list-unstyled">-->
+
+<!--            <li>-->
+<!--                <a th:href="@{/admin/dashboard}">-->
+<!--                    <i class="fa-solid fa-house"></i> Dashboard-->
+<!--                </a>-->
+<!--            </li>-->
+
+<!--            &lt;!&ndash; Profile &ndash;&gt;-->
+
+<!--            <li>-->
+<!--                <a data-bs-toggle="collapse" href="#profileMenu">-->
+<!--                    <i class="fa-solid fa-user"></i>-->
+<!--                    My Profile Management-->
+<!--                </a>-->
+
+<!--                <ul class="collapse list-unstyled ms-3" id="profileMenu">-->
+<!--                    <li><a th:href="@{/profile/view}">View Profile</a></li>-->
+<!--                    <li><a th:href="@{/profile/edit}">Edit Profile</a></li>-->
+<!--                </ul>-->
+<!--            </li>-->
+
+<!--            &lt;!&ndash; Attendance &ndash;&gt;-->
+
+<!--            <li>-->
+<!--                <a data-bs-toggle="collapse" href="#attendanceMenu">-->
+<!--                    <i class="fa-solid fa-calendar-check"></i>-->
+<!--                    Attendance Management-->
+<!--                </a>-->
+
+<!--                <ul class="collapse list-unstyled ms-3" id="attendanceMenu">-->
+<!--                    <li><a href="/attendance/view">View Attendance</a></li>-->
+<!--                    <li><a href="/attendance/fill">Fill / Update Attendance</a></li>-->
+<!--                </ul>-->
+<!--            </li>-->
+
+<!--            &lt;!&ndash; Leave &ndash;&gt;-->
+
+<!--            <li>-->
+<!--                <a data-bs-toggle="collapse" href="#leaveMenu">-->
+<!--                    <i class="fa-solid fa-calendar-minus"></i>-->
+<!--                    Leave Management-->
+<!--                </a>-->
+
+<!--                <ul class="collapse list-unstyled ms-3" id="leaveMenu">-->
+<!--                    <li><a href="/leave/short">Short Leave</a></li>-->
+<!--                    <li><a href="/leave/halfday">Half Day Leave</a></li>-->
+<!--                    <li><a href="/leave/fullday">Full Day Leave</a></li>-->
+<!--                </ul>-->
+<!--            </li>-->
+
+<!--            &lt;!&ndash; Timesheet &ndash;&gt;-->
+
+<!--            <li>-->
+<!--                <a data-bs-toggle="collapse" href="#timesheetMenu">-->
+<!--                    <i class="fa-solid fa-clock"></i>-->
+<!--                    Timesheet-->
+<!--                </a>-->
+
+<!--                <ul class="collapse list-unstyled ms-3" id="timesheetMenu">-->
+<!--                    <li><a href="/timesheet/view">View Timesheet</a></li>-->
+<!--                    <li><a href="/timesheet/fill">Fill / Update Timesheet</a></li>-->
+<!--                </ul>-->
+<!--            </li>-->
+
+<!--            <li>-->
+<!--                <a href="/salary">-->
+<!--                    <i class="fa-solid fa-money-bill"></i>-->
+<!--                    Salary Management-->
+<!--                </a>-->
+<!--            </li>-->
+
+<!--            &lt;!&ndash; Work Mode &ndash;&gt;-->
+
+<!--            <li>-->
+<!--                <a data-bs-toggle="collapse" href="#workMenu">-->
+<!--                    <i class="fa-solid fa-laptop"></i>-->
+<!--                    Work Mode-->
+<!--                </a>-->
+
+<!--                <ul class="collapse list-unstyled ms-3" id="workMenu">-->
+<!--                    <li><a href="/work/wfh">Work From Home</a></li>-->
+<!--                    <li><a href="/work/wfo">Work From Office</a></li>-->
+<!--                </ul>-->
+<!--            </li>-->
+
+<!--            <li>-->
+<!--                <a href="/notifications">-->
+<!--                    <i class="fa-solid fa-bell"></i>-->
+<!--                    Notifications-->
+<!--                    <span class="badge-notify">5</span>-->
+<!--                </a>-->
+<!--            </li>-->
+
+<!--            <li>-->
+<!--                <a href="/claim">-->
+<!--                    <i class="fa-solid fa-file-invoice-dollar"></i>-->
+<!--                    Claims-->
+<!--                </a>-->
+<!--            </li>-->
+
+<!--            <li>-->
+<!--                <a href="/policy">-->
+<!--                    <i class="fa-solid fa-book"></i>-->
+<!--                    Policies-->
+<!--                </a>-->
+<!--            </li>-->
+
+<!--            <li>-->
+<!--                <a th:href="@{/auth/logout}" class="text-danger">-->
+<!--                    <i class="fa-solid fa-right-from-bracket"></i>-->
+<!--                    Logout-->
+<!--                </a>-->
+<!--            </li>-->
+
+<!--        </ul>-->
+
+<!--    </nav>-->
+
+<!--    &lt;!&ndash; CONTENT &ndash;&gt;-->
+
+<!--    <div id="content">-->
+
+<!--        <div class="welcome-card">-->
+<!--            <h2>Welcome Admin 👋</h2>-->
+<!--            <p>Employee Management System Dashboard</p>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; STATISTICS &ndash;&gt;-->
+
+<!--        <div class="row mt-4 g-4">-->
+
+<!--            <div class="col-md-3">-->
+<!--                <div class="stat-card">-->
+<!--                    <i class="fa-solid fa-users"></i>-->
+<!--                    <h3>120</h3>-->
+<!--                    <p>Total Employees</p>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="col-md-3">-->
+<!--                <div class="stat-card">-->
+<!--                    <i class="fa-solid fa-building"></i>-->
+<!--                    <h3>8</h3>-->
+<!--                    <p>Departments</p>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="col-md-3">-->
+<!--                <div class="stat-card">-->
+<!--                    <i class="fa-solid fa-calendar-check"></i>-->
+<!--                    <h3>95%</h3>-->
+<!--                    <p>Attendance</p>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="col-md-3">-->
+<!--                <div class="stat-card">-->
+<!--                    <i class="fa-solid fa-money-bill"></i>-->
+<!--                    <h3>₹8.5L</h3>-->
+<!--                    <p>Payroll</p>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--        </div>-->
+
+<!--        &lt;!&ndash; GRAPH &ndash;&gt;-->
+
+<!--        <div class="chart-container">-->
+
+<!--            <h4 class="mb-4">Employee Analytics</h4>-->
+
+<!--            <canvas id="dashboardChart"></canvas>-->
+
+<!--        </div>-->
+
+<!--    </div>-->
+<!--    ```-->
+
+<!--</div>-->
+
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>-->
+
+<!--<script>-->
+
+<!--    const ctx = document.getElementById('dashboardChart');-->
+
+<!--    new Chart(ctx, {-->
+<!--        type: 'bar',-->
+<!--        data: {-->
+<!--            labels: ['Employees','Attendance','Leaves','Salary'],-->
+<!--            datasets: [{-->
+<!--                label: 'Company Analytics',-->
+<!--                data: [120,95,15,85],-->
+<!--                backgroundColor: [-->
+<!--                    '#4facfe',-->
+<!--                    '#00f2fe',-->
+<!--                    '#43e97b',-->
+<!--                    '#fa709a'-->
+<!--                ],-->
+<!--                borderRadius:10-->
+<!--            }]-->
+<!--        },-->
+<!--        options: {-->
+<!--            responsive:true,-->
+<!--            plugins:{-->
+<!--                legend:{-->
+<!--                    display:false-->
+<!--                }-->
+<!--            },-->
+<!--            scales:{-->
+<!--                y:{-->
+<!--                    beginAtZero:true-->
+<!--                }-->
+<!--            }-->
+<!--        }-->
+<!--    });-->
+
+<!--</script>-->
+
+<!--</body>-->
+<!--</html>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>BlueThink Technologies - HRMS Admin Dashboard</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #f4f6f9;
-            min-height: 100vh;
-            color: #212529;
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
         }
 
-        .header {
-            text-align: center;
-            padding: 35px 20px;
+        body{
+            background:#f4f6f9;
+            font-family:'Segoe UI',sans-serif;
         }
 
-        .header h1 {
-            font-weight: 700;
-            color: #2c3e50;
+        /* Menu Button */
+        .menu-btn{
+            display:none;
+            position:fixed;
+            top:15px;
+            left:15px;
+            z-index:10001;
+            border:none;
+            background:#0f172a;
+            color:#fff;
+            padding:8px 10px;
+            border-radius:8px;
         }
 
-        .header p {
-            color: #6c757d;
+        /* Sidebar */
+        #sidebar{
+            position:fixed;
+            left:0;
+            top:0;
+            width:240px;
+            height:100vh;
+            background:#0f172a;
+            color:white;
+            overflow-y:auto;
+            z-index:9999;
+            transition:.3s;
         }
 
-        .card-box {
-            background: #ffffff;
-            border-radius: 15px;
-            border: 1px solid #dee2e6;
-            transition: all 0.3s ease;
-            padding: 25px;
-            text-align: center;
-            color: #212529;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            height: 100%;
+        .brand{
+            padding:18px;
+            text-align:center;
+            border-bottom:1px solid rgba(255,255,255,.08);
         }
 
-        .card-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        .brand .logo{
+            width:45px;
+            height:45px;
+            border-radius:50%;
+            background:#2563eb;
+            margin:auto;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:18px;
         }
 
-        .icon {
-            font-size: 40px;
-            margin-bottom: 15px;
-            color: #0d6efd;
+        .brand h3{
+            margin-top:10px;
+            font-size:20px;
+            font-family:"Brush Script MT",cursive;
+            color:#60a5fa;
         }
 
-        .card-box h4 {
-            color: #2c3e50;
-            font-weight: 600;
+        .brand p{
+            font-size:11px;
+            color:#94a3b8;
         }
 
-        .card-box p {
-            color: #6c757d;
+        #sidebar ul{
+            padding-left:0;
         }
 
-        .btn-custom {
-            border-radius: 8px;
-            width: 100%;
-            font-weight: 600;
+        #sidebar li{
+            list-style:none;
+            padding:3px 10px;
         }
 
-        .chart-box {
-            background: #ffffff;
-            border-radius: 15px;
-            padding: 25px;
-            margin-top: 40px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        #sidebar a{
+            text-decoration:none;
+            color:white;
+            display:block;
+            padding:10px 12px;
+            border-radius:8px;
+            font-size:14px;
+            transition:.3s;
         }
 
-        .chart-box h4 {
-            color: #2c3e50;
-            font-weight: 600;
+        #sidebar a:hover{
+            background:#1e293b;
+            transform:translateX(3px);
         }
 
-        nav {
-            background: #1f2937 !important;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        #sidebar a i{
+            width:22px;
+            font-size:13px;
         }
 
-        nav a {
-            transition: 0.3s;
+        /* Content */
+        #content{
+            margin-left:240px;
+            padding:20px;
         }
 
-        nav a:hover {
-            opacity: 0.9;
+        /* Topbar */
+        .topbar{
+            background:white;
+            border-radius:14px;
+            padding:12px 20px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            box-shadow:0 2px 12px rgba(0,0,0,.05);
+        }
+
+        .topbar h4{
+            margin:0;
+            font-size:22px;
+            font-weight:600;
+        }
+
+        .topbar small{
+            color:#64748b;
+        }
+
+        .admin-area{
+            display:flex;
+            align-items:center;
+            gap:15px;
+        }
+
+        .admin-area i{
+            font-size:16px;
+        }
+
+        .profile{
+            width:35px;
+            height:35px;
+            border-radius:50%;
+            background:#2563eb;
+            color:white;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+
+        /* Hero */
+        .hero{
+            margin-top:18px;
+            padding:24px;
+            border-radius:16px;
+            background:linear-gradient(135deg,#2563eb,#06b6d4);
+            color:white;
+        }
+
+        .hero h2{
+            font-size:28px;
+        }
+
+        .hero p{
+            margin-top:5px;
+            font-size:14px;
+        }
+
+        /* Cards */
+        .cardx{
+            background:white;
+            border-radius:14px;
+            padding:18px;
+            text-align:center;
+            height:100%;
+            box-shadow:0 2px 12px rgba(0,0,0,.05);
+            transition:.3s;
+        }
+
+        .cardx:hover{
+            transform:translateY(-5px);
+        }
+
+        .cardx i{
+            font-size:20px;
+            margin-bottom:10px;
+        }
+
+        .cardx h3{
+            font-size:24px;
+            margin-bottom:5px;
+            font-weight:700;
+        }
+
+        .cardx p{
+            margin:0;
+            color:#64748b;
+            font-size:13px;
+        }
+
+        /* Box */
+        .box{
+            background:white;
+            border-radius:14px;
+            padding:20px;
+            margin-top:20px;
+            box-shadow:0 2px 12px rgba(0,0,0,.05);
+        }
+
+        .box h5{
+            margin-bottom:15px;
+            font-weight:600;
+        }
+
+        #chart{
+            max-height:300px;
+        }
+
+        /* Table */
+        .table{
+            font-size:14px;
+        }
+
+        .table th{
+            color:#475569;
+        }
+
+        /* Overlay */
+        #overlay{
+            display:none;
+            position:fixed;
+            inset:0;
+            background:rgba(0,0,0,.4);
+            z-index:9998;
+        }
+
+        /* Mobile */
+        @media(max-width:991px){
+
+            .menu-btn{
+                display:block;
+            }
+
+            #sidebar{
+                left:-240px;
+            }
+
+            #sidebar.active{
+                left:0;
+            }
+
+            #overlay.active{
+                display:block;
+            }
+
+            #content{
+                margin-left:0;
+                padding:15px;
+            }
+
+            .topbar{
+                margin-top:55px;
+            }
+
+            .hero h2{
+                font-size:22px;
+            }
+
+            .cardx{
+                padding:15px;
+            }
         }
     </style>
 </head>
 
 <body>
-<nav style="background-color: #343a40; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; font-family: 'Segoe UI', sans-serif;">
 
-    <div style="color: white; font-size: 20px; font-weight: bold;">
-        <a th:href="@{/admin/dashboard}" style="color: white; text-decoration: none;">BlueThink Inc.</a>
+<button class="menu-btn" onclick="toggleSidebar()">
+    <i class="fa fa-bars"></i>
+</button>
+
+<div id="overlay" onclick="toggleSidebar()"></div>
+
+<nav id="sidebar">
+
+    <div class="brand">
+        <div class="logo">
+            <i class="fa fa-building"></i>
+        </div>
+
+        <h3>BlueThink Technologies</h3>
+        <p>Enterprise HRMS Platform</p>
     </div>
 
-    <div>
-        <a th:if="${isUserLoggedIn == null or !isUserLoggedIn}"
-           th:href="@{/auth/loginPage}"
-           style="background-color: #007bff; color: white; padding: 8px 18px; text-decoration: none; border-radius: 4px; font-weight: bold; margin-left: 10px;">
-            Login
-        </a>
+    <ul>
 
-        <a th:if="${isUserLoggedIn != null and isUserLoggedIn}"
-           th:href="@{/auth/logout}"
-           style="background-color: #dc3545; color: white; padding: 8px 18px; text-decoration: none; border-radius: 4px; font-weight: bold; margin-left: 10px;">
-            Logout
-        </a>
-    </div>
+        <li><a href="#"><i class="fa fa-house"></i> Dashboard</a></li>
+
+        <li>
+            <a data-bs-toggle="collapse" href="#profileMenu">
+                <i class="fa fa-user"></i> Profile Management
+            </a>
+
+            <ul id="profileMenu" class="collapse">
+                <li><a href="#">View Profile</a></li>
+                <li><a href="#">Edit Profile</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <a data-bs-toggle="collapse" href="#attendanceMenu">
+                <i class="fa fa-calendar-check"></i> Attendance
+            </a>
+
+            <ul id="attendanceMenu" class="collapse">
+                <li><a href="#">View Attendance</a></li>
+                <li><a href="#">Update Attendance</a></li>
+            </ul>
+        </li>
+
+        <li>
+            <a data-bs-toggle="collapse" href="#leaveMenu">
+                <i class="fa fa-plane-departure"></i> Leave Management
+            </a>
+
+            <ul id="leaveMenu" class="collapse">
+                <li><a href="#">Short Leave</a></li>
+                <li><a href="#">Half Day</a></li>
+                <li><a href="#">Full Day</a></li>
+            </ul>
+        </li>
+
+        <li><a href="#"><i class="fa fa-clock"></i> Timesheet</a></li>
+        <li><a href="#"><i class="fa fa-money-bill-wave"></i> Salary</a></li>
+        <li><a href="#"><i class="fa fa-laptop-house"></i> Work Mode</a></li>
+        <li><a href="#"><i class="fa fa-bell"></i> Notifications</a></li>
+        <li><a href="#"><i class="fa fa-file-invoice-dollar"></i> Claims</a></li>
+        <li><a href="#"><i class="fa fa-book"></i> Policies</a></li>
+        <li><a href="#" style="color:#f87171"><i class="fa fa-right-from-bracket"></i> Logout</a></li>
+
+    </ul>
+
 </nav>
-<!-- HEADER -->
-<div class="header">
-    <h1>Employee Management System</h1>
-    <p>Dashboard with Analytics</p>
-</div>
 
-<!-- CARDS -->
-<div class="container">
+<div id="content">
 
-    <div class="row g-4">
+    <div class="topbar">
 
-        <div class="col-md-3">
-            <div class="card-box">
-                <div class="icon"><i class="fa-solid fa-user-tie"></i></div>
-                <h4>My Profile</h4>
-                <p>View & Manage your data</p>
-                <a th:href="@{/profile/view}" class="btn btn-light btn-custom">Open Profile</a>
-            </div>
+        <div>
+            <h4>HRMS Admin Dashboard</h4>
+            <small>Corporate Management Portal</small>
         </div>
 
-        <div class="col-md-3">
-            <div class="card-box">
-                <div class="icon"><i class="fa-solid fa-users"></i></div>
-                <h4>Employees</h4>
-                <p>Manage all employees</p>
-                <a href="/employees" class="btn btn-light btn-custom">Open</a>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card-box">
-                <div class="icon"><i class="fa-solid fa-sack-dollar"></i></div>
-                <h4>Salary</h4>
-                <p>Manage salary records</p>
-                <a href="/salary" class="btn btn-light btn-custom">Open</a>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card-box">
-                <div class="icon"><i class="fa-solid fa-calendar-check"></i></div>
-                <h4>Attendance</h4>
-                <p>Track attendance</p>
-                <a href="/attendance" class="btn btn-light btn-custom">Open</a>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card-box">
-                <div class="icon"><i class="fa-solid fa-building"></i></div>
-                <h4>Department</h4>
-                <p>Manage departments</p>
-                <a href="/departments" class="btn btn-light btn-custom">Open</a>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card-box">
-                <div class="icon"><i class="fa-solid fa-calendar-minus"></i></div> <h4>Leave</h4>
-                <p>Manage Leave</p>
-                <a th:href="@{/leave/apply}" class="btn btn-light btn-custom">Open</a>
-            </div>
-        </div>
-        <div class="col-md-3" th:if="${isManager}">
-            <div class="card-box" style="background: rgba(16, 185, 129, 0.25); border: 1px solid rgba(16, 185, 129, 0.4);">
-                <div class="icon text-emerald-300"><i class="fa-solid fa-envelope-open-text"></i></div>
-                <h4 class="text-emerald-300">Manage Leaves</h4>
-                <p>Approve or reject requests</p>
-                <a th:href="@{/leave/manage}" class="btn btn-success btn-custom">Review Requests</a>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card-box">
-                <div class="icon"><i class="fa-solid fa-clock-column"></i></div>
-                <h4>Timesheet</h4>
-                <p>Log your daily tasks & hours</p>
-                <a th:href="@{/timesheet/log}" class="btn btn-light btn-custom">Open Logs</a>
-            </div>
-        </div>
-        <div class="col-md-3" th:if="${isManager}">
-            <div class="card-box" style="background: rgba(245, 158, 11, 0.25); border: 1px solid rgba(245, 158, 11, 0.4);">
-                <div class="icon text-warning"><i class="fa-solid fa-list-check"></i></div>
-                <h4 class="text-warning">Review Timesheets</h4>
-                <p>Verify employee logging hours</p>
-                <a th:href="@{/timesheet/manage}" class="btn btn-warning btn-custom text-dark fw-bold">Review Logs</a>
+        <div class="admin-area">
+            <i class="fa fa-bell"></i>
+            <div class="profile">
+                <i class="fa fa-user"></i>
             </div>
         </div>
 
     </div>
 
+    <div class="hero">
+        <h2>Welcome Back, Administrator</h2>
+        <p>
+            Manage employees, payroll, attendance,
+            leaves, claims and company operations.
+        </p>
+    </div>
 
-    <div class="chart-box mt-5">
-        <h4 class="text-center mb-3">System Analytics</h4>
-        <canvas id="dashboardChart"></canvas>
+    <div class="row g-3 mt-2">
+
+        <div class="col-xl-3 col-md-6">
+            <div class="cardx">
+                <i class="fa fa-users text-primary"></i>
+                <h3>120</h3>
+                <p>Total Employees</p>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="cardx">
+                <i class="fa fa-building text-success"></i>
+                <h3>8</h3>
+                <p>Departments</p>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="cardx">
+                <i class="fa fa-calendar-check text-warning"></i>
+                <h3>95%</h3>
+                <p>Attendance Rate</p>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="cardx">
+                <i class="fa fa-money-bill-wave text-danger"></i>
+                <h3>₹8.5L</h3>
+                <p>Monthly Payroll</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="box">
+        <h5>Employee Analytics</h5>
+        <canvas id="chart"></canvas>
+    </div>
+
+    <div class="box">
+
+        <h5>Recent Activities</h5>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover">
+
+                <thead>
+                <tr>
+                    <th>Employee</th>
+                    <th>Activity</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr>
+                    <td>John Smith</td>
+                    <td>Attendance Updated</td>
+                    <td><span class="badge bg-success">Completed</span></td>
+                </tr>
+
+                <tr>
+                    <td>Emma Watson</td>
+                    <td>Leave Request</td>
+                    <td><span class="badge bg-warning">Pending</span></td>
+                </tr>
+
+                <tr>
+                    <td>Robert Brown</td>
+                    <td>Timesheet Submitted</td>
+                    <td><span class="badge bg-primary">Approved</span></td>
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
     </div>
 
 </div>
 
-<!-- SCRIPT -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
-    const ctx = document.getElementById('dashboardChart').getContext('2d');
 
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Employees', 'Departments', 'Salary Records', 'Attendance'],
-            datasets: [{
-                label: 'Overview',
-                data: [12, 4, 8, 20], // 👉 replace with DB values later
-                backgroundColor: [
-                    '#00c6ff',
-                    '#ff9a9e',
-                    '#fbc2eb',
-                    '#a1c4fd'
-                ],
-                borderRadius: 10
+    function toggleSidebar(){
+        document.getElementById('sidebar').classList.toggle('active');
+        document.getElementById('overlay').classList.toggle('active');
+    }
+
+    new Chart(document.getElementById('chart'),{
+        type:'bar',
+        data:{
+            labels:['Employees','Attendance','Leaves','Payroll'],
+            datasets:[{
+                label:'Statistics',
+                data:[120,95,15,85]
             }]
         },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: false
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
+        options:{
+            responsive:true,
+            maintainAspectRatio:false
         }
     });
+
 </script>
 
 </body>

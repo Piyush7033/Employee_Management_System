@@ -147,12 +147,14 @@
                 <p>Manage Leave</p>
                 <a th:href="@{/leave/apply}" class="btn btn-light btn-custom">Open</a>
             </div>
+        </div>
 
-            <div>
-                <a th:href="@{/employee/attendance-tracking}"
-                   class="btn btn-success">
-                    Attendance Tracking
-                </a>
+        <div class="col-md-3">
+            <div class="card-box">
+                <div class="icon"><i class="fa-solid fa-clock-column"></i></div>
+                <h4>Attendance Tracking</h4>
+                <p>Automatic Track attendance</p>
+                <a th:href="@{/employee/attendance-tracking}" class="btn btn-light btn-custom">Open </a>
             </div>
         </div>
 
@@ -165,6 +167,33 @@
             </div>
         </div>
 
+
+
+
+        <div class="col-md-3">
+            <div class="card-box">
+                <div class="icon">
+                    <i class="fa-solid fa-bell"></i>
+                </div>
+
+                <h4>Notifications</h4>
+
+                <p>
+                    View latest announcements and updates
+                </p>
+
+                <a th:href="@{/notifications}"
+                   class="btn btn-light btn-custom">
+                    Open
+                </a>
+
+                <!-- Notification Count Badge -->
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                      th:if="${notificationCount > 0}"
+                      th:text="${notificationCount}">
+        </span>
+            </div>
+        </div>
 
     </div>
 

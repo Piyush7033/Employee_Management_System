@@ -15,16 +15,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    // ================= SAVE =================
     @Override
     public Employee saveEmployee(Employee employee) {
 
-        // link salary safely (INSERT case only)
+
         if (employee.getSalaryDetails() != null) {
             employee.getSalaryDetails().setEmployee(employee);
         }
 
-        // link attendance safely
         if (employee.getAttendanceList() != null) {
             employee.getAttendanceList()
                     .forEach(a -> a.setEmployee(employee));
@@ -121,5 +119,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Page<Employee> searchEmployee(String keyword, Pageable pageable) {
         return employeeRepository.searchAll(keyword, pageable);
+    }
+
+
+    @Override
+    public Employee findByEmail(String email) {
+        return (Employee) employeeRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
     }
 }
