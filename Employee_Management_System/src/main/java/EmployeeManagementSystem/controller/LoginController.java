@@ -64,7 +64,7 @@ public class LoginController {
 
             System.out.println("ROLE = " + role);
 
-            HttpSession session = (HttpSession) httpRequest.getSession();
+            HttpSession session = (HttpSession) request.getSession();
 
             Long employeeId = 1L;
             String employeeName = "Employee";
