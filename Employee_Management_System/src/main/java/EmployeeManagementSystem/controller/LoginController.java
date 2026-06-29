@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.net.ssl.HandshakeCompletedEvent;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -25,7 +24,6 @@ public class LoginController {
     private final RegisterEmployeeService service;
     private final AttendanceTrackingRepository attendanceTrackingRepository;
     private  final JwtUtil jwtUtil;
-    private HandshakeCompletedEvent httpRequest;
 
     @GetMapping("/employeeRegisterForm")
     public String openForm(Model model){
@@ -64,13 +62,13 @@ public class LoginController {
 
             System.out.println("ROLE = " + role);
 
-            HttpSession session = (HttpSession) request.getSession();
+//            HttpSession session = (HttpSession) request.getSession();
 
             Long employeeId = 1L;
             String employeeName = "Employee";
 
-            session.setAttribute("employeeId", employeeId);
-            session.setAttribute("employeeName", employeeName);
+//            session.setAttribute("employeeId", employeeId);
+//            session.setAttribute("employeeName", employeeName);
 
             AttendanceTracking attendance = new AttendanceTracking();
             attendance.setEmployeeId(employeeId);
@@ -83,11 +81,20 @@ public class LoginController {
 
             System.out.println("Attendance Saved Successfully");
 
-            if ("ROLE_EMPLOYEE".equalsIgnoreCase(role)) {
+            if ("ROLE_EMPLOYEE".equalsIgnoreCase(role)){
                 return "redirect:/employee/dashboard";
             }
 
-            return "redirect:/dashboard";
+            if ("ROLE_MANAGER".equalsIgnoreCase(role)){
+                return "redirect:/manager/dashboard";
+            }
+            if ("ROLE_ADMIN".equalsIgnoreCase(role)){
+                return "redirect:/admin/dashboard";
+            }
+            if ("ROLE_HR".equalsIgnoreCase(role)){
+                return "redirect:/hr/dashboard";
+            }
+            return "redirect:/login";
 
         } catch (Exception e) {
 
