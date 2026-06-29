@@ -36,7 +36,7 @@ public class SecurityConfig {
                         .requestMatchers("/employee/**").hasRole("EMPLOYEE")
                         .requestMatchers("/employee/dashboard").hasRole("EMPLOYEE")
                         .requestMatchers("/leave/apply", "/leave/submit").authenticated()
-                        .requestMatchers("/leave/manage", "/leave/status/**","/timesheet/manage", "/timesheet/status/**").hasRole("MANAGER")
+                        .requestMatchers("/leave/manage", "/leave/status/**","/timesheet/manage", "/timesheet/status/**","/manager/profile").hasRole("MANAGER")
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception

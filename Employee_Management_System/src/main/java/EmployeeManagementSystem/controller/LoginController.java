@@ -7,6 +7,7 @@ import EmployeeManagementSystem.jwt.JwtUtil;
 import EmployeeManagementSystem.repository.AttendanceTrackingRepository;
 import EmployeeManagementSystem.service.RegisterEmployeeService;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -107,7 +108,7 @@ public class LoginController {
     }
     @GetMapping("/forgot-password")
     public String showForgotPasswordForm() {
-        return "forgot-password"; // forgot-password.html khulega
+        return "forgot-password";
     }
 
     @PostMapping("/forgot-password")
@@ -115,7 +116,7 @@ public class LoginController {
         try {
             service.sendOtpProcessing(email);
             model.addAttribute("email", email);
-            return "reset-password"; // OTP aur naya password daalne wale page par bhej diya
+            return "reset-password";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             return "forgot-password";
@@ -130,34 +131,31 @@ public class LoginController {
             service.verifyOtpAndChangePassword(email, otp, newPassword);
             model.addAttribute("message", "Password changed successfully! Please login.");
             model.addAttribute("loginRequest", new LoginRequest());
-            return "login"; // Password change hote hi wapas login screen par bhej diya
+            return "login";
         } catch (Exception e) {
-            model.addAttribute("email", email); // Taaki page reload par email na khoye
+            model.addAttribute("email", email);
             model.addAttribute("error", e.getMessage());
 
             return "reset-password";
         }
     }
     @GetMapping("/logout")
-    public String logout(jakarta.servlet.http.HttpServletRequest request,
-                         jakarta.servlet.http.HttpServletResponse response) {
+    public String logout(HttpServletRequest request,
+                         HttpServletResponse response) {
 
-        // 1. Purani cookie ko dhoondo aur use khatam karo
         if (request.getCookies() != null) {
-            for (jakarta.servlet.http.Cookie cookie : request.getCookies()) {
+            for (Cookie cookie : request.getCookies()) {
                 if ("jwtToken".equals(cookie.getName())) {
-                    cookie.setValue("");       // Value khali kar di
-                    cookie.setPath("/");       // Same path hona zaroori hai
-                    cookie.setMaxAge(0);       // MaxAge 0 karne se cookie turant delete ho jaati hai
+                    cookie.setValue("");
+                    cookie.setPath("/");
+                    cookie.setMaxAge(0);
                     cookie.setHttpOnly(true);
 
-                    response.addCookie(cookie); // Browser ko wapas bhej diya delete karne ke liye
+                    response.addCookie(cookie);
                     break;
                 }
             }
         }
-
-        // 2. Logout ke baad user ko login page par bhej dein ek success message ke sath
         return "redirect:/auth/loginPage?logout=true";
     }
 }
