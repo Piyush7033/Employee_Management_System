@@ -13,9 +13,13 @@ public class DashboardController {
         return "redirect:/dashboard";
     }
 
+    @GetMapping("/dashboard")
+    public String dashboard() {
+        return "dashboard";
+    }
+
     @GetMapping("/access-denied")
     public String accessDenied() {
         return "403";
     }
-
 }

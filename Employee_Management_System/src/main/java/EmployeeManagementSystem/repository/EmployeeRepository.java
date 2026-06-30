@@ -40,6 +40,8 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     //EmployeeController findByUserId(String userId);
@@ -52,4 +54,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
             "OR LOWER(e.phone) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
             "OR LOWER(COALESCE(d.departmentName, '')) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     Page<Employee> searchAll(@Param("keyword") String keyword, Pageable pageable);
+
+    Optional<Object> findByEmail(String email);
 }

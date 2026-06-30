@@ -43,16 +43,15 @@ public class SalaryController {
             return "redirect:/employees";
         }
 
-        // attach employee
+
         salary.setEmployee(employee);
 
-        // 🔥 NO MANUAL ID HANDLING REQUIRED
         salaryService.saveSalary(salary);
 
         return "redirect:/salary";
     }
 
-    // ================= VIEW =================
+
     @GetMapping("/{employeeId}")
     public String viewSalary(@PathVariable Long employeeId, Model model) {
 
@@ -73,7 +72,7 @@ public class SalaryController {
         return "salary-view";
     }
 
-    // ================= DELETE =================
+
     @GetMapping("/delete/{employeeId}")
     public String deleteSalary(@PathVariable Long employeeId) {
 

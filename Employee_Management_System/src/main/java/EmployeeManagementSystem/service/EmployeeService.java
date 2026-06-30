@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface EmployeeService {
 
-    // ================= CRUD =================
     Employee saveEmployee(Employee employee);
 
     Employee updateEmployee(Long id, Employee employee);
@@ -17,12 +16,16 @@ public interface EmployeeService {
 
     Employee getEmployeeById(Long id);
 
-    // ================= PAGINATION + SORT =================
+
     Page<Employee> getAllEmployees(int pageNo, int pageSize, String sortBy);
 
-    // ================= SEARCH =================
+
     Page<Employee> searchEmployee(String keyword, Pageable pageable);
 
-    // ================= SIMPLE LIST (FOR DROPDOWNS) =================
+
     List<Employee> getAllEmployeesList();
+
+    Employee findByEmail(String email);
+
+    long totalEmployees();
 }

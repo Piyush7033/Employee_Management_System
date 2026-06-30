@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -58,7 +59,7 @@ public class AttendanceTrackingServiceImpl implements AttendanceTrackingService 
             double workingHours = duration.toMinutes() / 60.0;
             attendanceTracking.setWorkingHours(workingHours);
 
-            attendanceTrackingRepository.save(attendanceTracking);
+//            attendanceTrackingRepository.save(attendanceTracking);
             attendanceTrackingRepository.save(attendanceTracking);
 
             System.out.println("Saved ID = " + attendanceTracking.getId());
@@ -72,4 +73,21 @@ public class AttendanceTrackingServiceImpl implements AttendanceTrackingService 
                         employeeId,
                         LocalDate.now());
     }
+
+//    @Override
+//    public List<AttendanceTracking> getAttendanceHistory(Long employeeId) {
+//        return attendanceTrackingRepository.findByEmployeeIdAndDateOrderByIdDesc(employeeId);
+//    }
+@Override
+public List<AttendanceTracking> getAttendanceHistory(Long employeeId) {
+    return attendanceTrackingRepository
+            .findByEmployeeIdOrderByDateDesc(employeeId);
+}
+
+//    @Override
+//    public List<AttendanceTracking> getAttendanceHistory(Long employeeId) {
+//
+//        return attendanceTrackingRepository
+//                .findByEmployeeIdOrderByDateDesc(employeeId);
+//    }
 }

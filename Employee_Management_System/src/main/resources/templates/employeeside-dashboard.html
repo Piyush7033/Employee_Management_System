@@ -28,6 +28,7 @@
         .dashboard-container {
             display: flex;
             min-height: 100vh;
+            color: white;
         }
 
         /* Clean Sidebar */
@@ -450,7 +451,31 @@
                         </div>
                     </div>
                 </div>
+        <div class="col-md-3">
+            <div class="card-box">
+                <div class="icon"><i class="fa-solid fa-calendar-minus"></i></div> <h4>Leave</h4>
+                <p>Manage Leave</p>
+                <a th:href="@{/leave/apply}" class="btn btn-light btn-custom">Open</a>
+            </div>
+        </div>
 
+        <div class="col-md-3">
+            <div class="card-box">
+                <div class="icon"><i class="fa-solid fa-clock-column"></i></div>
+                <h4>Attendance Tracking</h4>
+                <p>Automatic Track attendance</p>
+                <a th:href="@{/employee/attendance-tracking}" class="btn btn-light btn-custom">Open </a>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card-box">
+                <div class="icon"><i class="fa-solid fa-clock-column"></i></div>
+                <h4>Timesheet</h4>
+                <p>Log your daily tasks & hours</p>
+                <a th:href="@{/timesheet/log}" class="btn btn-light btn-custom">Open Logs</a>
+            </div>
+        </div>
                 <!-- SIDE LOGS -->
                 <div class="col-xl-4">
                     <div class="bg-white rounded-3 border p-4 mb-4">
@@ -485,7 +510,36 @@
                     </div>
                 </div>
 
+
+
+
+        <div class="col-md-3">
+            <div class="card-box">
+                <div class="icon">
+                    <i class="fa-solid fa-bell"></i>
+                </div>
+
+                <h4>Notifications</h4>
+
+                <p>
+                    View latest announcements and updates
+                </p>
+
+                <a th:href="@{/notifications}"
+                   class="btn btn-light btn-custom">
+                    Open
+                </a>
+
+                <!-- Notification Count Badge -->
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                      th:if="${notificationCount > 0}"
+                      th:text="${notificationCount}">
+        </span>
             </div>
+        </div>
+
+    </div>
+
 
             <!-- FOOTER COPYRIGHT SECTION -->
             <footer class="mt-5 pt-4 text-center text-muted border-top" style="font-size: 12px;">
