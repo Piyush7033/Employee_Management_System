@@ -4,16 +4,36 @@ import java.util.List;
 
 public class DashboardStatsDTO {
 
+    // ================= BASIC STATS =================
     private long totalEmployees;
     private long departments;
     private double attendanceRate;
     private double payroll;
 
+    // ================= CHART DATA =================
     private List<Integer> joined;
     private List<Integer> left;
     private List<Integer> attendanceTrend;
 
-    // getters & setters
+    // ================= CONSTRUCTORS =================
+    public DashboardStatsDTO() {
+    }
+
+    public DashboardStatsDTO(long totalEmployees, long departments,
+                             double attendanceRate, double payroll,
+                             List<Integer> joined,
+                             List<Integer> left,
+                             List<Integer> attendanceTrend) {
+        this.totalEmployees = totalEmployees;
+        this.departments = departments;
+        this.attendanceRate = attendanceRate;
+        this.payroll = payroll;
+        this.joined = joined;
+        this.left = left;
+        this.attendanceTrend = attendanceTrend;
+    }
+
+    // ================= GETTERS & SETTERS =================
 
     public long getTotalEmployees() {
         return totalEmployees;

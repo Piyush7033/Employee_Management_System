@@ -40,6 +40,7 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -56,4 +57,11 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     Page<Employee> searchAll(@Param("keyword") String keyword, Pageable pageable);
 
     Optional<Object> findByEmail(String email);
+
+
+    @Query("SELECT e FROM Employee e WHERE e.dateOfBirth IS NOT NULL")
+    List<Employee> findAllWithDob();
+
+    @Query("SELECT e FROM Employee e WHERE e.joiningDate IS NOT NULL")
+    List<Employee> findAllWithJoiningDate();
 }

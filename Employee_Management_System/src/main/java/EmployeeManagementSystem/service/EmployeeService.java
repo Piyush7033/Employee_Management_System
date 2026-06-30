@@ -28,4 +28,8 @@ public interface EmployeeService {
     Employee findByEmail(String email);
 
     long totalEmployees();
+
+
+    List<Employee> getUpcomingBirthdays();
+    List<Employee> getUpcomingAnniversaries();
 }

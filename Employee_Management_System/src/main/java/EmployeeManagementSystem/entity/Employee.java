@@ -22,6 +22,9 @@ public class Employee {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private LocalDate dateOfBirth;
+
     @Column(unique = true)
     private String email;
 
@@ -35,24 +38,23 @@ public class Employee {
 
     private String imageName;
 
-    // Department
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "department_id")
     private Department department;
 
-    // Attendance
+
     @OneToMany(mappedBy = "employee",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<Attendance> attendanceList = new ArrayList<>();
 
-    // Salary (ONE-TO-ONE)
+
     @OneToOne(mappedBy = "employee",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private Salary salaryDetails;
 
-    // ===== Helper =====
+
     public void setSalaryDetails(Salary salaryDetails) {
         this.salaryDetails = salaryDetails;
         if (salaryDetails != null) {

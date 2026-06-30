@@ -134,4 +134,24 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.count();
     }
 
+
+
+    @Override
+    public List<Employee> getUpcomingBirthdays() {
+        return employeeRepository.findAll()
+                .stream()
+                .filter(e -> e.getDateOfBirth() != null)
+                .limit(5)
+                .toList();
+    }
+
+    @Override
+    public List<Employee> getUpcomingAnniversaries() {
+        return employeeRepository.findAll()
+                .stream()
+                .filter(e -> e.getJoiningDate() != null)
+                .limit(5)
+                .toList();
+    }
+
 }
