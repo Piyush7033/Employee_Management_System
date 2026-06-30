@@ -127,4 +127,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         return (Employee) employeeRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
     }
+
+
+    @Override
+    public long totalEmployees() {
+        return employeeRepository.count();
+    }
+
 }

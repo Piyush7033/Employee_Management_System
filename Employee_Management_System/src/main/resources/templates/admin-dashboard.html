@@ -741,78 +741,76 @@
             border-radius:8px;
         }
 
-        /* Sidebar */
-        #sidebar{
-            position:fixed;
-            left:0;
-            top:0;
-            width:240px;
-            height:100vh;
-            background:#0f172a;
-            color:white;
-            overflow-y:auto;
-            z-index:9999;
-            transition:.3s;
-        }
+       #sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:200px;   /* 🔥 reduced from 240px */
+    height:100vh;
+    background:#0f172a;
+    color:white;
+    overflow-y:auto;
+    z-index:9999;
+    transition:.3s;
+}
 
-        .brand{
-            padding:18px;
-            text-align:center;
-            border-bottom:1px solid rgba(255,255,255,.08);
-        }
+.brand{
+    padding:14px 10px;
+    text-align:center;
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
 
-        .brand .logo{
-            width:45px;
-            height:45px;
-            border-radius:50%;
-            background:#2563eb;
-            margin:auto;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            font-size:18px;
-        }
+/* logo stays same size */
+.brand .logo{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:#2563eb;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:14px;
+}
 
-        .brand h3{
-            margin-top:10px;
-            font-size:20px;
-            font-family:"Brush Script MT",cursive;
-            color:#60a5fa;
-        }
+/* 🔥 COMPANY NAME BIG + ATTRACTIVE */
+.brand h3{
+    margin-top:10px;
+    font-size:20px;         /* BIG SIZE */
+    font-weight:700;
+    font-family: "Brush Script MT", cursive;
+    color:#60a5fa;
+    letter-spacing:0.5px;
+    text-shadow:0 1px 3px rgba(0,0,0,0.4);
+}
 
-        .brand p{
-            font-size:11px;
-            color:#94a3b8;
-        }
+/* subtitle small */
+.brand p{
+    font-size:10px;
+    color:#94a3b8;
+    margin-top:2px;
+}
 
-        #sidebar ul{
-            padding-left:0;
-        }
+/* MENU ITEMS SMALL */
+#sidebar a{
+    text-decoration:none;
+    color:white;
+    display:block;
+    padding:7px 10px;   /* 🔥 reduced padding */
+    border-radius:6px;
+    font-size:12px;     /* 🔥 small text */
+    transition:.3s;
+}
 
-        #sidebar li{
-            list-style:none;
-            padding:3px 10px;
-        }
+#sidebar a i{
+    width:18px;
+    font-size:11px;
+}
 
-        #sidebar a{
-            text-decoration:none;
-            color:white;
-            display:block;
-            padding:10px 12px;
-            border-radius:8px;
-            font-size:14px;
-            transition:.3s;
-        }
-
-        #sidebar a:hover{
-            background:#1e293b;
-            transform:translateX(3px);
-        }
-
-        #sidebar a i{
-            width:22px;
-            font-size:13px;
-        }
+#sidebar li{
+    list-style:none;
+    padding:2px 8px;
+}
 
         /* Content */
         #content{
@@ -862,82 +860,107 @@
             justify-content:center;
         }
 
-        /* Hero */
-        .hero{
-            margin-top:18px;
-            padding:24px;
-            border-radius:16px;
-            background:linear-gradient(135deg,#2563eb,#06b6d4);
-            color:white;
-        }
+    .hero{
+    margin-top:8px;
+    padding:8px 14px;
+    border-radius:8px;
+    background:linear-gradient(135deg,#2563eb,#06b6d4);
+    color:white;
+    min-height:50px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
 
-        .hero h2{
-            font-size:28px;
-        }
+.hero h2{
+    font-size:14px;
+    margin:0;
+    font-weight:600;
+}
 
-        .hero p{
-            margin-top:5px;
-            font-size:14px;
-        }
+.hero p{
+    display:none; /* Description hide */
+}
 
-        /* Cards */
-        .cardx{
-            background:white;
-            border-radius:14px;
-            padding:18px;
-            text-align:center;
-            height:100%;
-            box-shadow:0 2px 12px rgba(0,0,0,.05);
-            transition:.3s;
-        }
+/* Ultra Small Dashboard Cards */
+.cardx{
+    background:#fff;
+    border-radius:10px;
+    padding:8px;
+    height:75px;
+    box-shadow:0 1px 5px rgba(0,0,0,.06);
+    transition:.3s;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
 
-        .cardx:hover{
-            transform:translateY(-5px);
-        }
+.cardx:hover{
+    transform:translateY(-2px);
+}
 
-        .cardx i{
-            font-size:20px;
-            margin-bottom:10px;
-        }
+.cardx i{
+    font-size:13px;
+    margin-bottom:3px;
+}
 
-        .cardx h3{
-            font-size:24px;
-            margin-bottom:5px;
-            font-weight:700;
-        }
+.cardx h3{
+    font-size:16px;
+    font-weight:700;
+    margin:0;
+    line-height:1.1;
+}
 
-        .cardx p{
-            margin:0;
-            color:#64748b;
-            font-size:13px;
-        }
+.cardx p{
+    font-size:10px;
+    margin:2px 0 0;
+    color:#64748b;
+}
 
-        /* Box */
-        .box{
-            background:white;
-            border-radius:14px;
-            padding:20px;
-            margin-top:20px;
-            box-shadow:0 2px 12px rgba(0,0,0,.05);
-        }
 
-        .box h5{
-            margin-bottom:15px;
-            font-weight:600;
-        }
+
+ .box{
+    background:#fff;
+    border-radius:10px;
+    padding:10px 12px;
+    margin-top:10px;
+    box-shadow:0 1px 5px rgba(0,0,0,.05);
+}
+
+.box h5{
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:8px;
+}
+
+#chart{
+    height:220px !important;
+    max-height:220px;
+}
 
         #chart{
             max-height:300px;
         }
 
-        /* Table */
-        .table{
-            font-size:14px;
-        }
+       /* Compact Table */
+.table{
+    font-size:12px;
+    margin-bottom:0;
+}
 
-        .table th{
-            color:#475569;
-        }
+.table th{
+    padding:7px 10px;
+    font-size:11px;
+    font-weight:600;
+    color:#475569;
+}
+
+.table td{
+    padding:6px 10px;
+    font-size:11px;
+    vertical-align:middle;
+}
 
         /* Overlay */
         #overlay{
@@ -984,6 +1007,35 @@
                 padding:15px;
             }
         }
+
+
+
+
+
+
+        .small-table-box{
+    padding:10px;
+    border-radius:10px;
+    height:100%;
+}
+
+.small-table-box h5{
+    font-size:14px;
+    font-weight:600;
+    margin-bottom:10px;
+}
+
+.table th,
+.table td{
+    font-size:12px;
+    padding:6px 8px !important;
+}
+
+.badge{
+    font-size:11px;
+    padding:5px 8px;
+    border-radius:8px;
+}
     </style>
 </head>
 
@@ -1002,8 +1054,8 @@
             <i class="fa fa-building"></i>
         </div>
 
-        <h3>BlueThink Technologies</h3>
-        <p>Enterprise HRMS Platform</p>
+        <h3>BlueThink Inc.</h3>
+<!--        <p>Enterprise HRMS Platform</p>-->
     </div>
 
     <ul>
@@ -1061,8 +1113,8 @@
     <div class="topbar">
 
         <div>
-            <h4>HRMS Admin Dashboard</h4>
-            <small>Corporate Management Portal</small>
+            <h4>BlueThink Admin Portal</h4>
+<!--            <small>Corporate Management Portal</small>-->
         </div>
 
         <div class="admin-area">
@@ -1118,82 +1170,364 @@
 
     </div>
 
-    <div class="box">
-        <h5>Employee Analytics</h5>
-        <canvas id="chart"></canvas>
-    </div>
+<!--    <div class="box">-->
+<!--        <h5>Employee Analytics</h5>-->
+<!--        <canvas id="chart"></canvas>-->
+<!--    </div>-->
 
     <div class="box">
+
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h5 class="mb-0">Employee Analytics Overview</h5>
+
+            <div class="btn-group btn-group-sm">
+                <button class="btn btn-primary">1D</button>
+                <button class="btn btn-outline-secondary">1W</button>
+                <button class="btn btn-outline-secondary">1M</button>
+                <button class="btn btn-outline-secondary">1Y</button>
+            </div>
+        </div>
+
+        <small class="text-muted">
+            Employee Joining, Exit & Attendance Trend
+        </small>
+
+        <div style="height:300px;margin-top:10px;">
+            <canvas id="chart"></canvas>
+        </div>
+
+        <hr>
+
+        <div class="row text-center">
+
+            <div class="col-md-3 col-6 mb-3">
+                <h3 class="fw-bold text-primary">05</h3>
+                <small class="text-muted">New Joinees</small>
+
+                <div class="progress mt-2" style="height:5px">
+                    <div class="progress-bar bg-primary" style="width:35%"></div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6 mb-3">
+                <h3 class="fw-bold text-success">18</h3>
+                <small class="text-muted">Open Vacancies</small>
+
+                <div class="progress mt-2" style="height:5px">
+                    <div class="progress-bar bg-success" style="width:61%"></div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6 mb-3">
+                <h3 class="fw-bold text-info">96%</h3>
+                <small class="text-muted">Attendance</small>
+
+                <div class="progress mt-2" style="height:5px">
+                    <div class="progress-bar bg-info" style="width:96%"></div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-6 mb-3">
+                <h3 class="fw-bold text-warning">11</h3>
+                <small class="text-muted">Pending Leaves</small>
+
+                <div class="progress mt-2" style="height:5px">
+                    <div class="progress-bar bg-warning" style="width:87%"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
 
         <h5>Recent Activities</h5>
 
         <div class="table-responsive">
 
-            <table class="table table-hover">
+            <tbody>
+            <tr th:each="a : ${activities}">
+                <td th:text="${a.employeeName}">Employee</td>
+                <td th:text="${a.activity}">Activity</td>
 
-                <thead>
-                <tr>
-                    <th>Employee</th>
-                    <th>Activity</th>
-                    <th>Status</th>
-                </tr>
-                </thead>
+                <td>
+        <span th:classappend="${a.status == 'Completed'} ? 'badge bg-success' :
+                              ${a.status == 'Pending'} ? 'badge bg-warning' :
+                              'badge bg-primary'"
+              th:text="${a.status}">
+        </span>
+                </td>
+            </tr>
+            </tbody>
 
-                <tbody>
+            <nav class="mt-3">
+                <ul class="pagination">
 
-                <tr>
-                    <td>John Smith</td>
-                    <td>Attendance Updated</td>
-                    <td><span class="badge bg-success">Completed</span></td>
-                </tr>
+                    <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                        <a class="page-link"
+                           th:href="@{/admin/dashboard(page=${currentPage-1},size=5)}">
+                            Previous
+                        </a>
+                    </li>
 
-                <tr>
-                    <td>Emma Watson</td>
-                    <td>Leave Request</td>
-                    <td><span class="badge bg-warning">Pending</span></td>
-                </tr>
+                    <li class="page-item"
+                        th:each="i : ${#numbers.sequence(0, totalPages-1)}"
+                        th:classappend="${i == currentPage} ? 'active'">
 
-                <tr>
-                    <td>Robert Brown</td>
-                    <td>Timesheet Submitted</td>
-                    <td><span class="badge bg-primary">Approved</span></td>
-                </tr>
+                        <a class="page-link"
+                           th:href="@{/admin/dashboard(page=${i},size=5)}"
+                           th:text="${i+1}">
+                        </a>
+                    </li>
 
-                </tbody>
+                    <li class="page-item"
+                        th:classappend="${currentPage+1 == totalPages} ? 'disabled'">
 
-            </table>
+                        <a class="page-link"
+                           th:href="@{/admin/dashboard(page=${currentPage+1},size=5)}">
+                            Next
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+
 
         </div>
+    <div class="row mt-3">
+
+        <!-- LEFT: Birthday Table -->
+        <div class="col-md-6 d-flex">
+            <div class="box small-table-box w-100">
+
+                <h5>🎂 Upcoming Birthdays</h5>
+
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover">
+
+                        <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>User Name</th>
+                            <th>Date Of Birthday</th>
+                            <th>Remaining</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>John Smith</td>
+                            <td>02 July</td>
+                            <td><span class="badge bg-primary">2 Days Left</span></td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>Emma Watson</td>
+                            <td>05 July</td>
+                            <td><span class="badge bg-warning text-dark">5 Days Left</span></td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>Robert Brown</td>
+                            <td>10 July</td>
+                            <td><span class="badge bg-success">10 Days Left</span></td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- RIGHT: Anniversary Table -->
+        <div class="col-md-6 d-flex">
+            <div class="box small-table-box w-100">
+
+                <h5>🏆 Work Anniversaries</h5>
+
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover">
+
+                        <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>User Name</th>
+                            <th>Date Of Joining</th>
+                            <th>Remaining</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>John Smith</td>
+                            <td>03 July</td>
+                            <td><span class="badge bg-primary">3 Days Left</span></td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>Emma Watson</td>
+                            <td>06 July</td>
+                            <td><span class="badge bg-warning text-dark">6 Days Left</span></td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>Robert Brown</td>
+                            <td>12 July</td>
+                            <td><span class="badge bg-success">12 Days Left</span></td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
 
     </div>
 
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<canvas id="myChart"></canvas>
 
-<script>
 
-    function toggleSidebar(){
-        document.getElementById('sidebar').classList.toggle('active');
-        document.getElementById('overlay').classList.toggle('active');
-    }
 
-    new Chart(document.getElementById('chart'),{
-        type:'bar',
-        data:{
-            labels:['Employees','Attendance','Leaves','Payroll'],
-            datasets:[{
-                label:'Statistics',
-                data:[120,95,15,85]
-            }]
+
+
+
+
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    const joined = /*[[${joined}]]*/ [];
+    const left = /*[[${left}]]*/ [];
+    const attendanceTrend = /*[[${attendanceTrend}]]*/ [];
+
+    const canvas = document.getElementById("chart");
+
+    new Chart(canvas, {
+        type: 'bar',
+        data: {
+            labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul'],
+            datasets: [
+                {
+                    type: 'bar',
+                    label: 'Employees Joined',
+                    data: joined,
+                    backgroundColor: '#3b82f6'
+                },
+                {
+                    type: 'bar',
+                    label: 'Employees Left',
+                    data: left,
+                    backgroundColor: '#ef4444'
+                },
+                {
+                    type: 'line',
+                    label: 'Attendance %',
+                    data: attendanceTrend,
+                    borderColor: '#f59e0b',
+                    tension: 0.4
+                }
+            ]
         },
-        options:{
-            responsive:true,
-            maintainAspectRatio:false
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
         }
     });
 
+    /*]]>*/
 </script>
+
+
+
+
+
+
+
+<!--<script>-->
+
+<!--    function toggleSidebar(){-->
+<!--        document.getElementById('sidebar').classList.toggle('active');-->
+<!--        document.getElementById('overlay').classList.toggle('active');-->
+<!--    }-->
+
+
+
+<!--<script th:inline="javascript">-->
+<!--/*<![CDATA[*/-->
+
+<!--let joined = [[${joined}]];-->
+<!--let left = [[${left}]];-->
+<!--let attendanceTrend = [[${attendanceTrend}]];-->
+
+<!--const ctx = document.getElementById("chart").getContext("2d");-->
+
+<!--new Chart(ctx, {-->
+<!--    data: {-->
+<!--        labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul'],-->
+<!--        datasets: [-->
+<!--            {-->
+<!--                type: 'bar',-->
+<!--                label: 'Employees Joined',-->
+<!--                data: joined,-->
+<!--                backgroundColor: '#3b82f6'-->
+<!--            },-->
+<!--            {-->
+<!--                type: 'bar',-->
+<!--                label: 'Employees Left',-->
+<!--                data: left,-->
+<!--                backgroundColor: '#ef4444'-->
+<!--            },-->
+<!--            {-->
+<!--                type: 'line',-->
+<!--                label: 'Attendance %',-->
+<!--                data: attendanceTrend,-->
+<!--                borderColor: '#f59e0b',-->
+<!--                tension: 0.4,-->
+<!--                yAxisID: 'y1'-->
+<!--            }-->
+<!--        ]-->
+<!--    },-->
+<!--    options: {-->
+<!--        responsive: true,-->
+<!--        maintainAspectRatio: false-->
+<!--    }-->
+<!--});-->
+
+<!--/*]]>*/-->
+<!--</script>-->
+
+<!--&lt;!&ndash;new Chart(document.getElementById('chart'),{&ndash;&gt;-->
+<!--&lt;!&ndash;    type:'bar',&ndash;&gt;-->
+<!--&lt;!&ndash;    data:{&ndash;&gt;-->
+<!--&lt;!&ndash;        labels:['Employees','Attendance','Leaves','Payroll'],&ndash;&gt;-->
+<!--&lt;!&ndash;        datasets:[{&ndash;&gt;-->
+<!--&lt;!&ndash;            label:'Statistics',&ndash;&gt;-->
+<!--&lt;!&ndash;            data:[120,95,15,85]&ndash;&gt;-->
+<!--&lt;!&ndash;        }]&ndash;&gt;-->
+<!--&lt;!&ndash;    },&ndash;&gt;-->
+<!--&lt;!&ndash;    options:{&ndash;&gt;-->
+<!--&lt;!&ndash;        responsive:true,&ndash;&gt;-->
+<!--&lt;!&ndash;        maintainAspectRatio:false&ndash;&gt;-->
+<!--&lt;!&ndash;    }&ndash;&gt;-->
+<!--&lt;!&ndash;});&ndash;&gt;-->
+
+
+<!--    });-->
+
+<!--</script>-->
 
 </body>
 </html>

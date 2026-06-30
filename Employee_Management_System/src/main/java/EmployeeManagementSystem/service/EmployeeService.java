@@ -26,4 +26,6 @@ public interface EmployeeService {
     List<Employee> getAllEmployeesList();
 
     Employee findByEmail(String email);
+
+    long totalEmployees();
 }
