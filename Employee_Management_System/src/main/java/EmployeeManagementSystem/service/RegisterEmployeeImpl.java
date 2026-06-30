@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -96,5 +97,12 @@ public class RegisterEmployeeImpl implements RegisterEmployeeService {
             return jwtUtil.generateToken(employee.getUserId(),employee.getRole());
         }
         throw new RuntimeException("Invalid password");
+    }
+    public RegisterEmployee getEmployeeById(String employeeId){
+        return repository.findByUserId(employeeId);
+    }
+    @Override
+    public List<RegisterEmployee> getUpcomingBirthdays() {
+        return repository.findUpcomingBirthdays();
     }
 }

@@ -85,7 +85,6 @@ public class LoginController {
             if ("ROLE_EMPLOYEE".equalsIgnoreCase(role)){
                 return "redirect:/employee/dashboard";
             }
-
             if ("ROLE_MANAGER".equalsIgnoreCase(role)){
                 return "redirect:/manager/dashboard";
             }
