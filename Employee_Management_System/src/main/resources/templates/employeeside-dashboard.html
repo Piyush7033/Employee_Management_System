@@ -3,144 +3,454 @@
 
 <head>
     <title>Dashboard</title>
-
+    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Icons -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <style>
+        :root {
+            --sidebar-bg: #1e293b;
+            --sidebar-hover: #334155;
+            --sidebar-submenu-bg: #111827;
+            --bg-main: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --primary-color: #0ea5e9;
+        }
+
         body {
             margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+        }
+
+        .dashboard-container {
+            display: flex;
             min-height: 100vh;
             color: white;
         }
 
-        .header {
-            text-align: center;
-            padding: 35px 20px;
+        /* Clean Sidebar */
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            color: #fff;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
         }
 
-        .header h1 {
+        .sidebar-brand {
+            padding: 24px;
+            font-size: 18px;
             font-weight: 700;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .header p {
-            opacity: 0.85;
+        .sidebar-brand a {
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .card-box {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: 0.4s ease;
-            padding: 25px;
-            text-align: center;
-            color: white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        .sidebar-menu {
+            list-style: none;
+            padding: 20px 12px;
+            margin: 0;
+            flex-grow: 1;
+            overflow-y: auto;
         }
 
-        .card-box:hover {
-            transform: translateY(-10px) scale(1.03);
-            background: rgba(255, 255, 255, 0.25);
+        .sidebar-menu li {
+            margin-bottom: 4px;
         }
 
-        .icon {
-            font-size: 40px;
-            margin-bottom: 10px;
-        }
-
-        .btn-custom {
-            border-radius: 50px;
+        .sidebar-menu a, .sidebar-menu .dropdown-trigger {
+            display: flex;
+            align-items: center;
+            color: #94a3b8;
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            background: none;
+            border: none;
             width: 100%;
-            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
         }
 
-        .chart-box {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-            border-radius: 20px;
-            padding: 25px;
-            margin-top: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        .sidebar-menu a i, .sidebar-menu .dropdown-trigger i:first-child {
+            width: 20px;
+            margin-right: 12px;
+            font-size: 16px;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu li.active > a, .sidebar-menu .dropdown-trigger:hover {
+            background-color: var(--sidebar-hover);
+            color: #fff;
+        }
+
+        /* Dropdown Arrow Animation */
+        .arrow-icon {
+            margin-left: auto;
+            font-size: 11px;
+            transition: transform 0.2s ease;
+        }
+
+        .dropdown-trigger[aria-expanded="true"] .arrow-icon {
+            transform: rotate(90deg);
+        }
+
+        /* Submenu Styling */
+        .submenu {
+            list-style: none;
+            padding-left: 0;
+            margin: 4px 0 8px 0;
+            background-color: var(--sidebar-submenu-bg);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .submenu a {
+            padding: 8px 16px 8px 48px;
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+
+        /* Main Section Wrapper */
+        .main-content {
+            margin-left: 260px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Header Area */
+        .top-navbar {
+            background-color: #fff;
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0;
+            color: var(--text-main);
+        }
+
+        /* Content Dashboard Body */
+        .content-body {
+            padding: 40px;
+        }
+
+        /* Flat Clean Stat Cards */
+        .stat-card {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: border-color 0.2s ease;
+        }
+
+        .stat-card:hover {
+            border-color: #cbd5e1;
+        }
+
+        .stat-info span {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .stat-info h4 a {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .stat-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            background-color: #f1f5f9;
+            color: #475569;
         }
     </style>
 </head>
 
 <body>
-<nav style="background-color: #343a40; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; font-family: 'Segoe UI', sans-serif;">
 
-    <div style="color: white; font-size: 20px; font-weight: bold;">
-        <a th:href="@{/employee/dashboard}" style="color: white; text-decoration: none;">BlueThink Inc.</a>
-    </div>
+<div class="dashboard-container">
 
-    <div>
-        <a th:if="${isUserLoggedIn == null or !isUserLoggedIn}"
-           th:href="@{/auth/loginPage}"
-           style="background-color: #007bff; color: white; padding: 8px 18px; text-decoration: none; border-radius: 4px; font-weight: bold; margin-left: 10px;">
-            Login
-        </a>
-
-        <a th:if="${isUserLoggedIn != null and isUserLoggedIn}"
-           th:href="@{/auth/logout}"
-           style="background-color: #dc3545; color: white; padding: 8px 18px; text-decoration: none; border-radius: 4px; font-weight: bold; margin-left: 10px;">
-            Logout
-        </a>
-    </div>
-</nav>
-<!-- HEADER -->
-<div class="header">
-    <h1>Employee Management System</h1>
-    <p>Dashboard with Analytics</p>
-</div>
-
-<!-- CARDS -->
-<div class="container">
-
-    <div class="row g-4">
-
-        <div class="col-md-3">
-            <div class="card-box">
-                <div class="icon"><i class="fa-solid fa-user-tie"></i></div>
-                <h4>My Profile</h4>
-                <p>View & Manage your data</p>
-                <a th:href="@{/profile/view}" class="btn btn-light btn-custom">Open Profile</a>
-            </div>
+    <!-- SIDEBAR WITH DROPDOWNS -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <a th:href="@{/employee/dashboard}">
+                <i class="fa-solid fa-square-poll-horizontal text-primary"></i> BlueThink Inc.
+            </a>
         </div>
+        <ul class="sidebar-menu">
+            <li class="active">
+                <a th:href="@{/employee/dashboard}"><i class="fa-solid fa-chart-simple"></i>Dashboard</a>
+            </li>
 
-        <div class="col-md-3">
-            <div class="card-box">
-                <div class="icon"><i class="fa-solid fa-users"></i></div>
-                <h4>Employees</h4>
-                <p>Manage all employees</p>
-                <a href="/employees" class="btn btn-light btn-custom">Open</a>
+            <!-- DROPDOWN 1: MY PROFILE -->
+            <li>
+                <button class="dropdown-trigger" type="button" data-bs-toggle="collapse" data-bs-target="#profileSubmenu" aria-expanded="false">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Profile Management</span>
+                    <i class="fa-solid fa-chevron-right arrow-icon"></i>
+                </button>
+                <div class="collapse" id="profileSubmenu">
+                    <ul class="submenu">
+                        <li><a th:href="@{/profile/view}">View Profile</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- DROPDOWN 3: SALARY MANAGEMENT -->
+            <li>
+                <button class="dropdown-trigger" type="button" data-bs-toggle="collapse" data-bs-target="#salarySubmenu" aria-expanded="false">
+                    <i class="fa-solid fa-wallet"></i>
+                    <span>Salary Management</span>
+                    <i class="fa-solid fa-chevron-right arrow-icon"></i>
+                </button>
+                <div class="collapse" id="salarySubmenu">
+                    <ul class="submenu">
+                        <li><a href="/salary">View Salary</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <!-- DROPDOWN 4: ATTENDANCE & TRACKING -->
+            <li>
+                <button class="dropdown-trigger" type="button" data-bs-toggle="collapse" data-bs-target="#attendanceSubmenu" aria-expanded="false">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <span>Attendance</span>
+                    <i class="fa-solid fa-chevron-right arrow-icon"></i>
+                </button>
+                <div class="collapse" id="attendanceSubmenu">
+                    <ul class="submenu">
+                        <li><a href="/attendance">Logs Tracker</a></li>
+                        <li><a th:href="@{/employee/attendance-tracking}">Live Tracking Management</a></li>
+                    </ul>
+                </div>
+            </li>
+
+            <li>
+                <a th:href="@{/leave/apply}"><i class="fa-solid fa-envelope-open"></i>Leave</a>
+            </li>
+            <li>
+                <a th:href="@{/timesheet/log}"><i class="fa-solid fa-clock"></i>Timesheet</a>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- MAIN INTERFACE -->
+    <div class="main-content">
+
+        <!-- TOP NAVIGATION BAR -->
+        <header class="top-navbar">
+            <div class="page-title">
+                <!-- DYNAMIC EMPLOYEE NAME SHOWN HERE IF LOGGED IN -->
+                <h2 th:text="${loggedInEmpName != null} ? ${loggedInEmpName} : 'Dashboard'">Dashboard</h2>
             </div>
-        </div>
+            <div>
+                <a th:if="${isUserLoggedIn == null or !isUserLoggedIn}"
+                   th:href="@{/auth/loginPage}"
+                   class="btn btn-sm btn-primary fw-medium px-3 py-2 rounded-2">
+                    Log In
+                </a>
 
-        <div class="col-md-3">
-            <div class="card-box">
-                <div class="icon"><i class="fa-solid fa-sack-dollar"></i></div>
-                <h4>Salary</h4>
-                <p>Manage salary records</p>
-                <a href="/salary" class="btn btn-light btn-custom">Open</a>
+                <a th:if="${isUserLoggedIn != null and isUserLoggedIn}"
+                   th:href="@{/auth/logout}"
+                   class="btn btn-sm btn-outline-danger fw-medium px-3 py-2 rounded-2">
+                    <i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Log Out
+                </a>
             </div>
-        </div>
+        </header>
 
-        <div class="col-md-3">
-            <div class="card-box">
-                <div class="icon"><i class="fa-solid fa-calendar-check"></i></div>
-                <h4>Attendance</h4>
-                <p>Track attendance</p>
-                <a href="/attendance" class="btn btn-light btn-custom">Open</a>
+        <!-- DASHBOARD GRID & LIVE DATA CONTENT -->
+        <main class="content-body">
+
+            <!-- 1. CRITICAL ALERT BANNER (UPDATED MESSAGE) -->
+            <div class="alert border-0 rounded-3 p-3 mb-4 d-flex align-items-center gap-3"
+                 style="background-color: #fef2f2; color: #991b1b; border-left: 4px solid #ef4444 !important;">
+                <div class="fs-4"><i class="fa-solid fa-bullhorn text-danger"></i></div>
+                <div>
+                    <strong class="d-block mb-1" style="font-size: 14px; font-weight: 700;">Alert Notice</strong>
+                    <span style="font-size: 13.5px; color: #991b1b; font-weight: 500;">
+                        Kindly fill the timesheet till the 2nd of every month and the salary will be generated on the basis of that only, If you missed to fill your time sheet your salary will be deducted.
+                    </span>
+                </div>
             </div>
-        </div>
 
+            <!-- 2. QUICK STATS (TOP LEVEL) -->
+            <div class="row g-4 mb-4">
+                <div class="col-xl-4 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <span>WFH Workforce</span>
+                            <h4><a href="#" th:text="${wfhCount != null ? wfhCount + ' Active Users' : '0 Active Users'}">0 Active Users</a></h4>
+                        </div>
+                        <div class="stat-icon" style="background-color: #ecfdf5; color: #059669;"><i class="fa-solid fa-house-laptop"></i></div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <span>Today's Leave Status</span>
+                            <h4><a href="#" th:text="${leaveCount != null ? leaveCount + ' Employees Away' : '0 Employees Away'}">0 Employees Away</a></h4>
+                        </div>
+                        <div class="stat-icon" style="background-color: #fef3c7; color: #d97706;"><i class="fa-solid fa-calendar-minus"></i></div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-6">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <span>Project Off-logs</span>
+                            <h4><a href="#" th:text="${offLogsCount != null ? offLogsCount + ' Team Members' : '0 Team Members'}">0 Team Members</a></h4>
+                        </div>
+                        <div class="stat-icon" style="background-color: #f1f5f9; color: #475569;"><i class="fa-solid fa-user-slash"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. DETAILED INFORMATION TABS/GRIDS -->
+            <div class="row g-4">
+
+                <!-- UPCOMING BIRTHDAYS -->
+                <div class="col-lg-6">
+                    <div class="bg-white rounded-3 border p-4 h-100">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="fw-bold m-0" style="font-size: 14px; color: var(--text-main);"><i class="fa-solid fa-cake-candles text-danger me-2"></i>Upcoming Birthdays</h6>
+                            <span class="badge rounded-pill bg-light text-secondary border fw-medium" th:text="${currentMonthName != null ? currentMonthName : 'Month'}">Month</span>
+                        </div>
+                        <div class="table-responsive" style="max-height: 280px; overflow-y: auto;">
+                            <table class="table table-sm table-borderless align-middle mb-0" style="font-size: 13px;">
+                                <thead class="text-muted sticky-top bg-white" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">
+                                <tr>
+                                    <th class="pb-2">Name</th>
+                                    <th class="pb-2">Date</th>
+                                    <th class="pb-2 text-end">Remaining</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="bday : ${birthdays}" class="border-bottom-subtle">
+                                    <td class="py-2 fw-medium" th:text="${bday.employeeName}">Employee Name</td>
+                                    <td class="py-2 text-muted" th:text="${bday.formattedDate}">1st Jul, Wed</td>
+                                    <td class="py-2 text-end">
+                                        <span th:classappend="${bday.daysLeft == 1} ? 'bg-danger-subtle text-danger' : 'bg-light text-dark'"
+                                              class="badge rounded-1"
+                                              th:text="${bday.daysLeft == 1 ? '1 Day left' : bday.daysLeft + ' Days'}">1 Day left</span>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(birthdays)}">
+                                    <td colspan="3" class="text-center text-muted py-3">No upcoming birthdays this month</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- UPCOMING WORK ANNIVERSARIES -->
+                <div class="col-lg-6">
+                    <div class="bg-white rounded-3 border p-4 h-100">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="fw-bold m-0" style="font-size: 14px; color: var(--text-main);"><i class="fa-solid fa-award text-primary me-2"></i>Work Anniversaries</h6>
+                            <span class="badge rounded-pill bg-light text-secondary border fw-medium">Milestones</span>
+                        </div>
+                        <div class="table-responsive" style="max-height: 280px; overflow-y: auto;">
+                            <table class="table table-sm table-borderless align-middle mb-0" style="font-size: 13px;">
+                                <thead class="text-muted sticky-top bg-white" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">
+                                <tr>
+                                    <th class="pb-2">Name</th>
+                                    <th class="pb-2">Joining Date</th>
+                                    <th class="pb-2 text-end">Remaining</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="anniv : ${anniversaries}" class="border-bottom-subtle">
+                                    <td class="py-2 fw-medium" th:text="${anniv.employeeName}">Employee Name</td>
+                                    <td class="py-2 text-muted" th:text="${anniv.formattedJoiningDate}">1st Jul, Wed</td>
+                                    <td class="py-2 text-end">
+                                        <span th:classappend="${anniv.remainingText == 'Tomorrow' || anniv.daysLeft == 1} ? 'bg-primary-subtle text-primary' : 'bg-light text-dark'"
+                                              class="badge rounded-1"
+                                              th:text="${anniv.remainingText}">Tomorrow</span>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(anniversaries)}">
+                                    <td colspan="3" class="text-center text-muted py-3">No upcoming milestones</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LIVE LEAVE TRACKER -->
+                <div class="col-xl-8">
+                    <div class="bg-white rounded-3 border p-4">
+                        <h6 class="fw-bold mb-3" style="font-size: 14px;"><i class="fa-solid fa-user-clock text-warning me-2"></i>Current Attendance Status (Today)</h6>
+                        <div class="table-responsive">
+                            <table class="table table-sm align-middle mb-0" style="font-size: 13px; border-color: var(--border-color);">
+                                <thead class="table-light" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">
+                                <tr>
+                                    <th class="py-2 px-3">Emp Code</th>
+                                    <th class="py-2">Employee Name</th>
+                                    <th class="py-2">Leave Duration</th>
+                                    <th class="py-2 text-end px-3">Status</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="attendance : ${todayLeaves}">
+                                    <td class="py-3 px-3 text-mono text-muted" th:text="${attendance.employeeCode}">BT0000</td>
+                                    <td class="py-3 fw-medium" th:text="${attendance.employeeName}">Employee Name</td>
+                                    <td class="py-3 text-muted" th:text="${attendance.duration}">2026-06-30 to 2026-06-30</td>
+                                    <td class="py-3 text-end px-3">
+                                        <span th:classappend="${attendance.statusType == 'LONG_TERM'} ? 'bg-danger-subtle text-danger border-danger' : 'bg-warning-subtle text-warning border-warning'"
+                                              class="badge border rounded-pill px-2"
+                                              th:text="${attendance.statusLabel}">On Leave</span>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(todayLeaves)}">
+                                    <td colspan="4" class="text-center text-muted py-4">No employees on leave today</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
         <div class="col-md-3">
             <div class="card-box">
                 <div class="icon"><i class="fa-solid fa-calendar-minus"></i></div> <h4>Leave</h4>
@@ -166,6 +476,39 @@
                 <a th:href="@{/timesheet/log}" class="btn btn-light btn-custom">Open Logs</a>
             </div>
         </div>
+                <!-- SIDE LOGS -->
+                <div class="col-xl-4">
+                    <div class="bg-white rounded-3 border p-4 mb-4">
+                        <h6 class="fw-bold mb-3" style="font-size: 14px;"><i class="fa-solid fa-house-user text-success me-2"></i>WFH List</h6>
+                        <ul class="list-group list-group-flush" style="font-size: 13px;">
+                            <li th:each="wfh : ${wfhList}" class="list-group-item d-flex justify-content-between align-items-center px-0 border-light py-2">
+                                <div>
+                                    <span class="fw-medium d-block" th:text="${wfh.employeeName}">Employee Name</span>
+                                    <small class="text-muted" th:text="${wfh.employeeCode}">BT0000</small>
+                                </div>
+                                <span class="badge bg-success rounded-pill" style="font-size: 9px; padding: 4px 8px;">Remote</span>
+                            </li>
+                            <li th:if="${#lists.isEmpty(wfhList)}" class="list-group-item text-center text-muted px-0 py-2">
+                                No remote employees today
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white rounded-3 border p-4">
+                        <h6 class="fw-bold mb-3" style="font-size: 14px;"><i class="fa-solid fa-toggle-off text-muted me-2"></i>Project Off Logs</h6>
+                        <ul class="list-group list-group-flush" style="font-size: 13px;">
+                            <li th:each="offLog : ${projectOffLogs}" class="list-group-item d-flex justify-content-between align-items-center px-0 border-light py-2">
+                                <div>
+                                    <span class="fw-medium d-block" th:text="${offLog.employeeName}">Employee Name</span>
+                                    <small class="text-muted" th:text="${offLog.employeeCode}">BT0000</small>
+                                </div>
+                            </li>
+                            <li th:if="${#lists.isEmpty(projectOffLogs)}" class="list-group-item text-center text-muted px-0 py-2">
+                                No project off logs recorded
+                            </li>
+                        </ul>
+                    </div>
+                </div>
 
 
 
@@ -197,7 +540,17 @@
 
     </div>
 
+
+            <!-- FOOTER COPYRIGHT SECTION -->
+            <footer class="mt-5 pt-4 text-center text-muted border-top" style="font-size: 12px;">
+                <p class="mb-0">Copyright &copy; 2026 Bluethink IT Consulting Pvt. Ltd. All rights reserved.</p>
+            </footer>
+
+        </main>
+    </div>
 </div>
 
+<!-- Bootstrap JS for Dropdown Toggles -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

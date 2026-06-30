@@ -1,11 +1,9 @@
 package EmployeeManagementSystem.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,7 +11,7 @@ import java.time.LocalDateTime;
 public class RegisterEmployee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String id;
     private String userId;
     private String name;
     private String email;
@@ -22,5 +20,6 @@ public class RegisterEmployee {
     private String role;
     private String otp;
     private LocalDateTime otpExpiryTime;
-
+    @Column(name = "dob")
+    private LocalDate dob;
 }

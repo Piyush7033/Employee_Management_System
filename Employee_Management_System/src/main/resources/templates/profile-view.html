@@ -1,128 +1,257 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile</title>
+    <!-- Bootstrap 5.3.3 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6.5.0 -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
     <style>
         body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background-color: #f8fafc;
             min-height: 100vh;
-            font-family: 'Segoe UI', sans-serif;
-            color: white;
-            padding: 40px 20px;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            color: #1e293b;
+            padding: 40px 15px;
         }
-        .profile-card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+
+        .section-card {
+            background: #ffffff;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+            margin-bottom: 24px;
+            height: 100%; /* Ensure parallel cards have equal height */
+            transition: box-shadow 0.2s ease;
         }
-        .form-control {
-            background: rgba(255, 255, 255, 0.1) !important;
-            border: 1px solid rgba(255, 255, 255, 0.2) !important;
-            color: white !important;
+
+        .section-card:hover {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
         }
-        .form-control:focus { background: rgba(255,255,255,0.2) !important; color: white; }
-        .section-title {
-            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-            padding-bottom: 5px;
-            margin-top: 25px;
-            margin-bottom: 15px;
+
+        .form-label {
+            font-size: 0.85rem;
             font-weight: 600;
+            color: #475569;
+            letter-spacing: 0.3px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .form-control, .form-select {
+            background: #ffffff !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #0f172a !important;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 0.95rem;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .form-control::placeholder {
+            color: #94a3b8;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #4f46e5 !important;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15) !important;
+        }
+
+        .section-title {
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            letter-spacing: 0.5px;
+            color: #1e1b4b;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .section-title i {
+            color: #4f46e5;
+        }
+
+        .btn-custom-dashboard {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-custom-dashboard:hover {
+            background: #f1f5f9;
+            color: #0f172a;
+            border-color: #94a3b8;
+        }
+
+        .btn-submit-profile {
+            background: #4f46e5;
+            color: white;
+            border-radius: 8px;
+            padding: 12px 40px;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .btn-submit-profile:hover {
+            background: #4338ca;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+            color: white;
+        }
+
+        .alert-success {
+            background-color: #ecfdf5 !important;
+            border: 1px solid #10b981 !important;
+            color: #065f46 !important;
         }
     </style>
 </head>
+
 <body>
 
-<div class="container" style="max-width: 900px;">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2><i class="fa-solid fa-user-gear me-2"></i>My Personal Profile</h2>
-            <a href="/dashboard" class="btn btn-light rounded-pill px-4"><i class="fa-solid fa-house me-1"></i> Dashboard</a>
+<div class="container" style="max-width: 1100px;"> <!-- Increased width for clean parallel alignment -->
+
+    <!-- HEADER SECTION -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fs-4 m-0 fw-bold tracking-tight text-slate-900">
+            Personal Profile Settings
+        </h2>
+        <a th:href="@{/employee/dashboard}" class="btn btn-custom-dashboard rounded-pill px-4 fw-medium">
+            <i class="fa-solid fa-arrow-left me-2"></i> Back to Dashboard
+        </a>
+    </div>
+
+    <!-- SUCCESS ALERT -->
+    <div th:if="${param.success}" class="alert alert-success rounded-3 text-center py-3 mb-4 shadow-sm">
+        <i class="fa-solid fa-circle-check me-2 fs-5 align-middle"></i> Profile configurations updated successfully.
+    </div>
+
+    <!-- FORM START -->
+    <form th:action="@{/profile/save}" th:object="${profile}" method="POST">
+
+        <!-- FIRST PARALLEL ROW: BASIC INFO & EDUCATION -->
+        <div class="row items-stretch">
+            <!-- CARD 1: BASIC INFORMATION -->
+            <div class="col-lg-6 mb-4">
+                <div class="section-card">
+                    <h4 class="section-title">
+                        <i class="fa-solid fa-user me-2 opacity-75"></i>Basic Information
+                    </h4>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label" for="fullName">Full Name</label>
+                            <input type="text" id="fullName" th:field="*{fullName}" class="form-control" placeholder="John Doe" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="phoneNumber">Phone Number</label>
+                            <input type="tel" id="phoneNumber" th:field="*{phoneNumber}" class="form-control" placeholder="1234567890" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="dob">Date of Birth</label>
+                            <input type="date" id="dob" th:field="*{dob}" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="gender">Gender</label>
+                            <select id="gender" th:field="*{gender}" class="form-select">
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD 2: EDUCATION DETAILS -->
+            <div class="col-lg-6 mb-4">
+                <div class="section-card">
+                    <h4 class="section-title">
+                        <i class="fa-solid fa-graduation-cap me-2 opacity-75"></i>Education Credentials
+                    </h4>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label" for="highestQualification">Highest Qualification</label>
+                            <input type="text" id="highestQualification" th:field="*{highestQualification}" class="form-control" placeholder="e.g. B.Tech / MCA">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="passingYear">Passing Year</label>
+                            <input type="text" id="passingYear" th:field="*{passingYear}" class="form-control" placeholder="e.g. 2024">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label" for="university">Institution / University</label>
+                            <input type="text" id="university" th:field="*{university}" class="form-control" placeholder="University Name">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-    <div th:if="${param.success}" class="alert alert-success bg-success text-white border-0 rounded-pill text-center py-2 mb-4">
-        <i class="fa-solid fa-circle-check me-1"></i> Profile Updated Successfully!
-    </div>
-
-    <div class="profile-card">
-        <form th:action="@{/profile/save}" th:object="${profile}" method="POST">
-
-            <h4 class="section-title text-info"><i class="fa-solid fa-id-card me-2"></i>Personal Details</h4>
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <label class="form-label">Full Name</label>
-                    <input type="text" th:field="*{fullName}" class="form-control" placeholder="Enter Full Name" required>
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Phone Number</label>
-                    <input type="text" th:field="*{phoneNumber}" class="form-control" placeholder="Enter Phone Number">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Date of Birth</label>
-                    <input type="date" th:field="*{dob}" class="form-control">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Gender</label>
-                    <input type="text" th:field="*{gender}" class="form-control" placeholder="e.g. Male / Female">
+        <!-- SECOND PARALLEL ROW: BANK DETAILS & ADDRESSES -->
+        <div class="row items-stretch">
+            <!-- CARD 3: ACCOUNT DETAILS -->
+            <div class="col-lg-6 mb-4">
+                <div class="section-card">
+                    <h4 class="section-title">
+                        <i class="fa-solid fa-building-columns me-2 opacity-75"></i>Disbursement Bank Details
+                    </h4>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label" for="bankName">Bank Entity Name</label>
+                            <input type="text" id="bankName" th:field="*{bankName}" class="form-control" placeholder="e.g. HDFC Bank">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="accountNumber">Account Number</label>
+                            <input type="text" id="accountNumber" th:field="*{accountNumber}" class="form-control" placeholder="0000 0000 0000">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label" for="ifscCode">IFSC Routing Code</label>
+                            <input type="text" id="ifscCode" th:field="*{ifscCode}" class="form-control" placeholder="HDFC0001234">
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <h4 class="section-title text-warning"><i class="fa-solid fa-graduation-cap me-2"></i>Education Academic Details</h4>
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <label class="form-label">Highest Qualification</label>
-                    <input type="text" th:field="*{highestQualification}" class="form-control" placeholder="e.g. B.Tech / MCA">
-                </div>
-                <div class="col-md-5">
-                    <label class="form-label">University/College</label>
-                    <input type="text" th:field="*{university}" class="form-control" placeholder="University Name">
-                </div>
-                <div class="col-md-3">
-                    <label class="form-label">Passing Year</label>
-                    <input type="text" th:field="*{passingYear}" class="form-control" placeholder="e.g. 2024">
+            <!-- CARD 4 & 5 COMBINED: ADDRESS DETAILS (Parallel Stack) -->
+            <div class="col-lg-6 mb-4">
+                <div class="section-card">
+                    <h4 class="section-title">
+                        <i class="fa-solid fa-location-dot me-2 opacity-75"></i>Address Specifications
+                    </h4>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label" for="currentAddress">Current Residential Address</label>
+                            <textarea id="currentAddress" th:field="*{currentAddress}" class="form-control" rows="2" placeholder="Where you reside currently..."></textarea>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label" for="permanentAddress">Permanent Registered Address</label>
+                            <textarea id="permanentAddress" th:field="*{permanentAddress}" class="form-control" rows="2" placeholder="Permanent home address..."></textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <h4 class="section-title text-success"><i class="fa-solid fa-building-columns me-2"></i>Bank Accounts Details</h4>
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <label class="form-label">Bank Name</label>
-                    <input type="text" th:field="*{bankName}" class="form-control" placeholder="e.g. SBI, HDFC">
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label">Account Number</label>
-                    <input type="text" th:field="*{accountNumber}" class="form-control" placeholder="Account Number">
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label">IFSC Code</label>
-                    <input type="text" th:field="*{ifscCode}" class="form-control" placeholder="IFSC Code">
-                </div>
-            </div>
-
-            <h4 class="section-title text-danger"><i class="fa-solid fa-location-dot me-2"></i>Address Details</h4>
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <label class="form-label">Current Address</label>
-                    <textarea th:field="*{currentAddress}" class="form-control" rows="3" placeholder="Where you reside currently..."></textarea>
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Permanent Address</label>
-                    <textarea th:field="*{permanentAddress}" class="form-control" rows="3" placeholder="Permanent home address..."></textarea>
-                </div>
-            </div>
-
-            <div class="text-center mt-4 pt-3">
-                <button type="submit" class="btn btn-light rounded-pill px-5 btn-lg fw-bold text-dark shadow">
-                    <i class="fa-solid fa-floppy-disk me-2"></i>Save & Update Profile
-                </button>
-            </div>
-        </form>
-    </div>
+        <!-- SUBMIT ACTION -->
+        <div class="text-end mt-2 mb-5">
+            <button type="submit" class="btn btn-submit-profile shadow-sm">
+                <i class="fa-solid fa-circle-check me-2"></i>Save Configurations
+            </button>
+        </div>
+    </form>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
