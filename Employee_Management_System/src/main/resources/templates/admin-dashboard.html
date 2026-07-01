@@ -741,17 +741,20 @@
             border-radius:8px;
         }
 
-       #sidebar{
-    position:fixed;
-    left:0;
-    top:0;
-    width:200px;   /* 🔥 reduced from 240px */
-    height:100vh;
-    background:#0f172a;
-    color:white;
-    overflow-y:auto;
-    z-index:9999;
-    transition:.3s;
+    #sidebar{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 200px;
+    height: 100vh;
+    background: #000;
+    color: #fff;
+    overflow-y: auto;
+    z-index: 9999;
+    transition: .3s;
+    border-right: 1px solid #444;
+}
+
 }
 
 .brand{
@@ -771,6 +774,8 @@
     align-items:center;
     justify-content:center;
     font-size:14px;
+
+
 }
 
 /* 🔥 COMPANY NAME BIG + ATTRACTIVE */
@@ -1036,6 +1041,116 @@
     padding:5px 8px;
     border-radius:8px;
 }
+
+
+
+
+
+        .pagination {
+    margin-bottom: 0;
+}
+
+.pagination .page-link {
+    border-radius: 6px;
+    margin: 0 2px;
+    font-size: 12px;
+    padding: 4px 10px;
+}
+
+.pagination .active .page-link {
+    background-color: #2563eb;
+    border-color: #2563eb;
+}
+
+        #sidebar .fa-chevron-down{
+    font-size:10px;
+    margin-top:4px;
+}
+
+#sidebar ul ul{
+    padding-left:15px;
+}
+
+#sidebar ul ul li a{
+    font-size:11px;
+    color:#cbd5e1;
+}
+
+
+
+
+        /* ================= TOPBAR ================= */
+.topbar{
+    background: #000;
+    color: #fff;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #333;
+}
+
+.topbar h4{
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.admin-area{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.admin-area i{
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.profile{
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    color: #000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* ================= HERO SECTION ================= */
+.hero{
+    background: #fff;
+    color: #000;
+    padding: 18px 25px;
+    border-radius: 10px;
+    margin: 12px 20px;
+    border: 1px solid #000;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.hero h2{
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: #000;
+    line-height: 1.2;
+}
+
+.hero p{
+    font-size: 13px;
+    color: #555;
+    margin: 0;
+    line-height: 1.4;
+    max-width: 600px;
+}
+
+
+
     </style>
 </head>
 
@@ -1136,39 +1251,41 @@
 
     <div class="row g-3 mt-2">
 
-        <div class="col-xl-3 col-md-6">
-            <div class="cardx">
-                <i class="fa fa-users text-primary"></i>
-                <h3>120</h3>
-                <p>Total Employees</p>
-            </div>
-        </div>
+        <div class="row g-3 mt-2">
 
-        <div class="col-xl-3 col-md-6">
-            <div class="cardx">
-                <i class="fa fa-building text-success"></i>
-                <h3>8</h3>
-                <p>Departments</p>
+            <div class="col-xl-3 col-md-6">
+                <div class="cardx">
+                    <i class="fa fa-users text-primary"></i>
+                    <h3 th:text="${stats.totalEmployees}">0</h3>
+                    <p>Total Employees</p>
+                </div>
             </div>
-        </div>
 
-        <div class="col-xl-3 col-md-6">
-            <div class="cardx">
-                <i class="fa fa-calendar-check text-warning"></i>
-                <h3>95%</h3>
-                <p>Attendance Rate</p>
+            <div class="col-xl-3 col-md-6">
+                <div class="cardx">
+                    <i class="fa fa-building text-success"></i>
+                    <h3 th:text="${stats.departments}">0</h3>
+                    <p>Departments</p>
+                </div>
             </div>
-        </div>
 
-        <div class="col-xl-3 col-md-6">
-            <div class="cardx">
-                <i class="fa fa-money-bill-wave text-danger"></i>
-                <h3>₹8.5L</h3>
-                <p>Monthly Payroll</p>
+            <div class="col-xl-3 col-md-6">
+                <div class="cardx">
+                    <i class="fa fa-calendar-check text-warning"></i>
+                    <h3 th:text="${stats.attendanceRate + '%'}">0%</h3>
+                    <p>Attendance Rate</p>
+                </div>
             </div>
-        </div>
 
-    </div>
+            <div class="col-xl-3 col-md-6">
+                <div class="cardx">
+                    <i class="fa fa-money-bill-wave text-danger"></i>
+                    <h3 th:text="${stats.payroll}">0</h3>
+                    <p>Monthly Payroll</p>
+                </div>
+            </div>
+
+        </div>
 
 <!--    <div class="box">-->
 <!--        <h5>Employee Analytics</h5>-->
@@ -1180,12 +1297,12 @@
         <div class="d-flex justify-content-between align-items-center mb-2">
             <h5 class="mb-0">Employee Analytics Overview</h5>
 
-            <div class="btn-group btn-group-sm">
-                <button class="btn btn-primary">1D</button>
-                <button class="btn btn-outline-secondary">1W</button>
-                <button class="btn btn-outline-secondary">1M</button>
-                <button class="btn btn-outline-secondary">1Y</button>
-            </div>
+<!--            <div class="btn-group btn-group-sm">-->
+<!--                <button class="btn btn-primary">1D</button>-->
+<!--                <button class="btn btn-outline-secondary">1W</button>-->
+<!--                <button class="btn btn-outline-secondary">1M</button>-->
+<!--                <button class="btn btn-outline-secondary">1Y</button>-->
+<!--            </div>-->
         </div>
 
         <small class="text-muted">
@@ -1314,30 +1431,46 @@
                         </thead>
 
                         <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>John Smith</td>
-                            <td>02 July</td>
-                            <td><span class="badge bg-primary">2 Days Left</span></td>
-                        </tr>
-
-                        <tr>
-                            <td>2</td>
-                            <td>Emma Watson</td>
-                            <td>05 July</td>
-                            <td><span class="badge bg-warning text-dark">5 Days Left</span></td>
-                        </tr>
-
-                        <tr>
-                            <td>3</td>
-                            <td>Robert Brown</td>
-                            <td>10 July</td>
-                            <td><span class="badge bg-success">10 Days Left</span></td>
+                        <tr th:each="emp,iter : ${birthdays}">
+                            <td th:text="${iter.index + 1}"></td>
+                            <td th:text="${emp.name}"></td>
+                            <td th:text="${emp.dateOfBirth}"></td>
+                            <td><span class="badge bg-primary">Upcoming</span></td>
                         </tr>
                         </tbody>
 
                     </table>
                 </div>
+
+                <nav>
+                    <ul class="pagination pagination-sm">
+
+                        <li class="page-item"
+                            th:if="${birthdayCurrentPage > 0}">
+                            <a class="page-link"
+                               th:href="@{/admin/dashboard(birthdayPage=${birthdayCurrentPage-1})}">
+                                Previous
+                            </a>
+                        </li>
+
+                        <li class="page-item"
+                            th:each="i : ${#numbers.sequence(0,birthdayTotalPages-1)}">
+                            <a class="page-link"
+                               th:text="${i+1}"
+                               th:href="@{/admin/dashboard(birthdayPage=${i})}">
+                            </a>
+                        </li>
+
+                        <li class="page-item"
+                            th:if="${birthdayCurrentPage < birthdayTotalPages-1}">
+                            <a class="page-link"
+                               th:href="@{/admin/dashboard(birthdayPage=${birthdayCurrentPage+1})}">
+                                Next
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
 
             </div>
         </div>
@@ -1361,32 +1494,50 @@
                         </thead>
 
                         <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>John Smith</td>
-                            <td>03 July</td>
-                            <td><span class="badge bg-primary">3 Days Left</span></td>
-                        </tr>
-
-                        <tr>
-                            <td>2</td>
-                            <td>Emma Watson</td>
-                            <td>06 July</td>
-                            <td><span class="badge bg-warning text-dark">6 Days Left</span></td>
-                        </tr>
-
-                        <tr>
-                            <td>3</td>
-                            <td>Robert Brown</td>
-                            <td>12 July</td>
-                            <td><span class="badge bg-success">12 Days Left</span></td>
+                        <tr th:each="emp,iter : ${anniversaries}">
+                            <td th:text="${iter.index + 1}"></td>
+                            <td th:text="${emp.name}"></td>
+                            <td th:text="${emp.joiningDate}"></td>
+                            <td><span class="badge bg-success">Upcoming</span></td>
                         </tr>
                         </tbody>
 
                     </table>
                 </div>
 
+                <nav>
+                    <ul class="pagination pagination-sm">
+
+                        <li class="page-item"
+                            th:if="${birthdayCurrentPage > 0}">
+                            <a class="page-link"
+                               th:href="@{/admin/dashboard(birthdayPage=${birthdayCurrentPage-1})}">
+                                Previous
+                            </a>
+                        </li>
+
+                        <li class="page-item"
+                            th:each="i : ${#numbers.sequence(0,birthdayTotalPages-1)}">
+                            <a class="page-link"
+                               th:text="${i+1}"
+                               th:href="@{/admin/dashboard(birthdayPage=${i})}">
+                            </a>
+                        </li>
+
+                        <li class="page-item"
+                            th:if="${birthdayCurrentPage < birthdayTotalPages-1}">
+                            <a class="page-link"
+                               th:href="@{/admin/dashboard(birthdayPage=${birthdayCurrentPage+1})}">
+                                Next
+                            </a>
+                        </li>
+
+                    </ul>
+                </nav>
+
             </div>
+
+
         </div>
 
     </div>
