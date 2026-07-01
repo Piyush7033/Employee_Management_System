@@ -2,6 +2,7 @@ package EmployeeManagementSystem.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -13,11 +14,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-@RequiredArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
@@ -25,45 +25,96 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
 
-        String token = null;
+        String path = request.getServletPath();
 
-        // 1. Cookie se token nikalna
-        if (request.getCookies() != null) {
-            for (jakarta.servlet.http.Cookie cookie : request.getCookies()) {
-                if ("jwtToken".equals(cookie.getName())) {
-                    token = cookie.getValue();
-                    break;
-                }
+        try {
+
+            // ================= SAFE SKIP =================
+            if (isPublicPath(path)) {
+                filterChain.doFilter(request, response);
+                return;
             }
-        }
 
-        // 2. Token agar milta hai toh authentication set karna
-        if (token != null) {
-            try {
+            // ================= TOKEN EXTRACTION =================
+            String token = extractTokenFromCookies(request);
+
+            // IMPORTANT: NEVER BLOCK REQUEST (NO 403 HERE)
+            if (token == null || token.isBlank()) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+
+            // ================= AUTH CHECK =================
+            if (SecurityContextHolder.getContext().getAuthentication() == null) {
+
                 String username = jwtUtil.extractUsername(token);
-
-                // 👉 FIX: Username ke bajay Token se actual ROLE (MANAGER/EMPLOYEE) nikalien
                 String role = jwtUtil.extractRole(token);
 
-                if (role != null) {
-                    // Role ko GrantedAuthority mein convert karein
-                    List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(role));
+                if (username != null && role != null
+                        && jwtUtil.validateToken(token, username)) {
 
-                    UsernamePasswordAuthenticationToken authToken =
-                            new UsernamePasswordAuthenticationToken(username, null, authorities);
-                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    // normalize role
+                    role = role.trim().toUpperCase();
 
-                    // Security Context ko assign karein
-                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                    if (!role.startsWith("ROLE_")) {
+                        role = "ROLE_" + role;
+                    }
+
+                    UsernamePasswordAuthenticationToken auth =
+                            new UsernamePasswordAuthenticationToken(
+                                    username,
+                                    null,
+                                    List.of(new SimpleGrantedAuthority(role))
+                            );
+
+                    auth.setDetails(
+                            new WebAuthenticationDetailsSource().buildDetails(request)
+                    );
+
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+
+                    System.out.println("JWT AUTH SUCCESS -> " + username + " | " + role);
                 }
-            } catch (Exception e) {
-                // Token expire ya invalid hone par context clear rakhein
-                SecurityContextHolder.clearContext();
             }
+
+        } catch (Exception e) {
+
+            // IMPORTANT: NEVER THROW 403 OR STOP REQUEST
+            SecurityContextHolder.clearContext();
+
+            System.out.println("JWT AUTH ERROR: " + e.getMessage());
         }
 
+        // ALWAYS CONTINUE CHAIN
         filterChain.doFilter(request, response);
+    }
+
+    // ================= PUBLIC PATHS =================
+    private boolean isPublicPath(String path) {
+        return path.startsWith("/auth/")
+                || path.startsWith("/css/")
+                || path.startsWith("/js/")
+                || path.startsWith("/images/")
+                || path.startsWith("/webjars/")
+                || path.equals("/error")
+                || path.equals("/access-denied")
+                || path.startsWith("/h2-console"); // optional
+    }
+
+    // ================= COOKIE TOKEN =================
+    private String extractTokenFromCookies(HttpServletRequest request) {
+
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null) return null;
+
+        for (Cookie cookie : cookies) {
+            if ("jwtToken".equals(cookie.getName())) {
+                return cookie.getValue();
+            }
+        }
+        return null;
     }
 }
