@@ -1,5 +1,6 @@
 package EmployeeManagementSystem.service;
 
+import EmployeeManagementSystem.dto.SalarySlipDto;
 import EmployeeManagementSystem.entity.Salary;
 import EmployeeManagementSystem.repository.SalaryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class SalaryServiceImpl implements SalaryService {
             Optional<Salary> existing =
                     salaryRepository.findByEmployee_Id(empId);
 
-            // ✅ UPDATE FLOW
+
             if (existing.isPresent()) {
 
                 Salary s = existing.get();
@@ -92,5 +93,32 @@ public class SalaryServiceImpl implements SalaryService {
     @Override
     public List<Salary> getAllSalaries() {
         return salaryRepository.findAll();
+    }
+    public SalarySlipDto getSalarySlipById(Long id) {
+        // 1. Database se salary entity nikali
+        Salary salary = salaryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Salary record not found"));
+
+        // 2. DTO ka object banaya
+        SalarySlipDto dto = new SalarySlipDto();
+
+        // 3. Entity se data nikal kar DTO mein set kiya
+        if (salary.getEmployee() != null) {
+            dto.setEmployeeName(salary.getEmployee().getName()); // Aapki field ke hisab se (e.g., getName() ya getFirstName())
+            dto.setEmployeeId("EMP-" + salary.getEmployee().getId());
+        }
+
+        dto.setBasicSalary(salary.getBasicSalary());
+        dto.setBonus(salary.getBonus());
+        dto.setDeduction(salary.getDeduction());
+
+        // Entity ka net salary formula call kar liya
+        dto.setNetSalary(salary.getNetSalary());
+
+        // Current Month aur Year automatic set karne ke liye
+        java.time.LocalDate today = java.time.LocalDate.now();
+        dto.setMonthYear(today.getMonth().name() + " " + today.getYear());
+
+        return dto;
     }
 }

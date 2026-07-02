@@ -1,5 +1,6 @@
 package EmployeeManagementSystem.service;
 
+import EmployeeManagementSystem.dto.SalarySlipDto;
 import EmployeeManagementSystem.entity.Salary;
 
 import java.util.List;
@@ -17,4 +18,5 @@ public interface SalaryService {
     Salary getSalaryByEmployeeId(Long employeeId);
 
     List<Salary> getAllSalaries();
+    SalarySlipDto getSalarySlipById(Long id);
 }

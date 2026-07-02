@@ -1,23 +1,23 @@
 package EmployeeManagementSystem.controller;
 
+import EmployeeManagementSystem.dto.SalarySlipDto;
 import EmployeeManagementSystem.entity.Employee;
 import EmployeeManagementSystem.entity.Salary;
 import EmployeeManagementSystem.service.EmployeeService;
 import EmployeeManagementSystem.service.SalaryService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/salary")
+@RequiredArgsConstructor
 public class SalaryController {
-
-    @Autowired
-    private SalaryService salaryService;
-
-    @Autowired
-    private EmployeeService employeeService;
+    private final SalaryService salaryService;
+    private final EmployeeService employeeService;
 
     // ================= MAIN PAGE =================
     @GetMapping
@@ -83,5 +83,12 @@ public class SalaryController {
         }
 
         return "redirect:/salary";
+    }
+
+    @GetMapping("/slip/{id}")
+    public String getSalarySlip(@PathVariable Long id,Model model) {
+        SalarySlipDto slipDto=salaryService.getSalarySlipById(id);
+        model.addAttribute("slip",slipDto);
+        return "salary-slip";
     }
 }

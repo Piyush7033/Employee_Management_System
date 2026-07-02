@@ -20,6 +20,5 @@ public class RegisterEmployee {
     private String role;
     private String otp;
     private LocalDateTime otpExpiryTime;
-    @Column(name = "dob")
-    private LocalDate dob;
+
 }

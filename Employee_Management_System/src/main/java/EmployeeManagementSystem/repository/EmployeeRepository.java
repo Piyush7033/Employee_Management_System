@@ -64,4 +64,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     @Query("SELECT e FROM Employee e WHERE e.joiningDate IS NOT NULL")
     List<Employee> findAllWithJoiningDate();
+    // Is month ke saare birthdays nikalne ke liye
+    @Query("SELECT e FROM Employee e WHERE MONTH(e.dateOfBirth) = MONTH(CURRENT_DATE)")
+    List<Employee> findUpcomingBirthdays();
+
+    // WFH employees ke liye
+    List<Employee> findByWorkMode(String workMode); // e.g., "WFH"
 }

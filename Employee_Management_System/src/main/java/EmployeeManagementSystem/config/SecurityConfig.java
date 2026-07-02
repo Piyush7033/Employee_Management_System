@@ -31,11 +31,11 @@ public class SecurityConfig {
                 .httpBasic(basic -> basic.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**","/access-denied","/profile/**").permitAll()
+                        .requestMatchers("/auth/**","/access-denied","/profile/**","/employees/**").permitAll()
                         .requestMatchers("/notifications/**").permitAll()
 //                        .hasAnyAuthority("EMPLOYEE", "ADMIN", "HR", "MANAGER")
                         .requestMatchers("/employee/attendance-tracking").permitAll()
-                        .requestMatchers("/employee/**").hasRole("EMPLOYEE")
+                        .requestMatchers("/employee/**","/salary/slip/**").hasRole("EMPLOYEE")
                         .requestMatchers("/leave/apply", "/leave/submit").authenticated()
                         .requestMatchers("/leave/manage", "/leave/status/**","/timesheet/manage", "/timesheet/status/**","/manager/profile").hasRole("MANAGER")
                         .anyRequest().authenticated()

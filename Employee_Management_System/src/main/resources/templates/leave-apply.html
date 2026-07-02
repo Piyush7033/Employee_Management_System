@@ -1,27 +1,137 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Apply Leave</title>
+    <!-- Google Fonts for Professional Look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background: linear-gradient(135deg, #667eea, #764ba2); min-height: 100vh; color: white; padding-top: 30px; }
-        .box { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(12px); border-radius: 20px; padding: 30px; border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f6f9;
+            min-height: 100vh;
+            color: #333333;
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+        .box {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 32px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+        .section-title {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 24px;
+            font-size: 1.4rem;
+        }
+        .form-label {
+            font-weight: 500;
+            color: #475569;
+            font-size: 0.9rem;
+        }
+        .form-control, .form-select {
+            border: 1px solid #cbd5e1;
+            padding: 10px 14px;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            color: #1e293b;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+        .btn-primary-custom {
+            background-color: #4f46e5;
+            color: white;
+            font-weight: 500;
+            padding: 11px;
+            border-radius: 8px;
+            border: none;
+            transition: all 0.2s ease;
+        }
+        .btn-primary-custom:hover {
+            background-color: #4338ca;
+            color: white;
+        }
+        /* Custom Styling for Professional Table */
+        .table-responsive-custom {
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+        .table {
+            margin-bottom: 0;
+        }
+        .table thead th {
+            background-color: #f8fafc;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            padding: 14px 16px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .table tbody td {
+            padding: 16px;
+            vertical-align: middle;
+            color: #334155;
+            font-size: 0.95rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        .table-hover tbody tr:hover {
+            background-color: #f8fafc;
+        }
+        .badge {
+            padding: 6px 12px;
+            font-weight: 500;
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+        .badge-success-clean { background-color: #dcfce7; color: #15803d; }
+        .badge-danger-clean { background-color: #fee2e2; color: #b91c1c; }
+        .badge-warning-clean { background-color: #fef9c3; color: #a16207; }
+
+        .back-link {
+            color: #64748b;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+        .back-link:hover {
+            color: #4f46e5;
+        }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="row g-4">
+        <!-- Leave Application Form Box -->
         <div class="col-md-5">
             <div class="box">
-                <h3>Apply for Leave</h3>
-                <div th:if="${param.success}" class="alert alert-success bg-success text-white border-0">Leave applied successfully!</div>
+                <h3 class="section-title">Apply for Leave</h3>
+
+                <div th:if="${param.success}" class="alert alert-success border-0 g-2" style="background-color: #dcfce7; color: #15803d; font-size: 0.95rem;">
+                    Leave applied successfully!
+                </div>
+
                 <form th:action="@{/leave/submit}" th:object="${leaveRequest}" method="post">
                     <div class="mb-3">
                         <label class="form-label">Leave Type</label>
                         <select th:field="*{leaveType}" class="form-select" required>
                             <option value="Sick Leave">Sick Leave</option>
                             <option value="Casual Leave">Casual Leave</option>
-                            <option value="Earned Leave">Earned Leave</option>
+                            <option value="Short Leave">Short Leave</option>
+                            <option value="Half Day">Half Day</option>
+                            <option value="Full Day">Full Day</option>
                         </select>
                     </div>
                     <div class="mb-3">
@@ -34,39 +144,50 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Reason</label>
-                        <textarea th:field="*{reason}" class="form-control" rows="3" placeholder="Reason for leave" required></textarea>
+                        <textarea th:field="*{reason}" class="form-control" rows="3" placeholder="Please provide a brief reason..." required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-light w-100 fw-bold">Submit Application</button>
+                    <button type="submit" class="btn btn-primary-custom w-100 shadow-sm">Submit Application</button>
                 </form>
-                <a th:href="@{/employee/dashboard}" class="d-block text-center text-white mt-3 text-decoration-none">← Back to Dashboard</a>
+                <div class="text-center mt-4">
+                    <a th:href="@{/employee/dashboard}" class="back-link text-decoration-none">← Back to Dashboard</a>
+                </div>
             </div>
         </div>
 
+        <!-- Leave History Table Box -->
         <div class="col-md-7">
             <div class="box">
-                <h3>My Leave History</h3>
-                <table class="table table-dark table-striped mt-3">
-                    <thead>
-                    <tr>
-                        <th>Type</th>
-                        <th>From</th>
-                        <th>To</th>
-                        <th>Status</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="leave : ${myLeaves}">
-                        <td th:text="${leave.leaveType}"></td>
-                        <td th:text="${leave.startDate}"></td>
-                        <td th:text="${leave.endDate}"></td>
-                        <td>
+                <h3 class="section-title">My Leave History</h3>
+
+                <div class="table-responsive-custom">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="leave : ${myLeaves}">
+                            <td th:text="${leave.leaveType}" class="fw-medium text-dark"></td>
+                            <td th:text="${leave.startDate}"></td>
+                            <td th:text="${leave.endDate}"></td>
+                            <td>
+                                <!-- Clean professional Badges instead of generic bright bootstrap colors -->
                                 <span th:text="${leave.status}"
-                                      th:classappend="${leave.status == 'APPROVED' ? 'badge bg-success' : (leave.status == 'REJECTED' ? 'badge bg-danger' : 'badge bg-warning text-dark')}">
+                                      th:class="${leave.status == 'APPROVED' ? 'badge badge-success-clean' : (leave.status == 'REJECTED' ? 'badge badge-danger-clean' : 'badge badge-warning-clean')}">
                                 </span>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                            </td>
+                        </tr>
+                        <!-- Fallback empty state handling if no history exists -->
+                        <tr th:if="${#lists.isEmpty(myLeaves)}">
+                            <td colspan="4" class="text-center py-4 text-muted">No leave history found.</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
