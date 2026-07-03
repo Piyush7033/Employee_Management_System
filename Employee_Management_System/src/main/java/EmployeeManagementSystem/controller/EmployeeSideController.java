@@ -3,13 +3,16 @@ package EmployeeManagementSystem.controller;
 import EmployeeManagementSystem.dto.AnniversaryDTO;
 import EmployeeManagementSystem.dto.BirthdayDTO;
 import EmployeeManagementSystem.entity.Employee;
+import EmployeeManagementSystem.entity.Policy;
 import EmployeeManagementSystem.entity.RegisterEmployee;
 import EmployeeManagementSystem.jwt.JwtUtil;
 import EmployeeManagementSystem.service.EmployeeService;
+import EmployeeManagementSystem.service.PolicyService;
 import EmployeeManagementSystem.service.RegisterEmployeeService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +27,7 @@ public class EmployeeSideController {
     private final JwtUtil jwtUtil;
     private final RegisterEmployeeService service;
     private final EmployeeService employeeService;
+    private final PolicyService policyService;
     @GetMapping("/dashboard")
     public String dashboard(HttpServletRequest request, Model model) {
         boolean isLoggedIn = false;
@@ -64,6 +68,13 @@ public class EmployeeSideController {
     @GetMapping("/profile")
     public String profile(){
         return "employee/profile";
+    }
+
+    @GetMapping("/policy")
+    public String viewPolicy(Model model){
+        List<Policy> policies=policyService.getAllPolicy();
+        model.addAttribute("policies",policies);
+        return "policies";
     }
 
 }

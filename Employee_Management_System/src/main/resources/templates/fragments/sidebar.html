@@ -67,6 +67,20 @@
         <li th:classappend="${currentPage == 'timesheet'} ? 'active'">
             <a th:href="@{/timesheet/log}"><i class="fa-solid fa-clock"></i>Timesheet</a>
         </li>
+
+        <!-- POLICY MANAGEMENT -->
+        <li>
+            <button class="dropdown-trigger" type="button" data-bs-toggle="collapse" data-bs-target="#policySubmenu" aria-expanded="false">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Policy</span>
+                <i class="fa-solid fa-chevron-right arrow-icon"></i>
+            </button>
+            <div class="collapse" id="policySubmenu">
+                <ul class="submenu">
+                    <li><a th:href="@{/employee/policy}">View Company Policy</a></li>
+                </ul>
+            </div>
+        </li>
     </ul>
 </aside>
 
