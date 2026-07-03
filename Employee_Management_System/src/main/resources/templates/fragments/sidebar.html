@@ -46,21 +46,6 @@
             </div>
         </li>
 
-        <!-- ATTENDANCE -->
-        <li>
-            <button class="dropdown-trigger" type="button" data-bs-toggle="collapse" data-bs-target="#attendanceSubmenu" aria-expanded="false">
-                <i class="fa-solid fa-calendar-days"></i>
-                <span>Attendance</span>
-                <i class="fa-solid fa-chevron-right arrow-icon"></i>
-            </button>
-            <div class="collapse" id="attendanceSubmenu">
-                <ul class="submenu">
-                    <li><a href="/attendance">Logs Tracker</a></li>
-                    <li><a th:href="@{/employee/attendance-tracking}">Live Tracking Management</a></li>
-                </ul>
-            </div>
-        </li>
-
         <li th:classappend="${currentPage == 'leave'} ? 'active'">
             <a th:href="@{/leave/apply}"><i class="fa-solid fa-envelope-open"></i>Leave</a>
         </li>
