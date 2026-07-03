@@ -3,7 +3,6 @@ package EmployeeManagementSystem.service;
 import EmployeeManagementSystem.dto.AnniversaryDTO;
 import EmployeeManagementSystem.dto.BirthdayDTO;
 import EmployeeManagementSystem.entity.Employee;
-import EmployeeManagementSystem.entity.RegisterEmployee;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -33,6 +32,12 @@ public interface EmployeeService {
     long totalEmployees();
 
 
+
     List<BirthdayDTO> getUpcomingBirthdays();
     List<AnniversaryDTO> getUpcomingAnniversaries();
+
+
+//    public static List<Employee> getAllEmployees() {
+//        return EmployeeRepository.findAll();
+//    }
 }
