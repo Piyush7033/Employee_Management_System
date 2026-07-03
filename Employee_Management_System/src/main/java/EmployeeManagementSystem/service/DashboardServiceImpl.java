@@ -102,10 +102,7 @@ public class DashboardServiceImpl implements DashboardService {
 
             AnniversaryDTO dto = new AnniversaryDTO();
             dto.setName(e.getName());
-
-            // ✅ FIX: add joining date
             dto.setJoiningDate(e.getJoiningDate());
-
             dto.setRemainingDays(days);
             dto.setNextDate(nextAnniversary);
 
@@ -113,10 +110,8 @@ public class DashboardServiceImpl implements DashboardService {
         }
 
         list.sort(Comparator.comparingLong(AnniversaryDTO::getRemainingDays));
-
         return list;
     }
-
     // ================= RAW METHODS (FIXED - SIMPLE & SAFE) =================
     @Override
     public List<Employee> getUpcomingBirthdaysRaw() {

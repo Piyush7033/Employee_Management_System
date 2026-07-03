@@ -111,7 +111,7 @@ public class EmployeeController {
 
         Employee employee = employeeService.getEmployeeById(id);
 
-        // SAFE: avoid null salary reference
+
         if (employee.getSalaryDetails() == null) {
             employee.setSalaryDetails(new Salary());
         }
