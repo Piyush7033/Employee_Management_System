@@ -7,7 +7,7 @@ import EmployeeManagementSystem.entity.Policy;
 import EmployeeManagementSystem.entity.RegisterEmployee;
 import EmployeeManagementSystem.jwt.JwtUtil;
 import EmployeeManagementSystem.service.EmployeeService;
-import EmployeeManagementSystem.service.PolicyService;
+//import EmployeeManagementSystem.service.PolicyService;
 import EmployeeManagementSystem.service.RegisterEmployeeService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,7 +27,7 @@ public class EmployeeSideController {
     private final JwtUtil jwtUtil;
     private final RegisterEmployeeService service;
     private final EmployeeService employeeService;
-    private final PolicyService policyService;
+//    private final PolicyService policyService;
     @GetMapping("/dashboard")
     public String dashboard(HttpServletRequest request, Model model) {
         boolean isLoggedIn = false;
@@ -70,11 +70,11 @@ public class EmployeeSideController {
         return "employee/profile";
     }
 
-    @GetMapping("/policy")
-    public String viewPolicy(Model model){
-        List<Policy> policies=policyService.getAllPolicy();
-        model.addAttribute("policies",policies);
-        return "policies";
-    }
+//    @GetMapping("/policy")
+//    public String viewPolicy(Model model){
+//        List<Policy> policies=policyService.getAllPolicy();
+//        model.addAttribute("policies",policies);
+//        return "policies";
+//    }
 
 }
