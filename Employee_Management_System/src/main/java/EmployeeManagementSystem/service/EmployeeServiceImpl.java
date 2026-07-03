@@ -1,5 +1,7 @@
 package EmployeeManagementSystem.service;
 
+import EmployeeManagementSystem.dto.AnniversaryDTO;
+import EmployeeManagementSystem.dto.BirthdayDTO;
 import EmployeeManagementSystem.entity.Employee;
 import EmployeeManagementSystem.entity.Salary;
 import EmployeeManagementSystem.repository.EmployeeRepository;
@@ -7,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -18,41 +23,35 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee saveEmployee(Employee employee) {
 
-
         if (employee.getSalaryDetails() != null) {
             employee.getSalaryDetails().setEmployee(employee);
         }
 
         if (employee.getAttendanceList() != null) {
-            employee.getAttendanceList()
-                    .forEach(a -> a.setEmployee(employee));
+            employee.getAttendanceList().forEach(a -> a.setEmployee(employee));
         }
 
         return employeeRepository.save(employee);
     }
 
-    // ================= UPDATE (FIXED LOGIC) =================
     @Override
     public Employee updateEmployee(Long id, Employee employee) {
 
         Employee existing = employeeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
 
-        // basic fields update
         existing.setName(employee.getName());
         existing.setEmail(employee.getEmail());
         existing.setPhone(employee.getPhone());
         existing.setJoiningDate(employee.getJoiningDate());
         existing.setDepartment(employee.getDepartment());
 
-        // ================= SALARY FIX (IMPORTANT) =================
         if (employee.getSalaryDetails() != null) {
 
             Salary newSalary = employee.getSalaryDetails();
 
             if (existing.getSalaryDetails() != null) {
 
-                // 🔥 UPDATE EXISTING SALARY (NO INSERT → FIX DUPLICATE ERROR)
                 Salary existingSalary = existing.getSalaryDetails();
 
                 existingSalary.setBasicSalary(newSalary.getBasicSalary());
@@ -61,13 +60,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
             } else {
 
-                // 🔥 FIRST TIME SALARY INSERT
                 newSalary.setEmployee(existing);
                 existing.setSalaryDetails(newSalary);
             }
         }
 
-        // ================= ATTENDANCE UPDATE =================
         if (employee.getAttendanceList() != null) {
 
             existing.getAttendanceList().clear();
@@ -81,7 +78,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.save(existing);
     }
 
-    // ================= DELETE =================
     @Override
     public void deleteEmployee(Long id) {
         Employee emp = employeeRepository.findById(id)
@@ -89,20 +85,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepository.delete(emp);
     }
 
-    // ================= GET BY ID =================
     @Override
     public Employee getEmployeeById(Long id) {
         return employeeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Not found"));
     }
 
-    // ================= LIST =================
     @Override
     public List<Employee> getAllEmployeesList() {
         return employeeRepository.findAll();
     }
 
-    // ================= PAGINATION =================
     @Override
     public Page<Employee> getAllEmployees(int pageNo, int pageSize, String sortBy) {
 
@@ -115,7 +108,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findAll(pageable);
     }
 
-    // ================= SEARCH =================
     @Override
     public Page<Employee> searchEmployee(String keyword, Pageable pageable) {
         return employeeRepository.searchAll(keyword, pageable);
@@ -135,21 +127,73 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
 
-
     @Override
-    public List<Employee> getUpcomingBirthdays() {
+    public List<BirthdayDTO> getUpcomingBirthdays() {
+
+        LocalDate today = LocalDate.now();
+
         return employeeRepository.findAll()
                 .stream()
-                .filter(e -> e.getDateOfBirth() != null)
+                .filter(emp -> emp.getDateOfBirth() != null)
+                .map(emp -> {
+
+                    LocalDate nextBirthday = emp.getDateOfBirth().withYear(today.getYear());
+
+                    if (nextBirthday.isBefore(today)) {
+                        nextBirthday = nextBirthday.plusYears(1);
+                    }
+
+                    long days = ChronoUnit.DAYS.between(today, nextBirthday);
+
+                    BirthdayDTO dto = new BirthdayDTO();
+                    dto.setName(emp.getName());
+                    dto.setDateOfBirth(emp.getDateOfBirth());
+                    dto.setRemainingDays(days);
+                    dto.setNextDate(nextBirthday);
+
+                    return dto;
+                })
+                .sorted(Comparator.comparingLong(BirthdayDTO::getRemainingDays))
                 .limit(5)
                 .toList();
     }
 
+//    @Override
+//    public List<Employee> getUpcomingAnniversaries() {
+//        return employeeRepository.findAll()
+//                .stream()
+//                .filter(e -> e.getJoiningDate() != null)
+//                .limit(5)
+//                .toList();
+//    }
+
     @Override
-    public List<Employee> getUpcomingAnniversaries() {
+    public List<AnniversaryDTO> getUpcomingAnniversaries() {
+
+        LocalDate today = LocalDate.now();
+
         return employeeRepository.findAll()
                 .stream()
-                .filter(e -> e.getJoiningDate() != null)
+                .filter(emp -> emp.getJoiningDate() != null)
+                .map(emp -> {
+
+                    LocalDate nextAnniversary = emp.getJoiningDate().withYear(today.getYear());
+
+                    if (nextAnniversary.isBefore(today)) {
+                        nextAnniversary = nextAnniversary.plusYears(1);
+                    }
+
+                    long days = ChronoUnit.DAYS.between(today, nextAnniversary);
+
+                    AnniversaryDTO dto = new AnniversaryDTO();
+                    dto.setName(emp.getName());
+                    dto.setJoiningDate(emp.getJoiningDate());
+                    dto.setRemainingDays(days);
+                    dto.setNextDate(nextAnniversary);
+
+                    return dto;
+                })
+                .sorted(Comparator.comparingLong(AnniversaryDTO::getRemainingDays))
                 .limit(5)
                 .toList();
     }

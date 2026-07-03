@@ -26,6 +26,10 @@ public class Employee {
 
     @Column(nullable = false)
     private LocalDate dateOfBirth;
+    @Transient
+    private long daysLeft;
+    @Transient
+    private String remainingText;
 
     @Column(unique = true)
     private String email;

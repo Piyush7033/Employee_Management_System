@@ -1,0 +1,74 @@
+<!-- src/main/resources/templates/fragments/sidebar.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Is file ko direct render nahi karna hai, isliye styles layout me rahenge -->
+</head>
+<body>
+
+<aside th:fragment="sidebar-component" class="sidebar">
+    <div class="sidebar-brand">
+        <a th:href="@{/employee/dashboard}">
+            <i class="fa-solid fa-square-poll-horizontal text-primary"></i> BlueThink Inc.
+        </a>
+    </div>
+    <ul class="sidebar-menu">
+        <!-- th:classappend lagaya hai taaki jis page par ho wo active dikhe -->
+        <li th:classappend="${currentPage == 'dashboard'} ? 'active'">
+            <a th:href="@{/employee/dashboard}"><i class="fa-solid fa-chart-simple"></i>Dashboard</a>
+        </li>
+
+        <!-- PROFILE -->
+        <li>
+            <button class="dropdown-trigger" type="button" data-bs-toggle="collapse" data-bs-target="#profileSubmenu" aria-expanded="false">
+                <i class="fa-solid fa-user"></i>
+                <span>Profile Management</span>
+                <i class="fa-solid fa-chevron-right arrow-icon"></i>
+            </button>
+            <div class="collapse" id="profileSubmenu">
+                <ul class="submenu">
+                    <li><a th:href="@{/profile/view}">View Profile</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <!-- SALARY -->
+        <li>
+            <button class="dropdown-trigger" type="button" data-bs-toggle="collapse" data-bs-target="#salarySubmenu" aria-expanded="false">
+                <i class="fa-solid fa-wallet"></i>
+                <span>Salary Management</span>
+                <i class="fa-solid fa-chevron-right arrow-icon"></i>
+            </button>
+            <div class="collapse" id="salarySubmenu">
+                <ul class="submenu">
+                    <li><a th:href="@{/salary/slip/{id}(id=${loggedInEmpId})}">View Salary</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <!-- ATTENDANCE -->
+        <li>
+            <button class="dropdown-trigger" type="button" data-bs-toggle="collapse" data-bs-target="#attendanceSubmenu" aria-expanded="false">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span>Attendance</span>
+                <i class="fa-solid fa-chevron-right arrow-icon"></i>
+            </button>
+            <div class="collapse" id="attendanceSubmenu">
+                <ul class="submenu">
+                    <li><a href="/attendance">Logs Tracker</a></li>
+                    <li><a th:href="@{/employee/attendance-tracking}">Live Tracking Management</a></li>
+                </ul>
+            </div>
+        </li>
+
+        <li th:classappend="${currentPage == 'leave'} ? 'active'">
+            <a th:href="@{/leave/apply}"><i class="fa-solid fa-envelope-open"></i>Leave</a>
+        </li>
+        <li th:classappend="${currentPage == 'timesheet'} ? 'active'">
+            <a th:href="@{/timesheet/log}"><i class="fa-solid fa-clock"></i>Timesheet</a>
+        </li>
+    </ul>
+</aside>
+
+</body>
+</html>

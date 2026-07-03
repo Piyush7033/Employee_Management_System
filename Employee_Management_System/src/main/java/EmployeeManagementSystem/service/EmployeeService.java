@@ -1,5 +1,7 @@
 package EmployeeManagementSystem.service;
 
+import EmployeeManagementSystem.dto.AnniversaryDTO;
+import EmployeeManagementSystem.dto.BirthdayDTO;
 import EmployeeManagementSystem.entity.Employee;
 import EmployeeManagementSystem.entity.RegisterEmployee;
 import org.springframework.data.domain.Page;
@@ -31,6 +33,6 @@ public interface EmployeeService {
     long totalEmployees();
 
 
-    List<Employee> getUpcomingBirthdays();
-    List<Employee> getUpcomingAnniversaries();
+    List<BirthdayDTO> getUpcomingBirthdays();
+    List<AnniversaryDTO> getUpcomingAnniversaries();
 }

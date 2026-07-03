@@ -15,9 +15,6 @@ public class SalaryServiceImpl implements SalaryService {
     @Autowired
     private SalaryRepository salaryRepository;
 
-    // =========================
-    // SAVE OR UPDATE (FIXED)
-    // =========================
     @Override
     public Salary saveSalary(Salary salary) {
 
@@ -41,30 +38,19 @@ public class SalaryServiceImpl implements SalaryService {
                 return salaryRepository.save(s);
             }
         }
-
-        // ✅ INSERT FLOW
         return salaryRepository.save(salary);
     }
 
-    // =========================
-    // GET BY ID
-    // =========================
     @Override
     public Salary getSalaryById(Long id) {
         return salaryRepository.findById(id).orElse(null);
     }
 
-    // =========================
-    // DELETE
-    // =========================
     @Override
     public void deleteSalary(Long id) {
         salaryRepository.deleteById(id);
     }
 
-    // =========================
-    // NET SALARY
-    // =========================
     @Override
     public Double calculateNetSalary(Long id) {
 
@@ -78,33 +64,24 @@ public class SalaryServiceImpl implements SalaryService {
         return basic + bonus - deduction;
     }
 
-    // =========================
-    // GET BY EMPLOYEE ID
-    // =========================
     @Override
     public Salary getSalaryByEmployeeId(Long employeeId) {
         return salaryRepository.findByEmployee_Id(employeeId)
                 .orElse(null);
     }
 
-    // =========================
-    // GET ALL
-    // =========================
     @Override
     public List<Salary> getAllSalaries() {
         return salaryRepository.findAll();
     }
     public SalarySlipDto getSalarySlipById(Long id) {
-        // 1. Database se salary entity nikali
         Salary salary = salaryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Salary record not found"));
 
-        // 2. DTO ka object banaya
         SalarySlipDto dto = new SalarySlipDto();
 
-        // 3. Entity se data nikal kar DTO mein set kiya
         if (salary.getEmployee() != null) {
-            dto.setEmployeeName(salary.getEmployee().getName()); // Aapki field ke hisab se (e.g., getName() ya getFirstName())
+            dto.setEmployeeName(salary.getEmployee().getName());
             dto.setEmployeeId("EMP-" + salary.getEmployee().getId());
         }
 
@@ -112,10 +89,8 @@ public class SalaryServiceImpl implements SalaryService {
         dto.setBonus(salary.getBonus());
         dto.setDeduction(salary.getDeduction());
 
-        // Entity ka net salary formula call kar liya
         dto.setNetSalary(salary.getNetSalary());
 
-        // Current Month aur Year automatic set karne ke liye
         java.time.LocalDate today = java.time.LocalDate.now();
         dto.setMonthYear(today.getMonth().name() + " " + today.getYear());
 
