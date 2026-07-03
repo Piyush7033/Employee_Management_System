@@ -433,12 +433,15 @@ body {
             <li>
                 <button class="dropdown-trigger" type="button" data-bs-toggle="collapse" data-bs-target="#profileSubmenu" aria-expanded="false">
                     <i class="fa-solid fa-user"></i>
-                    <span>Profile Management</span>
+                    <span>Employee Management</span>
                     <i class="fa-solid fa-chevron-right arrow-icon"></i>
                 </button>
                 <div class="collapse" id="profileSubmenu">
                     <ul class="submenu">
-                        <li><a th:href="@{/profile/view}">View Profile</a></li>
+                        <li><a th:href="@{/profile/view}">Add Employee</a></li>
+                        <li><a th:href="@{/admin/employees}">Employee List</a></li>
+                        <li><a th:href="@{/admin/all-profiles-as-employees}">Employee Profile</a></li>
+
                     </ul>
 
                     <a th:href="@{/admin/employees}">

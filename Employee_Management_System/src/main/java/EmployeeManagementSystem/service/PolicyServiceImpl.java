@@ -19,12 +19,6 @@
 //    public Policy getPolicyById(Long id){
 //        return policyRepository.findById(id).orElse(null);
 //    }
-//
-//    @Override
-//    public List<Policy> getPoliciesByCategory(String category) {
-//        return List.of();
-//    }
-//
 //    @Override
 //    public List<Policy> grtPoliciesByCategory(String category){
 //        return policyRepository.

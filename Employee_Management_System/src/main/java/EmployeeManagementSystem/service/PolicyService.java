@@ -8,6 +8,4 @@
 //    List<Policy> getAllPolicy();
 //    Policy getPolicyById(Long id);
 //    List<Policy> getPoliciesByCategory(String category);
-//
-//    List<Policy> grtPoliciesByCategory(String category);
 //}
