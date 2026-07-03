@@ -1,13 +1,18 @@
 package EmployeeManagementSystem.controller;
 
+import EmployeeManagementSystem.dto.AnniversaryDTO;
+import EmployeeManagementSystem.dto.BirthdayDTO;
 import EmployeeManagementSystem.entity.Employee;
+import EmployeeManagementSystem.entity.Policy;
 import EmployeeManagementSystem.entity.RegisterEmployee;
 import EmployeeManagementSystem.jwt.JwtUtil;
 import EmployeeManagementSystem.service.EmployeeService;
+import EmployeeManagementSystem.service.PolicyService;
 import EmployeeManagementSystem.service.RegisterEmployeeService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,11 +27,12 @@ public class EmployeeSideController {
     private final JwtUtil jwtUtil;
     private final RegisterEmployeeService service;
     private final EmployeeService employeeService;
+    private final PolicyService policyService;
     @GetMapping("/dashboard")
     public String dashboard(HttpServletRequest request, Model model) {
         boolean isLoggedIn = false;
         String employeeName = "DASHBOARD";
-        Long loggedInEmpId = null; // ID store karne ke liye naya variable banaya (Agar aapki ID String hai to String rakhein)
+        Long loggedInEmpId = null;
 
         Cookie[] cookies = request.getCookies();
 
@@ -39,22 +45,21 @@ public class EmployeeSideController {
 
                     if (emp != null) {
                         employeeName = emp.getName();
-                        loggedInEmpId = Long.valueOf(emp.getId()); // ✨ YAHAAN SE SAHI ID MILI!
+                        loggedInEmpId = Long.valueOf(emp.getId());
                     }
                     break;
                 }
             }
         }
 
-        List<Employee> birthdayEmployee = employeeService.getUpcomingBirthdays();
-        List<Employee> upcomingAnniversaries = employeeService.getUpcomingAnniversaries();
+        List<BirthdayDTO> birthdayEmployee = employeeService.getUpcomingBirthdays();
+        List<AnniversaryDTO> upcomingAnniversaries = employeeService.getUpcomingAnniversaries();
 
         model.addAttribute("isUserLoggedIn", isLoggedIn);
         model.addAttribute("loggedInEmpName", employeeName);
-        model.addAttribute("birthdays", birthdayEmployee); // HTML ke hisab se name 'birthdays' rakha
-        model.addAttribute("anniversaries", upcomingAnniversaries); // HTML ke hisab se name 'anniversaries' rakha
+        model.addAttribute("birthdayList", birthdayEmployee);
+        model.addAttribute("anniversaryList", upcomingAnniversaries);
 
-        // ✨ HTML ke variable name (loggedInEmpId) se match karta hua attribute bheja
         model.addAttribute("loggedInEmpId", loggedInEmpId);
 
         return "employeeside-dashboard";
@@ -63,6 +68,13 @@ public class EmployeeSideController {
     @GetMapping("/profile")
     public String profile(){
         return "employee/profile";
+    }
+
+    @GetMapping("/policy")
+    public String viewPolicy(Model model){
+        List<Policy> policies=policyService.getAllPolicy();
+        model.addAttribute("policies",policies);
+        return "policies";
     }
 
 }

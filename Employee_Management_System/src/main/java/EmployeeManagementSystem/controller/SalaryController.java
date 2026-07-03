@@ -72,7 +72,6 @@ public class SalaryController {
         return "salary-view";
     }
 
-
     @GetMapping("/delete/{employeeId}")
     public String deleteSalary(@PathVariable Long employeeId) {
 
@@ -81,7 +80,6 @@ public class SalaryController {
         if (salary != null) {
             salaryService.deleteSalary(salary.getId());
         }
-
         return "redirect:/salary";
     }
 

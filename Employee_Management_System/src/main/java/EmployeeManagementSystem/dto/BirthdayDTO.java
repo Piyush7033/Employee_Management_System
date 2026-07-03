@@ -14,7 +14,6 @@ public class BirthdayDTO {
     private String name;
     private LocalDate dateOfBirth;
 
-    // unified naming (IMPORTANT)
     private long remainingDays;
 
     private LocalDate nextDate;

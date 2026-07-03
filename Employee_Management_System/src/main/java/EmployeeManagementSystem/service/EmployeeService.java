@@ -1,5 +1,7 @@
 package EmployeeManagementSystem.service;
 
+import EmployeeManagementSystem.dto.AnniversaryDTO;
+import EmployeeManagementSystem.dto.BirthdayDTO;
 import EmployeeManagementSystem.entity.Employee;
 import EmployeeManagementSystem.entity.RegisterEmployee;
 import EmployeeManagementSystem.repository.EmployeeRepository;
@@ -32,11 +34,13 @@ public interface EmployeeService {
     long totalEmployees();
 
 
-    List<Employee> getUpcomingBirthdays();
-    List<Employee> getUpcomingAnniversaries();
+//    List<Employee> getUpcomingBirthdays();
+//    List<Employee> getUpcomingAnniversaries();
 
 
 //    public static List<Employee> getAllEmployees() {
 //        return EmployeeRepository.findAll();
 //    }
+    List<BirthdayDTO> getUpcomingBirthdays();
+    List<AnniversaryDTO> getUpcomingAnniversaries();
 }
