@@ -2,9 +2,16 @@ package EmployeeManagementSystem.controller;
 
 import EmployeeManagementSystem.dto.DashboardStatsDTO;
 import EmployeeManagementSystem.entity.Activity;
+import EmployeeManagementSystem.entity.Employee;
+import EmployeeManagementSystem.entity.EmployeeProfile;
+import EmployeeManagementSystem.repository.EmployeeProfileRepository;
+import EmployeeManagementSystem.repository.EmployeeRepository;
 import EmployeeManagementSystem.service.ActivityService;
 import EmployeeManagementSystem.service.DashboardService;
+import EmployeeManagementSystem.service.EmployeeProfileService;
+import EmployeeManagementSystem.service.EmployeeService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +24,17 @@ import java.util.List;
 @RequestMapping("/admin")
 @Slf4j
 public class AdminController {
+
+
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private EmployeeProfileRepository employeeProfileRepository;
+
+    @Autowired
+    private  EmployeeProfileService employeeProfileService;
 
     private final ActivityService activityService;
     private final DashboardService dashboardService;
@@ -75,5 +93,30 @@ public class AdminController {
         model.addAttribute("hasPrevious", activityPage.hasPrevious());
 
         return "admin-dashboard";
+    }
+
+
+    @GetMapping("/employees")
+    public String showAllEmployees(Model model) {
+
+        System.out.println("CONTROLLER HIT");
+
+        List<Employee> employees = employeeRepository.findAll();
+        model.addAttribute("employees", employees);
+
+        return "admin/employees";
+    }
+
+    @GetMapping("/all-profiles-as-employees")
+    public String showEmployeesFromProfile(Model model) {
+
+        System.out.println("===== CONTROLLER HIT =====");
+
+        List<EmployeeProfile> profiles =
+                employeeProfileService.getAllProfiles();
+
+        model.addAttribute("profiles", profiles);
+
+        return "admin/all-employees";
     }
 }

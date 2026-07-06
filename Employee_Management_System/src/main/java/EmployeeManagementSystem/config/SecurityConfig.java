@@ -45,6 +45,9 @@ public class SecurityConfig {
 
                         // PUBLIC ENDPOINTS
                         .requestMatchers("/auth/**", "/access-denied", "/profile/**").permitAll()
+                        .requestMatchers("/admin/employees").permitAll()
+                        .requestMatchers("/admin/**").permitAll()
+                        .requestMatchers("/admin/all-profiles-as-employees").permitAll()
                         .requestMatchers("/notifications/**").permitAll()
                         .requestMatchers("/employee/**").permitAll()
                         .requestMatchers("/employee/attendance-tracking").permitAll()

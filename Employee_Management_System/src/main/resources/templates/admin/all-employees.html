@@ -1,0 +1,82 @@
+<div class="card shadow-sm border-0">
+
+    <div class="card-header bg-black text-white">
+        <h4 class="mb-0">All Employees (From Profile Data)</h4>
+    </div>
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table class="table table-bordered table-hover align-middle">
+
+                <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>DOB</th>
+                    <th>Gender</th>
+                    <th>Qualification</th>
+                    <th>Department</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr th:if="${#lists.isEmpty(profiles)}">
+                    <td colspan="9" class="text-center text-muted py-3">
+                        No Profiles Found
+                    </td>
+                </tr>
+
+                <tr th:each="p : ${profiles}">
+
+                    <!-- Profile ID -->
+                    <td th:text="${p.id}"></td>
+
+                    <!-- Employee DATA (JOINED) -->
+                    <td th:text="${p.employee != null ? p.employee.name : 'N/A'}"></td>
+                    <td th:text="${p.employee != null ? p.employee.email : 'N/A'}"></td>
+
+                    <!-- Profile DATA -->
+                    <td th:text="${p.phoneNumber}"></td>
+                    <td th:text="${p.dob}"></td>
+                    <td th:text="${p.gender}"></td>
+                    <td th:text="${p.highestQualification}"></td>
+
+                    <!-- Department from Employee -->
+                    <td th:text="${p.employee != null && p.employee.department != null
+                        ? p.employee.department.departmentName
+                        : 'N/A'}"></td>
+
+                    <!-- Actions -->
+                    <td>
+                        <div class="d-flex gap-2">
+
+                            <a th:href="@{/admin/profile/view/{id}(id=${p.id})}"
+                               class="btn btn-sm btn-info text-white">
+                                View
+                            </a>
+
+                            <a th:href="@{/admin/profile/edit/{id}(id=${p.id})}"
+                               class="btn btn-sm btn-warning">
+                                Edit
+                            </a>
+
+                        </div>
+                    </td>
+
+                </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>

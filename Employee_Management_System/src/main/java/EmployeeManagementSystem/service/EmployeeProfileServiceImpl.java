@@ -5,6 +5,8 @@ import EmployeeManagementSystem.repository.EmployeeProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class EmployeeProfileServiceImpl implements EmployeeProfileService{
@@ -20,5 +22,10 @@ public class EmployeeProfileServiceImpl implements EmployeeProfileService{
     }
         profile.setUserId(userId);
     repository.save(profile);
+    }
+
+    @Override
+    public List<EmployeeProfile> getAllProfiles() {
+        return repository.findAll();
     }
 }

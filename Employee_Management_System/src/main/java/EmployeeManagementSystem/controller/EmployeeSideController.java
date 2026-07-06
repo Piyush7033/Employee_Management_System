@@ -9,6 +9,9 @@ import EmployeeManagementSystem.jwt.JwtUtil;
 import EmployeeManagementSystem.repository.LeaveRepository;
 import EmployeeManagementSystem.repository.WfhRequestRepository;
 import EmployeeManagementSystem.service.*;
+import EmployeeManagementSystem.service.EmployeeService;
+//import EmployeeManagementSystem.service.PolicyService;
+import EmployeeManagementSystem.service.RegisterEmployeeService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +41,7 @@ public class EmployeeSideController {
     private final LeaveService leaveService;
     private final WfhRequestRepository wfhRequestRepository;
     private final LeaveRepository leaveRepository;
+//    private final PolicyService policyService;
     @GetMapping("/dashboard")
     public String dashboard(HttpServletRequest request, Model model) {
         boolean isLoggedIn = false;
@@ -111,5 +115,11 @@ public class EmployeeSideController {
         model.addAttribute("policies",policies);
         return "policies";
     }
+//    @GetMapping("/policy")
+//    public String viewPolicy(Model model){
+//        List<Policy> policies=policyService.getAllPolicy();
+//        model.addAttribute("policies",policies);
+//        return "policies";
+//    }
 
 }
