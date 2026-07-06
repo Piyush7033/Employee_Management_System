@@ -1,10 +1,13 @@
 package EmployeeManagementSystem.entity;
 
+import EmployeeManagementSystem.enums.AttendanceStatus;
+import EmployeeManagementSystem.enums.WorkMode;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -15,11 +18,26 @@ public class Attendance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private LocalDate date;
+    // Attendance Date
+    private LocalDate attendanceDate;
 
-    @Column(nullable = false)
-    private String status;
+    // Punch In
+    private LocalTime checkInTime;
+
+    // Punch Out
+    private LocalTime checkOutTime;
+
+    // Working Hours
+    private Double workingHours;
+
+    // Attendance Status
+    @Enumerated(EnumType.STRING)
+    private AttendanceStatus status;
+
+    @Enumerated(EnumType.STRING)
+    private WorkMode workMode;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id", nullable = false)

@@ -19,8 +19,8 @@ public class PolicyServiceImpl implements PolicyService{
     public Policy getPolicyById(Long id){
         return policyRepository.findById(id).orElse(null);
     }
-    @Override
-    public List<Policy> grtPoliciesByCategory(String category){
-        return policyRepository.
-    }
+//    @Override
+//    public List<Policy> grtPoliciesByCategory(String category){
+//        return policyRepository.
+//    }
 }

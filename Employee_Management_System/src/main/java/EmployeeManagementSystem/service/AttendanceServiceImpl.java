@@ -2,17 +2,22 @@ package EmployeeManagementSystem.service;
 
 
 import EmployeeManagementSystem.entity.Attendance;
+import EmployeeManagementSystem.entity.WfhRequest;
+import EmployeeManagementSystem.enums.WorkMode;
 import EmployeeManagementSystem.repository.AttendanceRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AttendanceServiceImpl implements AttendanceService {
     //just for trail
-    @Autowired
-    private AttendanceRepository attendanceRepository;
+    private final AttendanceRepository attendanceRepository;
+
 
     @Override
     public Attendance saveAttendance(Attendance attendance) {
@@ -40,4 +45,19 @@ public class AttendanceServiceImpl implements AttendanceService {
 
         attendanceRepository.deleteById(id);
     }
+    public List<Attendance> getTodayAttendance() {
+        return attendanceRepository.findByAttendanceDate(LocalDate.now());
+    }
+
+    public List<Attendance> getTodayWFHEmployees() {
+
+        return attendanceRepository
+                .findByAttendanceDateAndWorkMode(
+                        LocalDate.now(),
+                        WorkMode.WFH
+                );
+
+    }
+
+
 }

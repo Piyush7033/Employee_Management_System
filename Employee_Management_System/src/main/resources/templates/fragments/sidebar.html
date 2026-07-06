@@ -53,6 +53,11 @@
             <a th:href="@{/timesheet/log}"><i class="fa-solid fa-clock"></i>Timesheet</a>
         </li>
 
+        <!-- WORK FROM HOME (NEW ADDITION) -->
+        <li th:classappend="${currentPage == 'wfh'} ? 'active'">
+            <a th:href="@{/employee/wfh/apply}"><i class="fa-solid fa-house-laptop"></i>Work From Home</a>
+        </li>
+
         <!-- POLICY MANAGEMENT -->
         <li>
             <button class="dropdown-trigger" type="button" data-bs-toggle="collapse" data-bs-target="#policySubmenu" aria-expanded="false">
