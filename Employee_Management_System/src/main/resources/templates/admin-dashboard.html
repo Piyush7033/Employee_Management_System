@@ -3,498 +3,225 @@
 
 <head>
     <title>Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
+    <!-- Font Awesome 6 -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
     <style>
-
         :root {
-    --sidebar-bg: #000000;
-    --sidebar-hover: #222222;
-    --sidebar-submenu-bg: #111111;
-    --bg-main: #f8fafc;
-    --border-color: #e2e8f0;
-    --text-main: #0f172a;
-    --text-muted: #64748b;
-    --primary-color: #0ea5e9;
-}
-
-/* ================= BASE ================= */
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    margin: 0;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background-color: var(--bg-main);
-    color: var(--text-main);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-/* ================= LAYOUT ================= */
-
-.dashboard-container {
-    display: flex;
-    min-height: 100vh;
-}
-
-/* ================= SIDEBAR ================= */
-
-.sidebar {
-    width: 260px;
-    background: #000;
-    color: #fff;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    z-index: 1000;
-}
-
-/* Brand */
-
-.sidebar-brand {
-    padding: 24px;
-    font-size: 18px;
-    font-weight: 700;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-
-.sidebar-brand a {
-    color: #fff;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-/* Menu */
-
-.sidebar-menu {
-    list-style: none;
-    padding: 20px 12px;
-    margin: 0;
-    flex-grow: 1;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: #444 transparent;
-}
-
-.sidebar-menu::-webkit-scrollbar {
-    width: 6px;
-}
-
-.sidebar-menu::-webkit-scrollbar-thumb {
-    background: #444;
-    border-radius: 10px;
-}
-
-.sidebar-menu li {
-    margin-bottom: 6px;
-}
-
-/* Links + Dropdown Buttons */
-
-.sidebar-menu a,
-.sidebar-menu .dropdown-trigger {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: 12px 16px;
-    border: none;
-    border-radius: 8px;
-    background: transparent;
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    text-align: left;
-    transition: all 0.25s ease;
-}
-
-/* Icons */
-
-.sidebar-menu a i,
-.sidebar-menu .dropdown-trigger i:first-child {
-    width: 20px;
-    margin-right: 12px;
-    font-size: 16px;
-    color: #ffffff;
-}
-
-/* Hover */
-
-.sidebar-menu a:hover,
-.sidebar-menu .dropdown-trigger:hover {
-    background: var(--sidebar-hover);
-    color: #fff;
-}
-
-/* Active Menu */
-
-.sidebar-menu li.active > a {
-    background: #111;
-    color: #fff;
-    border-left: 4px solid var(--primary-color);
-}
-
-/* Arrow */
-
-.arrow-icon {
-    margin-left: auto;
-    font-size: 11px;
-    transition: transform 0.3s ease;
-}
-
-.dropdown-trigger[aria-expanded="true"] .arrow-icon {
-    transform: rotate(90deg);
-}
-
-/* ================= SUBMENU ================= */
-
-.submenu {
-    list-style: none;
-    padding: 0;
-    margin: 5px 0;
-    background: var(--sidebar-submenu-bg);
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.submenu li {
-    margin: 0;
-}
-
-.submenu a {
-    display: block;
-    padding: 10px 16px 10px 48px;
-    color: #ffffff;
-    font-size: 13px;
-    text-decoration: none;
-    transition: 0.25s;
-}
-
-.submenu a:hover {
-    background: #222;
-    color: #fff;
-}
-
-/* Collapse content links */
-
-.collapse > a {
-    display: flex;
-    align-items: center;
-    padding: 10px 16px;
-    color: #ffffff;
-    text-decoration: none;
-    border-radius: 8px;
-    transition: 0.25s;
-}
-
-.collapse > a:hover {
-    background: #222;
-}
-
-.collapse > a i {
-    margin-right: 12px;
-}
-
-/* Responsive */
-
-@media (max-width: 768px) {
-    .sidebar {
-        width: 240px;
-    }
-}
-
-
-/* ================= MAIN CONTENT ================= */
-.main-content {
-    margin-left: 260px;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-/* TOP BAR */
-.top-navbar {
-    background-color: #fff;
-    border-bottom: 1px solid var(--border-color);
-    padding: 16px 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.page-title h2 {
-    font-size: 20px;
-    font-weight: 600;
-    margin: 0;
-    color: var(--text-main);
-}
-
-/* CONTENT */
-.content-body {
-    padding: 40px;
-}
-
-/* ================= STAT CARDS ================= */
-.stat-card {
-    background: #fff;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 4px 6px;   /* very small */
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    transition: all 0.25s ease;
-}
-
-/* hover elevation */
-.stat-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-    border-color: #cbd5e1;
-}
-
-.stat-info span {
-    font-size: 13px;
-    color: var(--text-muted);
-    font-weight: 500;
-    display: block;
-    margin-bottom: 4px;
-}
-
-.stat-info h4 a {
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--text-main);
-    text-decoration: none;
-}
-
-.stat-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    background-color: #f1f5f9;
-    color: #475569;
-}
-
-/* ================= CARD BOX ================= */
-/* Upcoming Birthday Header */
-.birthday-header {
-    background-color: #000000 !important;
-    color: #ffffff !important;
-    border-bottom: none;
-}
-
-.birthday-header h5 {
-    color: #ffffff;
-    margin: 0;
-}
-
-/* Remaining Days Badge */
-.birthday-badge {
-    background-color: #000000 !important;
-    color: #ffffff !important;
-    padding: 6px 10px;
-    border-radius: 6px;
-    font-weight: 500;
-}
-
-
-/* Upcoming Anniversaries Header */
-.anniversary-header {
-    background-color: #000000 !important;
-    color: #ffffff !important;
-    border-bottom: none;
-}
-
-.anniversary-header h5 {
-    color: #ffffff;
-    margin: 0;
-}
-
-/* Remaining Days Badge */
-.anniversary-badge {
-    background-color: #000000 !important;
-    color: #ffffff !important;
-    padding: 6px 10px;
-    border-radius: 6px;
-    font-weight: 500;
-}
-
-
-
-
-/* Optional Table Header */
-<!--.table-light th {-->
-<!--    background-color: #000000 !important;-->
-<!--    color: #ffffff !important;-->
-<!--    border-color: #333;-->
-<!--}-->
-
-/* ================= RESPONSIVE (optional but good) ================= */
-@media (max-width: 992px) {
-    .sidebar {
-        width: 220px;
-    }
-
-    .main-content {
-        margin-left: 220px;
-    }
-
-    .content-body {
-        padding: 20px;
-    }
-}
-
-
-/* Quick Access Header */
-.bg-black h5 {
-    font-size: 14px;
-    font-weight: 600;
-    margin: 0;
-}
-
-/* Card Box */
-.card-box {
-    padding: 18px;
-}
-
-/* Icon Size */
-.card-box .icon {
-    font-size: 20px;
-    margin-bottom: 8px;
-}
-
-/* Card Title */
-.card-box h4 {
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 6px;
-}
-
-/* Card Description */
-.card-box p {
-    font-size: 12px;
-    margin-bottom: 10px;
-}
-
-/* Button Size */
-.card-box .btn {
-    font-size: 12px;
-    padding: 4px 10px;
-}
-
-@media (max-width: 768px) {
-    .sidebar {
-        position: absolute;
-        left: -260px;
-    }
-
-    .main-content {
-        margin-left: 0;
-    }
-}
+            --sidebar-bg: #1e293b;
+            --sidebar-hover: #334155;
+            --sidebar-submenu-bg: #111827;
+            --bg-main: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --primary-color: #0ea5e9;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Clean Sidebar */
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            color: #fff;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar-brand {
+            padding: 24px;
+            font-size: 18px;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .sidebar-brand a {
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 20px 12px;
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 4px;
+        }
+
+        .sidebar-menu a, .sidebar-menu .dropdown-trigger {
+            display: flex;
+            align-items: center;
+            color: #94a3b8;
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .sidebar-menu a i, .sidebar-menu .dropdown-trigger i:first-child {
+            width: 20px;
+            margin-right: 12px;
+            font-size: 16px;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu li.active > a, .sidebar-menu .dropdown-trigger:hover {
+            background-color: var(--sidebar-hover);
+            color: #fff;
+        }
+
+        /* Dropdown Arrow Animation */
+        .arrow-icon {
+            margin-left: auto;
+            font-size: 11px;
+            transition: transform 0.2s ease;
+        }
+
+        .dropdown-trigger[aria-expanded="true"] .arrow-icon {
+            transform: rotate(90deg);
+        }
+
+        /* Submenu Styling */
+        .submenu {
+            list-style: none;
+            padding-left: 0;
+            margin: 4px 0 8px 0;
+            background-color: var(--sidebar-submenu-bg);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .submenu a {
+            padding: 8px 16px 8px 48px;
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .submenu a:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #fff;
+        }
+
+        /* Main Section Wrapper */
+        .main-content {
+            margin-left: 260px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            width: calc(100% - 260px);
+        }
+
+        /* Top Header Area */
+        .top-navbar {
+            background-color: #fff;
+            border-bottom: 1px solid var(--border-color);
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0;
+            color: var(--text-main);
+        }
+
+        /* Content Dashboard Body */
+        .content-body {
+            padding: 40px;
+        }
+
+        /* Flat Clean Stat Cards */
+        .stat-card {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: border-color 0.2s ease;
+        }
+
+        .stat-card:hover {
+            border-color: #cbd5e1;
+        }
+
+        .stat-info span {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .stat-info h4 a {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .stat-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            background-color: #f1f5f9;
+            color: #475569;
+        }
+
+        .truncate-text {
+            display: block;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     </style>
 </head>
 
 <body>
 
 <div class="dashboard-container">
-
-    <!-- SIDEBAR WITH DROPDOWNS -->
-    <aside class="sidebar">
-        <div class="sidebar-brand">
-            <a th:href="@{/employee/dashboard}">
-                <i class="fa-solid fa-square-poll-horizontal text-primary"></i> BlueThink Inc.
-            </a>
-        </div>
-        <ul class="sidebar-menu">
-            <li class="active">
-                <a th:href="@{/employee/dashboard}"><i class="fa-solid fa-chart-simple"></i>Dashboard</a>
-            </li>
-
-            <!-- DROPDOWN 1: MY PROFILE -->
-            <li>
-                <button class="dropdown-trigger" type="button" data-bs-toggle="collapse" data-bs-target="#profileSubmenu" aria-expanded="false">
-                    <i class="fa-solid fa-user"></i>
-                    <span>Employee Management</span>
-                    <i class="fa-solid fa-chevron-right arrow-icon"></i>
-                </button>
-                <div class="collapse" id="profileSubmenu">
-                    <ul class="submenu">
-                        <li><a th:href="@{/profile/view}">Add Employee</a></li>
-                        <li><a th:href="@{/admin/employees}">Employee List</a></li>
-                        <li><a th:href="@{/admin/all-profiles-as-employees}">Employee Profile</a></li>
-
-                    </ul>
-
-                    <a th:href="@{/admin/employees}">
-                        <i class="fa-solid fa-users"></i>
-                        All Employees
-                    </a>
-
-
-                        <a th:href="@{/admin/all-profiles-as-employees}">
-                            <i class="fa-solid fa-id-card"></i>
-                            Employee Profiles
-                        </a>
-
-                </div>
-            </li>
-
-            <!-- DROPDOWN 3: SALARY MANAGEMENT -->
-            <li>
-                <button class="dropdown-trigger" type="button" data-bs-toggle="collapse" data-bs-target="#salarySubmenu" aria-expanded="false">
-                    <i class="fa-solid fa-wallet"></i>
-                    <span>Salary Management</span>
-                    <i class="fa-solid fa-chevron-right arrow-icon"></i>
-                </button>
-                <div class="collapse" id="salarySubmenu">
-                    <ul class="submenu">
-                        <li><a href="/salary">View Salary</a></li>
-                    </ul>
-                </div>
-            </li>
-
-            <!-- DROPDOWN 4: ATTENDANCE & TRACKING -->
-            <li>
-                <button class="dropdown-trigger" type="button" data-bs-toggle="collapse" data-bs-target="#attendanceSubmenu" aria-expanded="false">
-                    <i class="fa-solid fa-calendar-days"></i>
-                    <span>Attendance</span>
-                    <i class="fa-solid fa-chevron-right arrow-icon"></i>
-                </button>
-                <div class="collapse" id="attendanceSubmenu">
-                    <ul class="submenu">
-                        <li><a href="/attendance">Logs Tracker</a></li>
-                        <li><a th:href="@{/employee/attendance-tracking}">Live Tracking Management</a></li>
-                    </ul>
-                </div>
-            </li>
-
-            <li>
-                <a th:href="@{/leave/apply}"><i class="fa-solid fa-envelope-open"></i>Leave</a>
-            </li>
-            <li>
-                <a th:href="@{/timesheet/log}"><i class="fa-solid fa-clock"></i>Timesheet</a>
-            </li>
-        </ul>
-    </aside>
+    <aside th:replace="~{admin/sidebar-admin :: sidebar-component}"></aside>
 
     <!-- MAIN INTERFACE -->
     <div class="main-content">
@@ -504,186 +231,265 @@ body {
             <div class="page-title">
                 <h2 th:text="${loggedInEmpName != null} ? ${loggedInEmpName} : 'Dashboard'">Dashboard</h2>
             </div>
-            <div xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
-                <!-- LOGIN BUTTON (only when NOT logged in) -->
-                <a sec:authorize="isAnonymous()"
+            <div>
+                <a th:if="${isUserLoggedIn == null or !isUserLoggedIn}"
                    th:href="@{/auth/loginPage}"
                    class="btn btn-sm btn-primary fw-medium px-3 py-2 rounded-2">
                     Log In
                 </a>
 
-                <!-- LOGOUT BUTTON (only when logged in) -->
-                <a sec:authorize="isAuthenticated()"
+                <a th:if="${isUserLoggedIn != null and isUserLoggedIn}"
                    th:href="@{/auth/logout}"
                    class="btn btn-sm btn-outline-danger fw-medium px-3 py-2 rounded-2">
                     <i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Log Out
                 </a>
-
             </div>
         </header>
 
         <!-- DASHBOARD GRID & LIVE DATA CONTENT -->
         <main class="content-body">
 
-            <!-- 1. ALERT BANNER -->
+            <!-- 1. CRITICAL ALERT BANNER -->
             <div class="alert border-0 rounded-3 p-3 mb-4 d-flex align-items-center gap-3"
                  style="background-color: #fef2f2; color: #991b1b; border-left: 4px solid #ef4444 !important; margin-top: -24px !important;">
                 <div class="fs-4"><i class="fa-solid fa-bullhorn text-danger"></i></div>
                 <div>
                     <strong class="d-block mb-1" style="font-size: 14px; font-weight: 700;">Alert Notice</strong>
-                    <span style="font-size: 13.5px;">
-                Kindly fill timesheet before 2nd of every month.
-            </span>
+                    <span style="font-size: 13.5px; color: #991b1b; font-weight: 500;">
+                        Kindly fill the timesheet till the 2nd of every month and the salary will be generated on the basis of that only. If you missed to fill your time sheet your salary will be deducted.
+                    </span>
                 </div>
             </div>
 
-            <!-- 2. QUICK STATS -->
+            <!-- 2. QUICK STATS (TOP LEVEL) -->
             <div class="row g-4 mb-4">
-
                 <div class="col-xl-4 col-md-6">
                     <div class="stat-card">
                         <div class="stat-info">
                             <span>WFH Workforce</span>
-                            <h5 th:text="${wfhCount != null ? wfhCount + ' Active Users' : '0 Active Users'}"></h5>
+                            <h4><a href="#" th:text="${totalWFH != null ? totalWFH + ' Active Users' : '0 Active Users'}">0 Active Users</a></h4>
                         </div>
+                        <div class="stat-icon" style="background-color: #ecfdf5; color: #059669;"><i class="fa-solid fa-house-laptop"></i></div>
                     </div>
                 </div>
-
                 <div class="col-xl-4 col-md-6">
                     <div class="stat-card">
                         <div class="stat-info">
                             <span>Today's Leave Status</span>
-                            <h5 th:text="${leaveCount != null ? leaveCount + ' Employees Away' : '0 Employees Away'}"></h5>
+                            <h4><a href="#" th:text="${totalLeaves != null ? totalLeaves + ' Employees Away' : '0 Employees Away'}">0 Employees Away</a></h4>
                         </div>
+                        <div class="stat-icon" style="background-color: #fef3c7; color: #d97706;"><i class="fa-solid fa-calendar-minus"></i></div>
                     </div>
                 </div>
-
                 <div class="col-xl-4 col-md-6">
                     <div class="stat-card">
                         <div class="stat-info">
                             <span>Project Off-logs</span>
-                            <h5 th:text="${offLogsCount != null ? offLogsCount + ' Team Members' : '0 Team Members'}"></h5>
+                            <h4><a href="#" th:text="${offLogsCount != null ? offLogsCount + ' Team Members' : '0 Team Members'}">0 Team Members</a></h4>
                         </div>
+                        <div class="stat-icon" style="background-color: #f1f5f9; color: #475569;"><i class="fa-solid fa-user-slash"></i></div>
                     </div>
                 </div>
-
             </div>
 
-            <!-- 3. BIRTHDAYS + ANNIVERSARIES -->
+            <!-- 3. DETAILED INFORMATION TABS/GRIDS -->
             <div class="row g-4 mb-4">
+                <!-- UPCOMING BIRTHDAYS -->
+<!--                <div class="col-lg-6">-->
+<!--                    <div class="bg-white rounded-3 border p-4 h-100">-->
+<!--                        <div class="d-flex justify-content-between align-items-center mb-3">-->
+<!--                            <h6 class="fw-bold m-0" style="font-size: 14px; color: var(&#45;&#45;text-main);"><i class="fa-solid fa-cake-candles text-danger me-2"></i>Upcoming Birthdays</h6>-->
+<!--                            <span class="badge rounded-pill bg-light text-secondary border fw-medium" th:text="${currentMonthName != null ? currentMonthName : 'Month'}">Month</span>-->
+<!--                        </div>-->
+<!--                        <div class="table-responsive" style="max-height: 280px; overflow-y: auto;">-->
+<!--                            <table class="table table-sm table-borderless align-middle mb-0" style="font-size: 13px;">-->
+<!--                                <thead class="text-muted sticky-top bg-white" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">-->
+<!--                                <tr>-->
+<!--                                    <th class="pb-2" style="width: 15%;">S.No.</th>-->
+<!--                                    <th class="pb-2" style="width: 45%;">Name</th>-->
+<!--                                    <th class="pb-2" style="width: 20%;">Date</th>-->
+<!--                                    <th class="pb-2 text-end" style="width: 20%;">Remaining</th>-->
+<!--                                </tr>-->
+<!--                                </thead>-->
+<!--                                <tbody>-->
+<!--                                &lt;!&ndash; bday, stat ka use karke serial number add kiya &ndash;&gt;-->
+<!--                                <tr th:each="bday, stat : ${birthdayList}" class="border-bottom-subtle">-->
+<!--                                    <td class="py-2 fw-semibold text-muted" th:text="${stat.count}">1</td>-->
+<!--                                    <td class="py-2 fw-medium" th:text="${bday?.name}">Employee Name</td>-->
+<!--                                    <td class="py-2 text-muted" th:text="${bday?.dateOfBirth}">1st Jul, Wed</td>-->
+<!--                                    <td class="py-2 text-end">-->
+<!--                            <span th:classappend="${bday?.remainingDays == 1} ? 'bg-danger-subtle text-danger' : 'bg-light text-dark'"-->
+<!--                                  class="badge rounded-1"-->
+<!--                                  th:text="${bday?.remainingDays == 1 ? '1 Day left' : bday?.remainingDays + ' Days'}">1 Day left</span>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                                <tr th:if="${#lists.isEmpty(birthdayList)}">-->
+<!--                                    <td colspan="4" class="text-center text-muted py-3">No upcoming birthdays this month</td>-->
+<!--                                </tr>-->
+<!--                                </tbody>-->
+<!--                            </table>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
 
-                <!-- ================= BIRTHDAYS ================= -->
-                <div class="col-lg-6">
-                    <div class="card shadow-sm border-0 h-100">
-
-                        <div class="card-header birthday-header">
-                            <h5 class="mb-0">🎂 Upcoming Birthdays</h5>
-                        </div>
-
-                        <div class="card-body p-0">
-                            <table class="table table-hover table-bordered mb-0">
-                                <thead class="table-light">
-                                <tr>
-                                    <th>Name</th>
-                                    <th>DOB</th>
-                                    <th>Remaining</th>
-                                </tr>
-                                </thead>
-
-                                <tbody>
-
-                                <tr th:if="${#lists.isEmpty(birthdays)}">
-                                    <td colspan="3" class="text-center text-muted py-3">
-                                        No Upcoming Birthdays
-                                    </td>
-                                </tr>
-
-                                <tr th:each="bday : ${birthdays}">
-                                    <td th:text="${bday.name}"></td>
-                                    <td th:text="${bday.dateOfBirth}"></td>
-                                    <td>
-                               <span class="badge birthday-badge"
-                                     th:text="${bday.remainingDays + ' Days Left'}"></span>
-                                    </td>
-                                </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- ================= ANNIVERSARIES ================= -->
-                <div class="col-lg-6">
-                    <div class="card shadow-sm border-0 h-100">
-
-                        <div class="card-header anniversary-header">
-                            <h5 class="mb-0">🏆 Upcoming Anniversaries</h5>
-                        </div>
-
-                        <div class="card-body p-0">
-                            <table class="table table-hover table-bordered mb-0">
-                                <thead class="table-light">
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Joining Date</th>
-                                    <th>Remaining</th>
-                                </tr>
-                                </thead>
-
-                                <tbody>
-
-                                <tr th:if="${#lists.isEmpty(anniversaries)}">
-                                    <td colspan="3" class="text-center text-muted py-3">
-                                        No Upcoming Anniversaries
-                                    </td>
-                                </tr>
-
-                                <tr th:each="ann : ${anniversaries}">
-                                    <td th:text="${ann.name}"></td>
-                                    <td th:text="${ann.joiningDate}"></td>
-                                    <td>
-                            <span class="badge anniversary-badge"
-                                  th:text="${ann.remainingDays + ' Days Left'}"></span>
-                                    </td>
-                                </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-
-                    </div>
-                </div>
+<!--                &lt;!&ndash; UPCOMING WORK ANNIVERSARIES &ndash;&gt;-->
+<!--                <div class="col-lg-6">-->
+<!--                    <div class="bg-white rounded-3 border p-4 h-100">-->
+<!--                        <div class="d-flex justify-content-between align-items-center mb-3">-->
+<!--                            <h6 class="fw-bold m-0" style="font-size: 14px; color: var(&#45;&#45;text-main);"><i class="fa-solid fa-award text-primary me-2"></i>Work Anniversaries</h6>-->
+<!--                            <span class="badge rounded-pill bg-light text-secondary border fw-medium">Milestones</span>-->
+<!--                        </div>-->
+<!--                        <div class="table-responsive" style="max-height: 280px; overflow-y: auto;">-->
+<!--                            <table class="table table-sm table-borderless align-middle mb-0" style="font-size: 13px;">-->
+<!--                                <thead class="text-muted sticky-top bg-white" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">-->
+<!--                                <tr>-->
+<!--                                    <th class="pb-2" style="width: 15%;">S.No.</th>-->
+<!--                                    <th class="pb-2" style="width: 45%;">Name</th>-->
+<!--                                    <th class="pb-2" style="width: 20%;">Joining Date</th>-->
+<!--                                    <th class="pb-2 text-end" style="width: 20%;">Remaining</th>-->
+<!--                                </tr>-->
+<!--                                </thead>-->
+<!--                                <tbody>-->
+<!--                                &lt;!&ndash; anniv, stat ka use karke serial number add kiya &ndash;&gt;-->
+<!--                                <tr th:each="anniv, stat : ${anniversaryList}" class="border-bottom-subtle">-->
+<!--                                    <td class="py-2 fw-semibold text-muted" th:text="${stat.count}">1</td>-->
+<!--                                    <td class="py-2 fw-medium" th:text="${anniv?.name}">Employee Name</td>-->
+<!--                                    <td class="py-2 text-muted" th:text="${anniv?.joiningDate}">1st Jul, Wed</td>-->
+<!--                                    <td class="py-2 text-end">-->
+<!--                            <span th:classappend="${anniv?.remainingDays == 'Tomorrow' || anniv?.remainingDays == 1} ? 'bg-primary-subtle text-primary' : 'bg-light text-dark'"-->
+<!--                                  class="badge rounded-1"-->
+<!--                                  th:text="${anniv?.remainingDays}">Tomorrow</span>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
+<!--                                <tr th:if="${#lists.isEmpty(anniversaryList)}">-->
+<!--                                    <td colspan="4" class="text-center text-muted py-3">No upcoming milestones</td>-->
+<!--                                </tr>-->
+<!--                                </tbody>-->
+<!--                            </table>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
 
 
+
+
+                                <!-- ================= BIRTHDAYS ================= -->
+                                <div class="col-lg-6">
+                                    <div class="card shadow-sm border-0 h-100">
+
+                                        <div class="card-header birthday-header">
+                                            <h5 class="mb-0">🎂 Upcoming Birthdays</h5>
+                                        </div>
+
+                                        <div class="card-body p-0">
+                                            <table class="table table-hover table-bordered mb-0">
+                                                <thead class="table-light">
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>DOB</th>
+                                                    <th>Remaining</th>
+                                                </tr>
+                                                </thead>
+
+                                                <tbody>
+
+                                                <tr th:if="${#lists.isEmpty(birthdays)}">
+                                                    <td colspan="3" class="text-center text-muted py-3">
+                                                        No Upcoming Birthdays
+                                                    </td>
+                                                </tr>
+
+                                                <tr th:each="bday : ${birthdays}">
+                                                    <td th:text="${bday.name}"></td>
+                                                    <td th:text="${bday.dateOfBirth}"></td>
+                                                    <td>
+                                               <span class="badge birthday-badge"
+                                                     th:text="${bday.remainingDays + ' Days Left'}"></span>
+                                                    </td>
+                                                </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <!-- ================= ANNIVERSARIES ================= -->
+                                <div class="col-lg-6">
+                                    <div class="card shadow-sm border-0 h-100">
+
+                                        <div class="card-header anniversary-header">
+                                            <h5 class="mb-0">🏆 Upcoming Anniversaries</h5>
+                                        </div>
+
+                                        <div class="card-body p-0">
+                                            <table class="table table-hover table-bordered mb-0">
+                                                <thead class="table-light">
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Joining Date</th>
+                                                    <th>Remaining</th>
+                                                </tr>
+                                                </thead>
+
+                                                <tbody>
+
+                                                <tr th:if="${#lists.isEmpty(anniversaries)}">
+                                                    <td colspan="3" class="text-center text-muted py-3">
+                                                        No Upcoming Anniversaries
+                                                    </td>
+                                                </tr>
+
+                                                <tr th:each="ann : ${anniversaries}">
+                                                    <td th:text="${ann.name}"></td>
+                                                    <td th:text="${ann.joiningDate}"></td>
+                                                    <td>
+                                            <span class="badge anniversary-badge"
+                                                  th:text="${ann.remainingDays + ' Days Left'}"></span>
+                                                    </td>
+                                                </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+
+            <div class="row g-4">
+                <!-- ALL LEAVE REQUESTS TRACKER -->
                 <div class="col-xl-8">
                     <div class="bg-white rounded-3 border p-4 h-100">
-                        <h6 class="fw-bold mb-3" style="font-size: 14px;"><i class="fa-solid fa-user-clock text-warning me-2"></i>Current Attendance Status (Today)</h6>
-                        <div class="table-responsive">
+                        <h6 class="fw-bold mb-3" style="font-size: 14px;"><i class="fa-solid fa-user-clock text-warning me-2"></i>Employee Leave Records</h6>
+                        <div class="table-responsive" style="max-height: 430px; overflow-y: auto;">
                             <table class="table table-sm align-middle mb-0" style="font-size: 13px; border-color: var(--border-color);">
-                                <thead class="table-light" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">
+                                <thead class="table-light sticky-top bg-white" style="font-size: 11px; text-transform: uppercase; color: var(--text-muted);">
                                 <tr>
-                                    <th class="py-2 px-3">Emp Code</th>
+                                    <th class="py-2 px-3" style="width: 10%;">S.No.</th>
+                                    <th class="py-2">Emp ID</th>
                                     <th class="py-2">Employee Name</th>
-                                    <th class="py-2">Leave Duration</th>
+                                    <th class="py-2">Duration</th>
                                     <th class="py-2 text-end px-3">Status</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="attendance : ${todayLeaves}">
-                                    <td class="py-3 px-3 text-mono text-muted" th:text="${attendance.employeeCode}">BT0000</td>
-                                    <td class="py-3 fw-medium" th:text="${attendance.employeeName}">Employee Name</td>
-                                    <td class="py-3 text-muted" th:text="${attendance.duration}">2026-06-30 to 2026-06-30</td>
+                                <tr th:each="leave, stat : ${leaveList}">
+                                    <td class="py-3 px-3 fw-semibold text-muted" th:text="${stat.count}">1</td>
+                                    <td class="py-3 text-mono text-muted" th:text="${leave?.employeeId}">BT0000</td>
+                                    <td class="py-3 fw-medium" th:text="${leave?.employeeName}">Employee Name</td>
+                                    <td class="py-3 text-muted" th:text="${(leave?.startDate + ' to ' + leave?.endDate)}">Dates</td>
                                     <td class="py-3 text-end px-3">
-                                        <span th:classappend="${attendance.statusType == 'LONG_TERM'} ? 'bg-danger-subtle text-danger border-danger' : 'bg-warning-subtle text-warning border-warning'"
+                                        <span th:classappend="${leave?.status == 'Approved' || leave?.status == 'APPROVED'} ? 'bg-success-subtle text-success border-success' : 'bg-warning-subtle text-warning border-warning'"
                                               class="badge border rounded-pill px-2"
-                                              th:text="${attendance.statusLabel}">On Leave</span>
+                                              th:text="${leave?.status != null ? leave.status : 'Pending'}">Pending</span>
                                     </td>
                                 </tr>
-                                <tr th:if="${#lists.isEmpty(todayLeaves)}">
-                                    <td colspan="4" class="text-center text-muted py-4">No employees on leave today</td>
+                                <tr th:if="${#lists.isEmpty(leaveList)}">
+                                    <td colspan="5" class="text-center text-muted py-4">No leave records found</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -691,32 +497,56 @@ body {
                     </div>
                 </div>
 
-
-                <!-- SIDE LOGS -->
+                <!-- SIDE LOGS (PARALLEL STRUCTURE) -->
                 <div class="col-xl-4">
-                    <div class="bg-white rounded-3 border p-4 mb-4">
-                        <h6 class="fw-bold mb-3" style="font-size: 14px;"><i class="fa-solid fa-house-user text-success me-2"></i>WFH List</h6>
-                        <ul class="list-group list-group-flush" style="font-size: 13px;">
-                            <li th:each="wfh : ${wfhList}" class="list-group-item d-flex justify-content-between align-items-center px-0 border-light py-2">
-                                <div>
-                                    <span class="fw-medium d-block" th:text="${wfh.employeeName}">Employee Name</span>
-                                    <small class="text-muted" th:text="${wfh.employeeCode}">BT0000</small>
-                                </div>
-                                <span class="badge bg-success rounded-pill" style="font-size: 9px; padding: 4px 8px;">Remote</span>
-                            </li>
-                            <li th:if="${#lists.isEmpty(wfhList)}" class="list-group-item text-center text-muted px-0 py-2">
-                                No remote employees today
-                            </li>
-                        </ul>
+                    <!-- WFH List Card -->
+                    <div class="bg-white rounded-3 border p-4 mb-4" style="height: 380px; display: flex; flex-direction: column;">
+                        <h6 class="fw-bold mb-3" style="font-size: 14px;">
+                            <i class="fa-solid fa-house-user text-success me-2"></i>WFH List
+                        </h6>
+
+                        <!-- Table Responsive Div to lock inside Card -->
+                        <div class="table-responsive w-100 flex-grow-1" style="max-height: 290px; overflow-y: auto;">
+                            <table class="table table-sm table-borderless align-middle mb-0" style="font-size: 13px; table-layout: fixed; width: 100%;">
+                                <thead class="text-muted sticky-top bg-white" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border-color);">
+                                <tr>
+                                    <th style="width: 15%;" class="pb-2">S.No.</th>
+                                    <th style="width: 30%;" class="pb-2">Employee</th>
+                                    <th style="width: 20%;" class="pb-2">Emp ID</th>
+                                    <th style="width: 35%;" class="pb-2 text-end">Duration</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="wfh, stat : ${wfhList}" style="border-bottom: 1px solid #f1f5f9;">
+                                    <td class="py-2 fw-semibold text-muted" th:text="${stat.count}">1</td>
+                                    <td class="py-2 fw-medium text-dark">
+                                        <span class="truncate-text d-block" th:text="${wfh?.employeeName}" th:title="${wfh?.employeeName}">Employee Name</span>
+                                    </td>
+                                    <td class="py-2 text-muted" th:text="${wfh?.employeeId}">BT0000</td>
+                                    <td class="py-2 text-end">
+                                        <span class="badge bg-light text-secondary border rounded p-1" style="font-size: 11px; white-space: nowrap;">
+                                            <span th:text="${wfh?.startDate}">01/07</span>
+                                            <span class="mx-1">→</span>
+                                            <span th:text="${wfh?.endDate}">05/07</span>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(wfhList)}">
+                                    <td colspan="4" class="text-center text-muted py-4">No remote employees today</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
+                    <!-- Project Off Logs Card -->
                     <div class="bg-white rounded-3 border p-4">
                         <h6 class="fw-bold mb-3" style="font-size: 14px;"><i class="fa-solid fa-toggle-off text-muted me-2"></i>Project Off Logs</h6>
                         <ul class="list-group list-group-flush" style="font-size: 13px;">
                             <li th:each="offLog : ${projectOffLogs}" class="list-group-item d-flex justify-content-between align-items-center px-0 border-light py-2">
                                 <div>
-                                    <span class="fw-medium d-block" th:text="${offLog.employeeName}">Employee Name</span>
-                                    <small class="text-muted" th:text="${offLog.employeeCode}">BT0000</small>
+                                    <span class="fw-medium d-block" th:text="${offLog?.employeeName}">Employee Name</span>
+                                    <small class="text-muted" th:text="${offLog?.employeeId}">BT0000</small>
                                 </div>
                             </li>
                             <li th:if="${#lists.isEmpty(projectOffLogs)}" class="list-group-item text-center text-muted px-0 py-2">
@@ -727,104 +557,9 @@ body {
                 </div>
             </div>
 
-
-
-
-            <div class="container-fluid mt-4">
-
-                <!-- Utility Section -->
-                <div class="card shadow-sm border-0">
-
-                    <div class="card-header bg-black text-white">
-                        <h5 class="mb-0">
-                            <i class="fa-solid fa-layer-group me-2"></i>
-                            Quick Access
-                        </h5>
-                    </div>
-
-                    <div class="card-body">
-
-                        <div class="row g-4">
-
-                            <!-- Leave -->
-                            <div class="col-md-3">
-                                <div class="card-box">
-                                    <div class="icon">
-                                        <i class="fa-solid fa-calendar-minus"></i>
-                                    </div>
-                                    <h4>Leave</h4>
-                                    <p>Manage Leave</p>
-                                    <a th:href="@{/leave/apply}"
-                                       class="btn btn-sm btn-outline-primary mt-2">
-                                        Open
-                                    </a>
-                                </div>
-                            </div>
-
-                            <!-- Attendance -->
-                            <div class="col-md-3">
-                                <div class="card-box">
-                                    <div class="icon">
-                                        <i class="fa-solid fa-user-clock"></i>
-                                    </div>
-                                    <h4>Attendance Tracking</h4>
-                                    <p>Automatic Track Attendance</p>
-                                    <a th:href="@{/employee/attendance-tracking}"
-                                       class="btn btn-sm btn-outline-primary mt-2">
-                                        Open
-                                    </a>
-                                </div>
-                            </div>
-
-                            <!-- Timesheet -->
-                            <div class="col-md-3">
-                                <div class="card-box">
-                                    <div class="icon">
-                                        <i class="fa-solid fa-clock"></i>
-                                    </div>
-                                    <h4>Timesheet</h4>
-                                    <p>Log your daily tasks & hours</p>
-                                    <a th:href="@{/timesheet/log}"
-                                       class="btn btn-sm btn-outline-primary mt-2">
-                                        Open Logs
-                                    </a>
-                                </div>
-                            </div>
-
-                            <!-- Notifications -->
-                            <div class="col-md-3">
-                                <div class="card-box">
-                                    <div class="icon">
-                                        <i class="fa-solid fa-bell"></i>
-                                    </div>
-                                    <h4>Notifications</h4>
-                                    <p>View latest announcements</p>
-
-                                    <a th:href="@{/notifications}"
-                                       class="btn btn-sm btn-outline-primary mt-2">
-                                        Open
-                                    </a>
-
-                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                                          th:if="${notificationCount > 0}"
-                                          th:text="${notificationCount}">
-                            0
-                        </span>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- FOOTER -->
+            <!-- FOOTER COPYRIGHT SECTION -->
             <footer class="mt-5 pt-4 text-center text-muted border-top" style="font-size: 12px;">
-                <p class="mb-0">Copyright © 2026 Bluethink IT Consulting Pvt. Ltd.</p>
+                <p class="mb-0">Copyright &copy; 2026 Bluethink IT Consulting Pvt. Ltd. All rights reserved.</p>
             </footer>
 
         </main>
@@ -857,17 +592,6 @@ body {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 <!--<!DOCTYPE html>-->
 <!--<html xmlns:th="http://www.thymeleaf.org">-->
 
@@ -875,17 +599,31 @@ body {
 <!--    <title>Dashboard</title>-->
 <!--    &lt;!&ndash; Bootstrap 5 &ndash;&gt;-->
 <!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">-->
+<!--    &lt;!&ndash; Font Awesome &ndash;&gt;-->
+<!--    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">-->
 
 <!--    <style>-->
+
 <!--        :root {-->
-<!--            &#45;&#45;sidebar-bg: #1e293b;-->
-<!--            &#45;&#45;sidebar-hover: #334155;-->
-<!--            &#45;&#45;sidebar-submenu-bg: #111827;-->
-<!--            &#45;&#45;bg-main: #f8fafc;-->
-<!--            &#45;&#45;border-color: #e2e8f0;-->
-<!--            &#45;&#45;text-main: #0f172a;-->
-<!--            &#45;&#45;text-muted: #64748b;-->
-<!--            &#45;&#45;primary-color: #0ea5e9;-->
+<!--            &#45;&#45;sidebar-bg: #1f2a40;-->
+<!--            &#45;&#45;sidebar-hover: #2b3650;-->
+<!--            &#45;&#45;primary-text: #ffffff;-->
+<!--            &#45;&#45;secondary-text: #b8c1d1;-->
+
+<!--            &#45;&#45;content-bg: #f5f7fb;-->
+<!--            &#45;&#45;card-bg: #ffffff;-->
+<!--            &#45;&#45;border-color: #e5e7eb;-->
+
+<!--            &#45;&#45;danger-bg: #fff1f1;-->
+<!--            &#45;&#45;danger-border: #ff4d4f;-->
+<!--            &#45;&#45;danger-text: #a61d24;-->
+
+<!--            &#45;&#45;blue-accent: #2563eb;-->
+<!--        }-->
+<!--        /* ================= BASE ================= */-->
+
+<!--        html {-->
+<!--            scroll-behavior: smooth;-->
 <!--        }-->
 
 <!--        body {-->
@@ -893,157 +631,173 @@ body {
 <!--            font-family: 'Inter', system-ui, -apple-system, sans-serif;-->
 <!--            background-color: var(&#45;&#45;bg-main);-->
 <!--            color: var(&#45;&#45;text-main);-->
+<!--            -webkit-font-smoothing: antialiased;-->
+<!--            -moz-osx-font-smoothing: grayscale;-->
 <!--        }-->
+
+<!--        /* ================= LAYOUT ================= */-->
 
 <!--        .dashboard-container {-->
 <!--            display: flex;-->
 <!--            min-height: 100vh;-->
 <!--        }-->
 
-<!--        /* Clean Sidebar */-->
+<!--        /* ================= SIDEBAR ================= */-->
+
 <!--        .sidebar {-->
-<!--            width: 260px;-->
-<!--            background-color: var(&#45;&#45;sidebar-bg);-->
-<!--            color: #fff;-->
-<!--            position: fixed;-->
-<!--            height: 100vh;-->
-<!--            left: 0;-->
-<!--            top: 0;-->
-<!--            display: flex;-->
-<!--            flex-direction: column;-->
-<!--            z-index: 1000;-->
-<!--        }-->
+<!--    width: 280px;-->
+<!--    background: var(&#45;&#45;sidebar-bg);-->
+<!--    min-height: 100vh;-->
+<!--    color: white;-->
+<!--}-->
 
-<!--        .sidebar-brand {-->
-<!--            padding: 24px;-->
-<!--            font-size: 18px;-->
-<!--            font-weight: 700;-->
-<!--            border-bottom: 1px solid rgba(255, 255, 255, 0.08);-->
-<!--        }-->
+<!--.sidebar-brand {-->
+<!--    padding: 30px;-->
+<!--    font-size: 20px;-->
+<!--    font-weight: 700;-->
+<!--    border-bottom: 1px solid rgba(255,255,255,.1);-->
+<!--}-->
 
-<!--        .sidebar-brand a {-->
-<!--            color: #fff;-->
-<!--            text-decoration: none;-->
-<!--            display: flex;-->
-<!--            align-items: center;-->
-<!--            gap: 10px;-->
-<!--        }-->
+<!--.sidebar-brand a {-->
+<!--    color: white;-->
+<!--    text-decoration: none;-->
+<!--}-->
 
-<!--        .sidebar-menu {-->
-<!--            list-style: none;-->
-<!--            padding: 20px 12px;-->
-<!--            margin: 0;-->
-<!--            flex-grow: 1;-->
-<!--            overflow-y: auto;-->
-<!--        }-->
+<!--.sidebar-menu {-->
+<!--    list-style: none;-->
+<!--    padding: 20px 0;-->
+<!--}-->
 
-<!--        .sidebar-menu li {-->
-<!--            margin-bottom: 4px;-->
-<!--        }-->
+<!--.sidebar-menu li a,-->
+<!--.dropdown-trigger {-->
+<!--    display: flex;-->
+<!--    align-items: center;-->
+<!--    gap: 12px;-->
+<!--    width: 100%;-->
+<!--    color: var(&#45;&#45;secondary-text);-->
+<!--    text-decoration: none;-->
+<!--    padding: 16px 30px;-->
+<!--    border: none;-->
+<!--    background: transparent;-->
+<!--    font-size: 17px;-->
+<!--    transition: .3s;-->
+<!--}-->
 
-<!--        .sidebar-menu a, .sidebar-menu .dropdown-trigger {-->
-<!--            display: flex;-->
-<!--            align-items: center;-->
-<!--            color: #94a3b8;-->
-<!--            text-decoration: none;-->
-<!--            padding: 10px 16px;-->
-<!--            border-radius: 8px;-->
-<!--            font-size: 14px;-->
-<!--            font-weight: 500;-->
-<!--            transition: all 0.2s ease;-->
-<!--            background: none;-->
-<!--            border: none;-->
-<!--            width: 100%;-->
-<!--            text-align: left;-->
-<!--            cursor: pointer;-->
-<!--        }-->
+<!--.sidebar-menu li a:hover,-->
+<!--.dropdown-trigger:hover {-->
+<!--    background: var(&#45;&#45;sidebar-hover);-->
+<!--    color: white;-->
+<!--}-->
 
-<!--        .sidebar-menu a i, .sidebar-menu .dropdown-trigger i:first-child {-->
-<!--            width: 20px;-->
-<!--            margin-right: 12px;-->
-<!--            font-size: 16px;-->
-<!--        }-->
+<!--.sidebar-menu li.active a {-->
+<!--    color: white;-->
+<!--    font-weight: 600;-->
+<!--}-->
 
-<!--        .sidebar-menu a:hover, .sidebar-menu li.active > a, .sidebar-menu .dropdown-trigger:hover {-->
-<!--            background-color: var(&#45;&#45;sidebar-hover);-->
-<!--            color: #fff;-->
-<!--        }-->
+<!--        /* ================= SUBMENU ================= */-->
 
-<!--        /* Dropdown Arrow Animation */-->
-<!--        .arrow-icon {-->
-<!--            margin-left: auto;-->
-<!--            font-size: 11px;-->
-<!--            transition: transform 0.2s ease;-->
-<!--        }-->
-
-<!--        .dropdown-trigger[aria-expanded="true"] .arrow-icon {-->
-<!--            transform: rotate(90deg);-->
-<!--        }-->
-
-<!--        /* Submenu Styling */-->
 <!--        .submenu {-->
 <!--            list-style: none;-->
-<!--            padding-left: 0;-->
-<!--            margin: 4px 0 8px 0;-->
-<!--            background-color: var(&#45;&#45;sidebar-submenu-bg);-->
+<!--            padding: 0;-->
+<!--            margin: 5px 0;-->
+<!--            background: var(&#45;&#45;sidebar-submenu-bg);-->
 <!--            border-radius: 8px;-->
 <!--            overflow: hidden;-->
 <!--        }-->
 
+<!--        .submenu li {-->
+<!--            margin: 0;-->
+<!--        }-->
+
 <!--        .submenu a {-->
-<!--            padding: 8px 16px 8px 48px;-->
+<!--            display: block;-->
+<!--            padding: 10px 16px 10px 48px;-->
+<!--            color: #ffffff;-->
 <!--            font-size: 13px;-->
-<!--            color: #94a3b8;-->
+<!--            text-decoration: none;-->
+<!--            transition: 0.25s;-->
 <!--        }-->
 
 <!--        .submenu a:hover {-->
-<!--            background-color: rgba(255, 255, 255, 0.05);-->
+<!--            background: #222;-->
 <!--            color: #fff;-->
 <!--        }-->
 
-<!--        /* Main Section Wrapper */-->
-<!--        .main-content {-->
-<!--            margin-left: 260px;-->
-<!--            flex-grow: 1;-->
-<!--            display: flex;-->
-<!--            flex-direction: column;-->
-<!--        }-->
+<!--        /* Collapse content links */-->
 
-<!--        /* Top Header Area */-->
-<!--        .top-navbar {-->
-<!--            background-color: #fff;-->
-<!--            border-bottom: 1px solid var(&#45;&#45;border-color);-->
-<!--            padding: 16px 40px;-->
+<!--        .collapse > a {-->
 <!--            display: flex;-->
-<!--            justify-content: space-between;-->
 <!--            align-items: center;-->
+<!--            padding: 10px 16px;-->
+<!--            color: #ffffff;-->
+<!--            text-decoration: none;-->
+<!--            border-radius: 8px;-->
+<!--            transition: 0.25s;-->
 <!--        }-->
 
-<!--        .page-title h2 {-->
-<!--            font-size: 20px;-->
-<!--            font-weight: 600;-->
-<!--            margin: 0;-->
-<!--            color: var(&#45;&#45;text-main);-->
+<!--        .collapse > a:hover {-->
+<!--            background: #222;-->
 <!--        }-->
 
-<!--        /* Content Dashboard Body */-->
+<!--        .collapse > a i {-->
+<!--            margin-right: 12px;-->
+<!--        }-->
+
+<!--        /* Responsive */-->
+
+<!--        @media (max-width: 768px) {-->
+<!--            .sidebar {-->
+<!--                width: 240px;-->
+<!--            }-->
+<!--        }-->
+
+
+<!--        /* ================= MAIN CONTENT ================= */-->
+<!--       .main-content {-->
+<!--    flex: 1;-->
+<!--    background: var(&#45;&#45;content-bg);-->
+<!--    min-height: 100vh;-->
+<!--}-->
+
+<!--        /* TOP BAR */-->
+<!--       .top-navbar {-->
+<!--    height: 90px;-->
+<!--    background: white;-->
+<!--    padding: 0 40px;-->
+<!--    display: flex;-->
+<!--    align-items: center;-->
+<!--    justify-content: space-between;-->
+<!--    border-bottom: 1px solid #e5e7eb;-->
+<!--}-->
+
+<!--.page-title h2 {-->
+<!--    font-size: 40px;-->
+<!--    font-weight: 700;-->
+<!--    color: #0f172a;-->
+<!--}-->
+
+<!--        /* CONTENT */-->
 <!--        .content-body {-->
 <!--            padding: 40px;-->
 <!--        }-->
 
-<!--        /* Flat Clean Stat Cards */-->
+<!--        /* ================= STAT CARDS ================= */-->
 <!--        .stat-card {-->
 <!--            background: #fff;-->
 <!--            border: 1px solid var(&#45;&#45;border-color);-->
-<!--            border-radius: 12px;-->
-<!--            padding: 24px;-->
+<!--            border-radius: 8px;-->
+<!--            padding: 4px 6px;   /* very small */-->
 <!--            display: flex;-->
 <!--            align-items: center;-->
 <!--            justify-content: space-between;-->
-<!--            transition: border-color 0.2s ease;-->
+
+<!--            transition: all 0.25s ease;-->
 <!--        }-->
 
+<!--        /* hover elevation */-->
 <!--        .stat-card:hover {-->
+<!--            transform: translateY(-3px);-->
+<!--            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);-->
 <!--            border-color: #cbd5e1;-->
 <!--        }-->
 
@@ -1074,30 +828,232 @@ body {
 <!--            color: #475569;-->
 <!--        }-->
 
-<!--        /* Card Box Clean Utilities */-->
-<!--        .card-box {-->
-<!--            background: #fff;-->
-<!--            border: 1px solid var(&#45;&#45;border-color);-->
-<!--            border-radius: 12px;-->
-<!--            padding: 24px;-->
-<!--            text-align: center;-->
-<!--            height: 100%;-->
-<!--            position: relative;-->
+<!--        /* ================= CARD BOX ================= */-->
+<!--        /* Card Design */-->
+<!--.card {-->
+<!--    border-radius: 12px;-->
+<!--    overflow: hidden;-->
+<!--    border: 1px solid #dee2e6 !important;-->
+<!--}-->
+
+<!--/* Header */-->
+<!--.birthday-header,-->
+<!--.anniversary-header {-->
+<!--    background: #1f3240b5;-->
+<!--    color: #fff;-->
+<!--    padding: 14px 20px;-->
+<!--}-->
+
+<!--.birthday-header h5,-->
+<!--.anniversary-header h5 {-->
+<!--    font-size: 18px;-->
+<!--    font-weight: 700;-->
+<!--}-->
+
+<!--/* Table */-->
+<!--.table {-->
+<!--    margin-bottom: 0;-->
+<!--}-->
+
+<!--.table thead th {-->
+<!--    font-size: 14px;-->
+<!--    font-weight: 700;-->
+<!--    color: #000;-->
+<!--    padding: 14px;-->
+<!--    vertical-align: middle;-->
+<!--}-->
+
+<!--.table tbody td {-->
+<!--    font-size: 13px;-->
+<!--    padding: 12px 14px;-->
+<!--    vertical-align: middle;-->
+<!--}-->
+
+<!--/* Badges */-->
+<!--.birthday-badge,-->
+<!--.anniversary-badge {-->
+<!--    background: ##1f3240b5 !important;-->
+<!--    color: #fff !important;-->
+<!--    border-radius: 10px;-->
+<!--    padding: 8px 14px;-->
+<!--    font-size: 12px;-->
+<!--    font-weight: 600;-->
+<!--    min-width: 110px;-->
+<!--    display: inline-block;-->
+<!--    text-align: center;-->
+<!--}-->
+
+<!--/* Hover Effect */-->
+<!--.table-hover tbody tr:hover {-->
+<!--    background: #f8f9fa;-->
+<!--}-->
+
+<!--/* Responsive */-->
+<!--@media (max-width: 768px) {-->
+<!--    .birthday-header h5,-->
+<!--    .anniversary-header h5 {-->
+<!--        font-size: 16px;-->
+<!--    }-->
+
+<!--    .table thead th,-->
+<!--    .table tbody td {-->
+<!--        font-size: 12px;-->
+<!--    }-->
+
+<!--    .birthday-badge,-->
+<!--    .anniversary-badge {-->
+<!--        font-size: 11px;-->
+<!--        padding: 6px 10px;-->
+<!--    }-->
+<!--}-->
+
+
+
+<!--        /* Optional Table Header */-->
+<!--        &lt;!&ndash;.table-light th {&ndash;&gt;-->
+<!--        &lt;!&ndash;    background-color: #000000 !important;&ndash;&gt;-->
+<!--        &lt;!&ndash;    color: #ffffff !important;&ndash;&gt;-->
+<!--        &lt;!&ndash;    border-color: #333;&ndash;&gt;-->
+<!--        &lt;!&ndash;}&ndash;&gt;-->
+
+<!--        /* ================= RESPONSIVE (optional but good) ================= */-->
+<!--        @media (max-width: 992px) {-->
+<!--            .sidebar {-->
+<!--                width: 220px;-->
+<!--            }-->
+
+<!--            .main-content {-->
+<!--                margin-left: 220px;-->
+<!--            }-->
+
+<!--            .content-body {-->
+<!--                padding: 20px;-->
+<!--            }-->
 <!--        }-->
-<!--        .card-box .icon {-->
-<!--            font-size: 24px;-->
-<!--            color: var(&#45;&#45;primary-color);-->
-<!--            margin-bottom: 12px;-->
+
+
+<!--        /* Quick Access Header */-->
+<!--&lt;!&ndash;        .bg-black h5 {&ndash;&gt;-->
+<!--&lt;!&ndash;            font-size: 14px;&ndash;&gt;-->
+<!--&lt;!&ndash;            font-weight: 600;&ndash;&gt;-->
+<!--&lt;!&ndash;            margin: 0;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+
+<!--&lt;!&ndash;        /* Card Box */&ndash;&gt;-->
+<!--&lt;!&ndash;        .card-box {&ndash;&gt;-->
+<!--&lt;!&ndash;            padding: 18px;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+
+<!--&lt;!&ndash;        /* Icon Size */&ndash;&gt;-->
+<!--&lt;!&ndash;        .card-box .icon {&ndash;&gt;-->
+<!--&lt;!&ndash;            font-size: 20px;&ndash;&gt;-->
+<!--&lt;!&ndash;            margin-bottom: 8px;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+
+<!--&lt;!&ndash;        /* Card Title */&ndash;&gt;-->
+<!--&lt;!&ndash;        .card-box h4 {&ndash;&gt;-->
+<!--&lt;!&ndash;            font-size: 14px;&ndash;&gt;-->
+<!--&lt;!&ndash;            font-weight: 600;&ndash;&gt;-->
+<!--&lt;!&ndash;            margin-bottom: 6px;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+
+<!--&lt;!&ndash;        /* Card Description */&ndash;&gt;-->
+<!--&lt;!&ndash;        .card-box p {&ndash;&gt;-->
+<!--&lt;!&ndash;            font-size: 12px;&ndash;&gt;-->
+<!--&lt;!&ndash;            margin-bottom: 10px;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+
+<!--&lt;!&ndash;        /* Button Size */&ndash;&gt;-->
+<!--&lt;!&ndash;        .card-box .btn {&ndash;&gt;-->
+<!--&lt;!&ndash;            font-size: 12px;&ndash;&gt;-->
+<!--&lt;!&ndash;            padding: 4px 10px;&ndash;&gt;-->
+<!--&lt;!&ndash;        }&ndash;&gt;-->
+
+<!--        @media (max-width: 768px) {-->
+<!--            .sidebar {-->
+<!--                position: absolute;-->
+<!--                left: -260px;-->
+<!--            }-->
+
+<!--            .main-content {-->
+<!--                margin-left: 0;-->
+<!--            }-->
 <!--        }-->
-<!--        .card-box h4 {-->
-<!--            font-size: 15px;-->
-<!--            font-weight: 600;-->
-<!--            margin-bottom: 8px;-->
-<!--        }-->
-<!--        .card-box p {-->
-<!--            font-size: 13px;-->
-<!--            color: var(&#45;&#45;text-muted);-->
-<!--        }-->
+
+
+
+
+<!--        /* Main Card */-->
+<!--.dashboard-card {-->
+<!--    background: #fff;-->
+<!--    border: 1px solid #e5e7eb;-->
+<!--    border-radius: 18px;-->
+<!--    overflow: hidden;-->
+<!--    box-shadow: 0 2px 10px rgba(0,0,0,.04);-->
+<!--}-->
+
+<!--/* Header */-->
+<!--.dashboard-card-header {-->
+<!--    display: flex;-->
+<!--    justify-content: space-between;-->
+<!--    align-items: center;-->
+<!--    padding: 22px 28px;-->
+<!--    background: #fff;-->
+<!--}-->
+
+<!--.dashboard-card-header h5 {-->
+<!--    margin: 0;-->
+<!--    font-size: 18px;-->
+<!--    font-weight: 700;-->
+<!--    color: #0f172a;-->
+<!--}-->
+
+<!--/* Month / Milestone Badge */-->
+<!--.header-pill {-->
+<!--    background: #f8fafc;-->
+<!--    border: 1px solid #dbe2ea;-->
+<!--    color: #64748b;-->
+<!--    padding: 4px 14px;-->
+<!--    border-radius: 20px;-->
+<!--    font-size: 13px;-->
+<!--    font-weight: 500;-->
+<!--}-->
+
+<!--/* Table */-->
+<!--.dashboard-card table {-->
+<!--    margin-bottom: 0;-->
+<!--}-->
+
+<!--.dashboard-card thead th {-->
+<!--    font-size: 13px;-->
+<!--    font-weight: 700;-->
+<!--    text-transform: uppercase;-->
+<!--    color: #000;-->
+<!--    border-bottom: none;-->
+<!--    padding: 12px 28px;-->
+<!--}-->
+
+<!--.dashboard-card tbody td {-->
+<!--    font-size: 14px;-->
+<!--    color: #0f172a;-->
+<!--    padding: 14px 28px;-->
+<!--    border-bottom: none;-->
+<!--}-->
+
+<!--/* Remaining Badge */-->
+<!--.remaining-badge {-->
+<!--    background: #f1f5f9;-->
+<!--    color: #111827;-->
+<!--    font-size: 12px;-->
+<!--    font-weight: 700;-->
+<!--    border-radius: 6px;-->
+<!--    padding: 4px 10px;-->
+<!--}-->
+
+<!--/* Hover */-->
+<!--.table-hover tbody tr:hover {-->
+<!--    background: #f8fafc;-->
+<!--}-->
 <!--    </style>-->
 <!--</head>-->
 
@@ -1121,13 +1077,28 @@ body {
 <!--            <li>-->
 <!--                <button class="dropdown-trigger" type="button" data-bs-toggle="collapse" data-bs-target="#profileSubmenu" aria-expanded="false">-->
 <!--                    <i class="fa-solid fa-user"></i>-->
-<!--                    <span>Profile Management</span>-->
+<!--                    <span>Employee Management</span>-->
 <!--                    <i class="fa-solid fa-chevron-right arrow-icon"></i>-->
 <!--                </button>-->
 <!--                <div class="collapse" id="profileSubmenu">-->
 <!--                    <ul class="submenu">-->
-<!--                        <li><a th:href="@{/profile/view}">View Profile</a></li>-->
+<!--                        <li><a th:href="@{/profile/view}">Add Employee</a></li>-->
+<!--                        <li><a th:href="@{/admin/employees}">Employee List</a></li>-->
+<!--                        <li><a th:href="@{/admin/all-profiles-as-employees}">Employee Profile</a></li>-->
+
 <!--                    </ul>-->
+
+<!--                    <a th:href="@{/admin/employees}">-->
+<!--                        <i class="fa-solid fa-users"></i>-->
+<!--                        All Employees-->
+<!--                    </a>-->
+
+
+<!--                        <a th:href="@{/admin/all-profiles-as-employees}">-->
+<!--                            <i class="fa-solid fa-id-card"></i>-->
+<!--                            Employee Profiles-->
+<!--                        </a>-->
+
 <!--                </div>-->
 <!--            </li>-->
 
@@ -1140,7 +1111,7 @@ body {
 <!--                </button>-->
 <!--                <div class="collapse" id="salarySubmenu">-->
 <!--                    <ul class="submenu">-->
-<!--                        <li><a th:href="@{/salary/slip/{id}(id=${loggedInEmpId})}">View Salary</a></li>-->
+<!--                        <li><a href="/salary">View Salary</a></li>-->
 <!--                    </ul>-->
 <!--                </div>-->
 <!--            </li>-->
@@ -1177,283 +1148,160 @@ body {
 <!--            <div class="page-title">-->
 <!--                <h2 th:text="${loggedInEmpName != null} ? ${loggedInEmpName} : 'Dashboard'">Dashboard</h2>-->
 <!--            </div>-->
-<!--            <div>-->
-<!--                <a th:if="${isUserLoggedIn == null or !isUserLoggedIn}"-->
+<!--            <div xmlns:sec="http://www.thymeleaf.org/extras/spring-security">-->
+
+<!--                &lt;!&ndash; LOGIN BUTTON (only when NOT logged in) &ndash;&gt;-->
+<!--                <a sec:authorize="isAnonymous()"-->
 <!--                   th:href="@{/auth/loginPage}"-->
 <!--                   class="btn btn-sm btn-primary fw-medium px-3 py-2 rounded-2">-->
 <!--                    Log In-->
 <!--                </a>-->
 
-<!--                <a th:if="${isUserLoggedIn != null and isUserLoggedIn}"-->
+<!--                &lt;!&ndash; LOGOUT BUTTON (only when logged in) &ndash;&gt;-->
+<!--                <a sec:authorize="isAuthenticated()"-->
 <!--                   th:href="@{/auth/logout}"-->
 <!--                   class="btn btn-sm btn-outline-danger fw-medium px-3 py-2 rounded-2">-->
 <!--                    <i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Log Out-->
 <!--                </a>-->
+
 <!--            </div>-->
 <!--        </header>-->
 
 <!--        &lt;!&ndash; DASHBOARD GRID & LIVE DATA CONTENT &ndash;&gt;-->
 <!--        <main class="content-body">-->
 
-<!--            &lt;!&ndash; 1. CRITICAL ALERT BANNER (UPDATED WITH NEGATIVE MARGIN TO SHIFT UP) &ndash;&gt;-->
+<!--            &lt;!&ndash; 1. ALERT BANNER &ndash;&gt;-->
 <!--            <div class="alert border-0 rounded-3 p-3 mb-4 d-flex align-items-center gap-3"-->
 <!--                 style="background-color: #fef2f2; color: #991b1b; border-left: 4px solid #ef4444 !important; margin-top: -24px !important;">-->
 <!--                <div class="fs-4"><i class="fa-solid fa-bullhorn text-danger"></i></div>-->
 <!--                <div>-->
 <!--                    <strong class="d-block mb-1" style="font-size: 14px; font-weight: 700;">Alert Notice</strong>-->
-<!--                    <span style="font-size: 13.5px; color: #991b1b; font-weight: 500;">-->
-<!--                        Kindly fill the timesheet till the 2nd of every month and the salary will be generated on the basis of that only, If you missed to fill your time sheet your salary will be deducted.-->
-<!--                    </span>-->
+<!--                    <span style="font-size: 13.5px;">-->
+<!--                Kindly fill timesheet before 2nd of every month.-->
+<!--            </span>-->
 <!--                </div>-->
 <!--            </div>-->
 
-<!--            &lt;!&ndash; 2. QUICK STATS (TOP LEVEL) &ndash;&gt;-->
+<!--            &lt;!&ndash; 2. QUICK STATS &ndash;&gt;-->
 <!--            <div class="row g-4 mb-4">-->
+
 <!--                <div class="col-xl-4 col-md-6">-->
 <!--                    <div class="stat-card">-->
 <!--                        <div class="stat-info">-->
 <!--                            <span>WFH Workforce</span>-->
-<!--                            <h4><a href="#" th:text="${wfhCount != null ? wfhCount + ' Active Users' : '0 Active Users'}">0 Active Users</a></h4>-->
+<!--                            <h5 th:text="${wfhCount != null ? wfhCount + ' Active Users' : '0 Active Users'}"></h5>-->
 <!--                        </div>-->
-<!--                        <div class="stat-icon" style="background-color: #ecfdf5; color: #059669;"><i class="fa-solid fa-house-laptop"></i></div>-->
 <!--                    </div>-->
 <!--                </div>-->
+
 <!--                <div class="col-xl-4 col-md-6">-->
 <!--                    <div class="stat-card">-->
 <!--                        <div class="stat-info">-->
 <!--                            <span>Today's Leave Status</span>-->
-<!--                            <h4><a href="#" th:text="${leaveCount != null ? leaveCount + ' Employees Away' : '0 Employees Away'}">0 Employees Away</a></h4>-->
+<!--                            <h5 th:text="${leaveCount != null ? leaveCount + ' Employees Away' : '0 Employees Away'}"></h5>-->
 <!--                        </div>-->
-<!--                        <div class="stat-icon" style="background-color: #fef3c7; color: #d97706;"><i class="fa-solid fa-calendar-minus"></i></div>-->
 <!--                    </div>-->
 <!--                </div>-->
+
 <!--                <div class="col-xl-4 col-md-6">-->
 <!--                    <div class="stat-card">-->
 <!--                        <div class="stat-info">-->
 <!--                            <span>Project Off-logs</span>-->
-<!--                            <h4><a href="#" th:text="${offLogsCount != null ? offLogsCount + ' Team Members' : '0 Team Members'}">0 Team Members</a></h4>-->
+<!--                            <h5 th:text="${offLogsCount != null ? offLogsCount + ' Team Members' : '0 Team Members'}"></h5>-->
 <!--                        </div>-->
-<!--                        <div class="stat-icon" style="background-color: #f1f5f9; color: #475569;"><i class="fa-solid fa-user-slash"></i></div>-->
 <!--                    </div>-->
 <!--                </div>-->
+
 <!--            </div>-->
 
-<!--            &lt;!&ndash; 3. DETAILED INFORMATION TABS/GRIDS &ndash;&gt;-->
+<!--            &lt;!&ndash; 3. BIRTHDAYS + ANNIVERSARIES &ndash;&gt;-->
 <!--            <div class="row g-4 mb-4">-->
-<!--                &lt;!&ndash; UPCOMING BIRTHDAYS &ndash;&gt;-->
+
+<!--                &lt;!&ndash; ================= BIRTHDAYS ================= &ndash;&gt;-->
 <!--                <div class="col-lg-6">-->
+<!--                    <div class="card shadow-sm border-0 h-100">-->
 
-<!--                    <div class="bg-white rounded-3 border p-4 h-100">-->
-
-<!--                        <div class="d-flex justify-content-between align-items-center mb-3">-->
-
-<!--                            <h6 class="fw-bold m-0" style="font-size: 14px; color: var(&#45;&#45;text-main);">-->
-
-<!--                                <i class="fa-solid fa-cake-candles text-danger me-2"></i>-->
-
-<!--                                Upcoming Birthdays-->
-
-<!--                            </h6>-->
-
+<!--                        <div class="card-header birthday-header">-->
+<!--                            <h5 class="mb-0">🎂 Upcoming Birthdays</h5>-->
 <!--                        </div>-->
 
-
-
-<!--                        <div class="table-responsive" style="max-height: 280px; overflow-y: auto;">-->
-
-<!--                            <table class="table table-sm table-borderless align-middle mb-0" style="font-size: 13px;">-->
-
-<!--                                <thead class="text-muted sticky-top bg-white"-->
-
-<!--                                       style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">-->
-
+<!--                        <div class="card-body p-0">-->
+<!--                            <table class="table table-hover table-bordered mb-0">-->
+<!--                                <thead class="table-light">-->
 <!--                                <tr>-->
-
 <!--                                    <th>Name</th>-->
-
-<!--                                    <th>Birthday</th>-->
-
-<!--                                    <th class="text-end">Remaining</th>-->
-
+<!--                                    <th>DOB</th>-->
+<!--                                    <th>Remaining</th>-->
 <!--                                </tr>-->
-
 <!--                                </thead>-->
 
-
-
 <!--                                <tbody>-->
-
-
-
-<!--                                <tr th:each="bday : ${birthdays}" class="border-bottom">-->
-
-<!--                                    <td class="fw-medium" th:text="${bday.name}">Employee Name</td>-->
-
-
-
-<!--                                    <td class="text-muted"-->
-
-<!--                                        th:text="${#temporals.format(bday.nextDate,'dd MMM yyyy')}">-->
-
-<!--                                        01 Jul 2026-->
-
-<!--                                    </td>-->
-
-
-
-<!--                                    <td class="text-end">-->
-
-<!--                        <span class="badge bg-light text-dark"-->
-
-<!--                              th:text="${bday.remainingDays == 0 ? 'Today' :-->
-
-<!--                                       bday.remainingDays == 1 ? 'Tomorrow' :-->
-
-<!--                                       bday.remainingDays + ' Days'}">-->
-
-<!--                        </span>-->
-
-<!--                                    </td>-->
-
-<!--                                </tr>-->
-
-
 
 <!--                                <tr th:if="${#lists.isEmpty(birthdays)}">-->
-
 <!--                                    <td colspan="3" class="text-center text-muted py-3">-->
-
-<!--                                        No upcoming birthdays found-->
-
+<!--                                        No Upcoming Birthdays-->
 <!--                                    </td>-->
-
 <!--                                </tr>-->
 
-
+<!--                                <tr th:each="bday : ${birthdays}">-->
+<!--                                    <td th:text="${bday.name}"></td>-->
+<!--                                    <td th:text="${bday.dateOfBirth}"></td>-->
+<!--                                    <td>-->
+<!--                               <span class="badge birthday-badge"-->
+<!--                                     th:text="${bday.remainingDays + ' Days Left'}"></span>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
 
 <!--                                </tbody>-->
-
 <!--                            </table>-->
-
 <!--                        </div>-->
 
 <!--                    </div>-->
-
 <!--                </div>-->
 
-
-
+<!--                &lt;!&ndash; ================= ANNIVERSARIES ================= &ndash;&gt;-->
 <!--                <div class="col-lg-6">-->
+<!--                    <div class="card shadow-sm border-0 h-100">-->
 
-<!--                    <div class="bg-white rounded-3 border p-4 h-100">-->
-
-
-
-<!--                        <div class="d-flex justify-content-between align-items-center mb-3">-->
-
-<!--                            <h6 class="fw-bold m-0" style="font-size: 14px; color: var(&#45;&#45;text-main);">-->
-
-<!--                                <i class="fa-solid fa-award text-primary me-2"></i>-->
-
-<!--                                Work Anniversaries-->
-
-<!--                            </h6>-->
-
+<!--                        <div class="card-header anniversary-header">-->
+<!--                            <h5 class="mb-0">🏆 Upcoming Anniversaries</h5>-->
 <!--                        </div>-->
 
-
-
-<!--                        <div class="table-responsive" style="max-height: 280px; overflow-y: auto;">-->
-
-<!--                            <table class="table table-sm table-borderless align-middle mb-0" style="font-size: 13px;">-->
-
-
-
-<!--                                <thead class="text-muted sticky-top bg-white"-->
-
-<!--                                       style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">-->
-
+<!--                        <div class="card-body p-0">-->
+<!--                            <table class="table table-hover table-bordered mb-0">-->
+<!--                                <thead class="table-light">-->
 <!--                                <tr>-->
-
 <!--                                    <th>Name</th>-->
-
 <!--                                    <th>Joining Date</th>-->
-
-<!--                                    <th class="text-end">Remaining</th>-->
-
+<!--                                    <th>Remaining</th>-->
 <!--                                </tr>-->
-
 <!--                                </thead>-->
-
-
 
 <!--                                <tbody>-->
 
-
-
-<!--                                <tr th:each="anniv : ${anniversaries}" class="border-bottom">-->
-
-<!--                                    <td class="fw-medium" th:text="${anniv.name}">-->
-
-<!--                                        Employee Name-->
-
-<!--                                    </td>-->
-
-
-
-<!--                                    <td class="text-muted"-->
-
-<!--                                        th:text="${#temporals.format(anniv.joiningDate,'dd MMM yyyy')}">-->
-
-<!--                                        01 Jul 2026-->
-
-<!--                                    </td>-->
-
-
-
-<!--                                    <td class="text-end">-->
-
-<!--                        <span class="badge bg-light text-dark"-->
-
-<!--                              th:text="${anniv.remainingDays == 0 ? 'Today' :-->
-
-<!--                                       anniv.remainingDays == 1 ? 'Tomorrow' :-->
-
-<!--                                       anniv.remainingDays + ' Days'}">-->
-
-<!--                        </span>-->
-
-<!--                                    </td>-->
-
-<!--                                </tr>-->
-
-
-
 <!--                                <tr th:if="${#lists.isEmpty(anniversaries)}">-->
-
 <!--                                    <td colspan="3" class="text-center text-muted py-3">-->
-
-<!--                                        No upcoming anniversaries found-->
-
+<!--                                        No Upcoming Anniversaries-->
 <!--                                    </td>-->
-
 <!--                                </tr>-->
 
-
+<!--                                <tr th:each="ann : ${anniversaries}">-->
+<!--                                    <td th:text="${ann.name}"></td>-->
+<!--                                    <td th:text="${ann.joiningDate}"></td>-->
+<!--                                    <td>-->
+<!--                            <span class="badge anniversary-badge"-->
+<!--                                  th:text="${ann.remainingDays + ' Days Left'}"></span>-->
+<!--                                    </td>-->
+<!--                                </tr>-->
 
 <!--                                </tbody>-->
-
 <!--                            </table>-->
-
 <!--                        </div>-->
 
-
-
 <!--                    </div>-->
-
 <!--                </div>-->
-<!--            <div class="row g-4">-->
-<!--                &lt;!&ndash; LIVE ATTENDANCE TRACKER &ndash;&gt;-->
+
+
 <!--                <div class="col-xl-8">-->
 <!--                    <div class="bg-white rounded-3 border p-4 h-100">-->
 <!--                        <h6 class="fw-bold mb-3" style="font-size: 14px;"><i class="fa-solid fa-user-clock text-warning me-2"></i>Current Attendance Status (Today)</h6>-->
@@ -1486,6 +1334,7 @@ body {
 <!--                        </div>-->
 <!--                    </div>-->
 <!--                </div>-->
+
 
 <!--                &lt;!&ndash; SIDE LOGS &ndash;&gt;-->
 <!--                <div class="col-xl-4">-->
@@ -1522,50 +1371,104 @@ body {
 <!--                </div>-->
 <!--            </div>-->
 
-<!--            &lt;!&ndash; ACTION CARD UTILITIES ROW &ndash;&gt;-->
-<!--            <div class="row g-4 mt-2">-->
-<!--                <div class="col-md-3">-->
-<!--                    <div class="card-box">-->
-<!--                        <div class="icon"><i class="fa-solid fa-calendar-minus"></i></div>-->
-<!--                        <h4>Leave</h4>-->
-<!--                        <p>Manage Leave</p>-->
-<!--                        <a th:href="@{/leave/apply}" class="btn btn-sm btn-outline-primary mt-2">Open</a>-->
+
+
+
+<!--            <div class="container-fluid mt-4">-->
+
+<!--                &lt;!&ndash; Utility Section &ndash;&gt;-->
+<!--                <div class="card shadow-sm border-0">-->
+
+<!--                    <div class="card-header bg-black text-white">-->
+<!--                        <h5 class="mb-0">-->
+<!--                            <i class="fa-solid fa-layer-group me-2"></i>-->
+<!--                            Quick Access-->
+<!--                        </h5>-->
 <!--                    </div>-->
+
+<!--                    <div class="card-body">-->
+
+<!--                        <div class="row g-4">-->
+
+<!--                            &lt;!&ndash; Leave &ndash;&gt;-->
+<!--                            <div class="col-md-3">-->
+<!--                                <div class="card-box">-->
+<!--                                    <div class="icon">-->
+<!--                                        <i class="fa-solid fa-calendar-minus"></i>-->
+<!--                                    </div>-->
+<!--                                    <h4>Leave</h4>-->
+<!--                                    <p>Manage Leave</p>-->
+<!--                                    <a th:href="@{/leave/apply}"-->
+<!--                                       class="btn btn-sm btn-outline-primary mt-2">-->
+<!--                                        Open-->
+<!--                                    </a>-->
+<!--                                </div>-->
+<!--                            </div>-->
+
+<!--                            &lt;!&ndash; Attendance &ndash;&gt;-->
+<!--                            <div class="col-md-3">-->
+<!--                                <div class="card-box">-->
+<!--                                    <div class="icon">-->
+<!--                                        <i class="fa-solid fa-user-clock"></i>-->
+<!--                                    </div>-->
+<!--                                    <h4>Attendance Tracking</h4>-->
+<!--                                    <p>Automatic Track Attendance</p>-->
+<!--                                    <a th:href="@{/employee/attendance-tracking}"-->
+<!--                                       class="btn btn-sm btn-outline-primary mt-2">-->
+<!--                                        Open-->
+<!--                                    </a>-->
+<!--                                </div>-->
+<!--                            </div>-->
+
+<!--                            &lt;!&ndash; Timesheet &ndash;&gt;-->
+<!--                            <div class="col-md-3">-->
+<!--                                <div class="card-box">-->
+<!--                                    <div class="icon">-->
+<!--                                        <i class="fa-solid fa-clock"></i>-->
+<!--                                    </div>-->
+<!--                                    <h4>Timesheet</h4>-->
+<!--                                    <p>Log your daily tasks & hours</p>-->
+<!--                                    <a th:href="@{/timesheet/log}"-->
+<!--                                       class="btn btn-sm btn-outline-primary mt-2">-->
+<!--                                        Open Logs-->
+<!--                                    </a>-->
+<!--                                </div>-->
+<!--                            </div>-->
+
+<!--                            &lt;!&ndash; Notifications &ndash;&gt;-->
+<!--                            <div class="col-md-3">-->
+<!--                                <div class="card-box">-->
+<!--                                    <div class="icon">-->
+<!--                                        <i class="fa-solid fa-bell"></i>-->
+<!--                                    </div>-->
+<!--                                    <h4>Notifications</h4>-->
+<!--                                    <p>View latest announcements</p>-->
+
+<!--                                    <a th:href="@{/notifications}"-->
+<!--                                       class="btn btn-sm btn-outline-primary mt-2">-->
+<!--                                        Open-->
+<!--                                    </a>-->
+
+<!--                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"-->
+<!--                                          th:if="${notificationCount > 0}"-->
+<!--                                          th:text="${notificationCount}">-->
+<!--                            0-->
+<!--                        </span>-->
+<!--                                </div>-->
+<!--                            </div>-->
+
+<!--                        </div>-->
+
+<!--                    </div>-->
+
 <!--                </div>-->
 
-<!--                <div class="col-md-3">-->
-<!--                    <div class="card-box">-->
-<!--                        <div class="icon"><i class="fa-solid fa-user-clock"></i></div>-->
-<!--                        <h4>Attendance Tracking</h4>-->
-<!--                        <p>Automatic Track attendance</p>-->
-<!--                        <a th:href="@{/employee/attendance-tracking}" class="btn btn-sm btn-outline-primary mt-2">Open</a>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--                <div class="col-md-3">-->
-<!--                    <div class="card-box">-->
-<!--                        <div class="icon"><i class="fa-solid fa-clock"></i></div>-->
-<!--                        <h4>Timesheet</h4>-->
-<!--                        <p>Log your daily tasks & hours</p>-->
-<!--                        <a th:href="@{/timesheet/log}" class="btn btn-sm btn-outline-primary mt-2">Open Logs</a>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--                <div class="col-md-3">-->
-<!--                    <div class="card-box">-->
-<!--                        <div class="icon"><i class="fa-solid fa-bell"></i></div>-->
-<!--                        <h4>Notifications</h4>-->
-<!--                        <p>View latest announcements</p>-->
-<!--                        <a th:href="@{/notifications}" class="btn btn-sm btn-outline-primary mt-2">Open</a>-->
-<!--                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"-->
-<!--                              th:if="${notificationCount > 0}" th:text="${notificationCount}">0</span>-->
-<!--                    </div>-->
-<!--                </div>-->
 <!--            </div>-->
 
-<!--            &lt;!&ndash; FOOTER COPYRIGHT SECTION &ndash;&gt;-->
+
+<!--            &lt;!&ndash; FOOTER &ndash;&gt;-->
 <!--            <footer class="mt-5 pt-4 text-center text-muted border-top" style="font-size: 12px;">-->
-<!--                <p class="mb-0">Copyright &copy; 2026 Bluethink IT Consulting Pvt. Ltd. All rights reserved.</p>-->
+<!--                <p class="mb-0">Copyright © 2026 Bluethink IT Consulting Pvt. Ltd.</p>-->
 <!--            </footer>-->
 
 <!--        </main>-->
@@ -1577,1004 +1480,3 @@ body {
 <!--</body>-->
 <!--</html>-->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
-<!--    <title>BlueThink Technologies - HRMS Admin Dashboard</title>-->
-
-<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">-->
-<!--    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">-->
-<!--    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>-->
-
-<!--    <style>-->
-<!--        *{-->
-<!--            margin:0;-->
-<!--            padding:0;-->
-<!--            box-sizing:border-box;-->
-<!--        }-->
-
-<!--        body{-->
-<!--            background:#f4f6f9;-->
-<!--            font-family:'Segoe UI',sans-serif;-->
-<!--        }-->
-
-<!--        /* Menu Button */-->
-<!--        .menu-btn{-->
-<!--            display:none;-->
-<!--            position:fixed;-->
-<!--            top:15px;-->
-<!--            left:15px;-->
-<!--            z-index:10001;-->
-<!--            border:none;-->
-<!--            background:#0f172a;-->
-<!--            color:#fff;-->
-<!--            padding:8px 10px;-->
-<!--            border-radius:8px;-->
-<!--        }-->
-
-<!--    #sidebar{-->
-<!--    position: fixed;-->
-<!--    left: 0;-->
-<!--    top: 0;-->
-<!--    width: 200px;-->
-<!--    height: 100vh;-->
-<!--    background: #000;-->
-<!--    color: #fff;-->
-<!--    overflow-y: auto;-->
-<!--    z-index: 9999;-->
-<!--    transition: .3s;-->
-<!--    border-right: 1px solid #444;-->
-<!--}-->
-
-<!--}-->
-
-<!--.brand{-->
-<!--    padding:14px 10px;-->
-<!--    text-align:center;-->
-<!--    border-bottom:1px solid rgba(255,255,255,.08);-->
-<!--}-->
-
-<!--/* logo stays same size */-->
-<!--.brand .logo{-->
-<!--    width:38px;-->
-<!--    height:38px;-->
-<!--    border-radius:50%;-->
-<!--    background:#2563eb;-->
-<!--    margin:auto;-->
-<!--    display:flex;-->
-<!--    align-items:center;-->
-<!--    justify-content:center;-->
-<!--    font-size:14px;-->
-
-
-<!--}-->
-
-<!--/* 🔥 COMPANY NAME BIG + ATTRACTIVE */-->
-<!--.brand h3{-->
-<!--    margin-top:10px;-->
-<!--    font-size:20px;         /* BIG SIZE */-->
-<!--    font-weight:700;-->
-<!--    font-family: "Brush Script MT", cursive;-->
-<!--    color:#60a5fa;-->
-<!--    letter-spacing:0.5px;-->
-<!--    text-shadow:0 1px 3px rgba(0,0,0,0.4);-->
-<!--}-->
-
-<!--/* subtitle small */-->
-<!--.brand p{-->
-<!--    font-size:10px;-->
-<!--    color:#94a3b8;-->
-<!--    margin-top:2px;-->
-<!--}-->
-
-<!--/* MENU ITEMS SMALL */-->
-<!--#sidebar a{-->
-<!--    text-decoration:none;-->
-<!--    color:white;-->
-<!--    display:block;-->
-<!--    padding:7px 10px;   /* 🔥 reduced padding */-->
-<!--    border-radius:6px;-->
-<!--    font-size:12px;     /* 🔥 small text */-->
-<!--    transition:.3s;-->
-<!--}-->
-
-<!--#sidebar a i{-->
-<!--    width:18px;-->
-<!--    font-size:11px;-->
-<!--}-->
-
-<!--#sidebar li{-->
-<!--    list-style:none;-->
-<!--    padding:2px 8px;-->
-<!--}-->
-
-<!--        /* Content */-->
-<!--        #content{-->
-<!--            margin-left:240px;-->
-<!--            padding:20px;-->
-<!--        }-->
-
-<!--        /* Topbar */-->
-<!--        .topbar{-->
-<!--            background:white;-->
-<!--            border-radius:14px;-->
-<!--            padding:12px 20px;-->
-<!--            display:flex;-->
-<!--            justify-content:space-between;-->
-<!--            align-items:center;-->
-<!--            box-shadow:0 2px 12px rgba(0,0,0,.05);-->
-<!--        }-->
-
-<!--        .topbar h4{-->
-<!--            margin:0;-->
-<!--            font-size:22px;-->
-<!--            font-weight:600;-->
-<!--        }-->
-
-<!--        .topbar small{-->
-<!--            color:#64748b;-->
-<!--        }-->
-
-<!--        .admin-area{-->
-<!--            display:flex;-->
-<!--            align-items:center;-->
-<!--            gap:15px;-->
-<!--        }-->
-
-<!--        .admin-area i{-->
-<!--            font-size:16px;-->
-<!--        }-->
-
-<!--        .profile{-->
-<!--            width:35px;-->
-<!--            height:35px;-->
-<!--            border-radius:50%;-->
-<!--            background:#2563eb;-->
-<!--            color:white;-->
-<!--            display:flex;-->
-<!--            align-items:center;-->
-<!--            justify-content:center;-->
-<!--        }-->
-
-<!--    .hero{-->
-<!--    margin-top:8px;-->
-<!--    padding:8px 14px;-->
-<!--    border-radius:8px;-->
-<!--    background:linear-gradient(135deg,#2563eb,#06b6d4);-->
-<!--    color:white;-->
-<!--    min-height:50px;-->
-<!--    display:flex;-->
-<!--    align-items:center;-->
-<!--    justify-content:space-between;-->
-<!--}-->
-
-<!--.hero h2{-->
-<!--    font-size:14px;-->
-<!--    margin:0;-->
-<!--    font-weight:600;-->
-<!--}-->
-
-<!--.hero p{-->
-<!--    display:none; /* Description hide */-->
-<!--}-->
-
-<!--/* Ultra Small Dashboard Cards */-->
-<!--.cardx{-->
-<!--    background:#fff;-->
-<!--    border-radius:10px;-->
-<!--    padding:8px;-->
-<!--    height:75px;-->
-<!--    box-shadow:0 1px 5px rgba(0,0,0,.06);-->
-<!--    transition:.3s;-->
-<!--    display:flex;-->
-<!--    flex-direction:column;-->
-<!--    justify-content:center;-->
-<!--    align-items:center;-->
-<!--}-->
-
-<!--.cardx:hover{-->
-<!--    transform:translateY(-2px);-->
-<!--}-->
-
-<!--.cardx i{-->
-<!--    font-size:13px;-->
-<!--    margin-bottom:3px;-->
-<!--}-->
-
-<!--.cardx h3{-->
-<!--    font-size:16px;-->
-<!--    font-weight:700;-->
-<!--    margin:0;-->
-<!--    line-height:1.1;-->
-<!--}-->
-
-<!--.cardx p{-->
-<!--    font-size:10px;-->
-<!--    margin:2px 0 0;-->
-<!--    color:#64748b;-->
-<!--}-->
-
-
-
-<!-- .box{-->
-<!--    background:#fff;-->
-<!--    border-radius:10px;-->
-<!--    padding:10px 12px;-->
-<!--    margin-top:10px;-->
-<!--    box-shadow:0 1px 5px rgba(0,0,0,.05);-->
-<!--}-->
-
-<!--.box h5{-->
-<!--    font-size:13px;-->
-<!--    font-weight:600;-->
-<!--    margin-bottom:8px;-->
-<!--}-->
-
-<!--#chart{-->
-<!--    height:220px !important;-->
-<!--    max-height:220px;-->
-<!--}-->
-
-<!--        #chart{-->
-<!--            max-height:300px;-->
-<!--        }-->
-
-<!--       /* Compact Table */-->
-<!--.table{-->
-<!--    font-size:12px;-->
-<!--    margin-bottom:0;-->
-<!--}-->
-
-<!--.table th{-->
-<!--    padding:7px 10px;-->
-<!--    font-size:11px;-->
-<!--    font-weight:600;-->
-<!--    color:#475569;-->
-<!--}-->
-
-<!--.table td{-->
-<!--    padding:6px 10px;-->
-<!--    font-size:11px;-->
-<!--    vertical-align:middle;-->
-<!--}-->
-
-<!--        /* Overlay */-->
-<!--        #overlay{-->
-<!--            display:none;-->
-<!--            position:fixed;-->
-<!--            inset:0;-->
-<!--            background:rgba(0,0,0,.4);-->
-<!--            z-index:9998;-->
-<!--        }-->
-
-<!--        /* Mobile */-->
-<!--        @media(max-width:991px){-->
-
-<!--            .menu-btn{-->
-<!--                display:block;-->
-<!--            }-->
-
-<!--            #sidebar{-->
-<!--                left:-240px;-->
-<!--            }-->
-
-<!--            #sidebar.active{-->
-<!--                left:0;-->
-<!--            }-->
-
-<!--            #overlay.active{-->
-<!--                display:block;-->
-<!--            }-->
-
-<!--            #content{-->
-<!--                margin-left:0;-->
-<!--                padding:15px;-->
-<!--            }-->
-
-<!--            .topbar{-->
-<!--                margin-top:55px;-->
-<!--            }-->
-
-<!--            .hero h2{-->
-<!--                font-size:22px;-->
-<!--            }-->
-
-<!--            .cardx{-->
-<!--                padding:15px;-->
-<!--            }-->
-<!--        }-->
-
-
-
-
-
-
-<!--        .small-table-box{-->
-<!--    padding:10px;-->
-<!--    border-radius:10px;-->
-<!--    height:100%;-->
-<!--}-->
-
-<!--.small-table-box h5{-->
-<!--    font-size:14px;-->
-<!--    font-weight:600;-->
-<!--    margin-bottom:10px;-->
-<!--}-->
-
-<!--.table th,-->
-<!--.table td{-->
-<!--    font-size:12px;-->
-<!--    padding:6px 8px !important;-->
-<!--}-->
-
-<!--.badge{-->
-<!--    font-size:11px;-->
-<!--    padding:5px 8px;-->
-<!--    border-radius:8px;-->
-<!--}-->
-
-
-
-
-
-<!--        .pagination {-->
-<!--    margin-bottom: 0;-->
-<!--}-->
-
-<!--.pagination .page-link {-->
-<!--    border-radius: 6px;-->
-<!--    margin: 0 2px;-->
-<!--    font-size: 12px;-->
-<!--    padding: 4px 10px;-->
-<!--}-->
-
-<!--.pagination .active .page-link {-->
-<!--    background-color: #2563eb;-->
-<!--    border-color: #2563eb;-->
-<!--}-->
-
-<!--        #sidebar .fa-chevron-down{-->
-<!--    font-size:10px;-->
-<!--    margin-top:4px;-->
-<!--}-->
-
-<!--#sidebar ul ul{-->
-<!--    padding-left:15px;-->
-<!--}-->
-
-<!--#sidebar ul ul li a{-->
-<!--    font-size:11px;-->
-<!--    color:#cbd5e1;-->
-<!--}-->
-
-
-
-
-<!--        /* ================= TOPBAR ================= */-->
-<!--.topbar{-->
-<!--    background: #000;-->
-<!--    color: #fff;-->
-<!--    padding: 15px 25px;-->
-<!--    display: flex;-->
-<!--    justify-content: space-between;-->
-<!--    align-items: center;-->
-<!--    border-bottom: 1px solid #333;-->
-<!--}-->
-
-<!--.topbar h4{-->
-<!--    margin: 0;-->
-<!--    font-size: 22px;-->
-<!--    font-weight: 700;-->
-<!--    color: #fff;-->
-<!--}-->
-
-<!--.admin-area{-->
-<!--    display: flex;-->
-<!--    align-items: center;-->
-<!--    gap: 20px;-->
-<!--}-->
-
-<!--.admin-area i{-->
-<!--    color: #fff;-->
-<!--    font-size: 18px;-->
-<!--    cursor: pointer;-->
-<!--}-->
-
-<!--.profile{-->
-<!--    width: 40px;-->
-<!--    height: 40px;-->
-<!--    background: #fff;-->
-<!--    color: #000;-->
-<!--    border-radius: 50%;-->
-<!--    display: flex;-->
-<!--    align-items: center;-->
-<!--    justify-content: center;-->
-<!--    font-size: 18px;-->
-<!--    font-weight: bold;-->
-<!--}-->
-
-<!--/* ================= HERO SECTION ================= */-->
-<!--.hero{-->
-<!--    background: #fff;-->
-<!--    color: #000;-->
-<!--    padding: 18px 25px;-->
-<!--    border-radius: 10px;-->
-<!--    margin: 12px 20px;-->
-<!--    border: 1px solid #000;-->
-<!--    box-shadow: 0 2px 6px rgba(0,0,0,0.08);-->
-<!--}-->
-
-<!--.hero h2{-->
-<!--    font-size: 22px;-->
-<!--    font-weight: 700;-->
-<!--    margin-bottom: 4px;-->
-<!--    color: #000;-->
-<!--    line-height: 1.2;-->
-<!--}-->
-
-<!--.hero p{-->
-<!--    font-size: 13px;-->
-<!--    color: #555;-->
-<!--    margin: 0;-->
-<!--    line-height: 1.4;-->
-<!--    max-width: 600px;-->
-<!--}-->
-
-
-
-<!--    </style>-->
-<!--</head>-->
-
-<!--<body>-->
-
-<!--<button class="menu-btn" onclick="toggleSidebar()">-->
-<!--    <i class="fa fa-bars"></i>-->
-<!--</button>-->
-
-<!--<div id="overlay" onclick="toggleSidebar()"></div>-->
-
-<!--<nav id="sidebar">-->
-
-<!--    <div class="brand">-->
-<!--        <div class="logo">-->
-<!--            <i class="fa fa-building"></i>-->
-<!--        </div>-->
-
-<!--        <h3>BlueThink Inc.</h3>-->
-<!--&lt;!&ndash;        <p>Enterprise HRMS Platform</p>&ndash;&gt;-->
-<!--    </div>-->
-
-<!--    <ul>-->
-
-<!--        <li><a href="#"><i class="fa fa-house"></i> Dashboard</a></li>-->
-
-<!--        <li>-->
-<!--            <a data-bs-toggle="collapse" href="#profileMenu">-->
-<!--                <i class="fa fa-user"></i> Profile Management-->
-<!--            </a>-->
-
-<!--            <ul id="profileMenu" class="collapse">-->
-<!--                <li><a href="#">View Profile</a></li>-->
-<!--                <li><a href="#">Edit Profile</a></li>-->
-<!--            </ul>-->
-<!--        </li>-->
-
-<!--        <li>-->
-<!--            <a data-bs-toggle="collapse" href="#attendanceMenu">-->
-<!--                <i class="fa fa-calendar-check"></i> Attendance-->
-<!--            </a>-->
-
-<!--            <ul id="attendanceMenu" class="collapse">-->
-<!--                <li><a href="#">View Attendance</a></li>-->
-<!--                <li><a href="#">Update Attendance</a></li>-->
-<!--            </ul>-->
-<!--        </li>-->
-
-<!--        <li>-->
-<!--            <a data-bs-toggle="collapse" href="#leaveMenu">-->
-<!--                <i class="fa fa-plane-departure"></i> Leave Management-->
-<!--            </a>-->
-
-<!--            <ul id="leaveMenu" class="collapse">-->
-<!--                <li><a href="#">Short Leave</a></li>-->
-<!--                <li><a href="#">Half Day</a></li>-->
-<!--                <li><a href="#">Full Day</a></li>-->
-<!--            </ul>-->
-<!--        </li>-->
-
-<!--        <li><a href="#"><i class="fa fa-clock"></i> Timesheet</a></li>-->
-<!--        <li><a href="#"><i class="fa fa-money-bill-wave"></i> Salary</a></li>-->
-<!--        <li><a href="#"><i class="fa fa-laptop-house"></i> Work Mode</a></li>-->
-<!--        <li><a href="#"><i class="fa fa-bell"></i> Notifications</a></li>-->
-<!--        <li><a href="#"><i class="fa fa-file-invoice-dollar"></i> Claims</a></li>-->
-<!--        <li><a href="#"><i class="fa fa-book"></i> Policies</a></li>-->
-<!--        <li><a href="#" style="color:#f87171"><i class="fa fa-right-from-bracket"></i> Logout</a></li>-->
-
-<!--    </ul>-->
-
-<!--</nav>-->
-
-<!--<div id="content">-->
-
-<!--    <div class="topbar">-->
-
-<!--        <div>-->
-<!--            <h4>BlueThink Admin Portal</h4>-->
-<!--&lt;!&ndash;            <small>Corporate Management Portal</small>&ndash;&gt;-->
-<!--        </div>-->
-
-<!--        <div class="admin-area">-->
-<!--            <i class="fa fa-bell"></i>-->
-<!--            <div class="profile">-->
-<!--                <i class="fa fa-user"></i>-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--    </div>-->
-
-<!--    <div class="hero">-->
-<!--        <h2>Welcome Back, Administrator</h2>-->
-<!--        <p>-->
-<!--            Manage employees, payroll, attendance,-->
-<!--            leaves, claims and company operations.-->
-<!--        </p>-->
-<!--    </div>-->
-
-<!--    <div class="row g-3 mt-2">-->
-
-<!--        <div class="row g-3 mt-2">-->
-
-<!--            <div class="col-xl-3 col-md-6">-->
-<!--                <div class="cardx">-->
-<!--                    <i class="fa fa-users text-primary"></i>-->
-<!--                    <h3 th:text="${stats.totalEmployees}">0</h3>-->
-<!--                    <p>Total Employees</p>-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--            <div class="col-xl-3 col-md-6">-->
-<!--                <div class="cardx">-->
-<!--                    <i class="fa fa-building text-success"></i>-->
-<!--                    <h3 th:text="${stats.departments}">0</h3>-->
-<!--                    <p>Departments</p>-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--            <div class="col-xl-3 col-md-6">-->
-<!--                <div class="cardx">-->
-<!--                    <i class="fa fa-calendar-check text-warning"></i>-->
-<!--                    <h3 th:text="${stats.attendanceRate + '%'}">0%</h3>-->
-<!--                    <p>Attendance Rate</p>-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--            <div class="col-xl-3 col-md-6">-->
-<!--                <div class="cardx">-->
-<!--                    <i class="fa fa-money-bill-wave text-danger"></i>-->
-<!--                    <h3 th:text="${stats.payroll}">0</h3>-->
-<!--                    <p>Monthly Payroll</p>-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--        </div>-->
-
-<!--&lt;!&ndash;    <div class="box">&ndash;&gt;-->
-<!--&lt;!&ndash;        <h5>Employee Analytics</h5>&ndash;&gt;-->
-<!--&lt;!&ndash;        <canvas id="chart"></canvas>&ndash;&gt;-->
-<!--&lt;!&ndash;    </div>&ndash;&gt;-->
-
-<!--    <div class="box">-->
-
-<!--        <div class="d-flex justify-content-between align-items-center mb-2">-->
-<!--            <h5 class="mb-0">Employee Analytics Overview</h5>-->
-
-<!--&lt;!&ndash;            <div class="btn-group btn-group-sm">&ndash;&gt;-->
-<!--&lt;!&ndash;                <button class="btn btn-primary">1D</button>&ndash;&gt;-->
-<!--&lt;!&ndash;                <button class="btn btn-outline-secondary">1W</button>&ndash;&gt;-->
-<!--&lt;!&ndash;                <button class="btn btn-outline-secondary">1M</button>&ndash;&gt;-->
-<!--&lt;!&ndash;                <button class="btn btn-outline-secondary">1Y</button>&ndash;&gt;-->
-<!--&lt;!&ndash;            </div>&ndash;&gt;-->
-<!--        </div>-->
-
-<!--        <small class="text-muted">-->
-<!--            Employee Joining, Exit & Attendance Trend-->
-<!--        </small>-->
-
-<!--        <div style="height:300px;margin-top:10px;">-->
-<!--            <canvas id="chart"></canvas>-->
-<!--        </div>-->
-
-<!--        <hr>-->
-
-<!--        <div class="row text-center">-->
-
-<!--            <div class="col-md-3 col-6 mb-3">-->
-<!--                <h3 class="fw-bold text-primary">05</h3>-->
-<!--                <small class="text-muted">New Joinees</small>-->
-
-<!--                <div class="progress mt-2" style="height:5px">-->
-<!--                    <div class="progress-bar bg-primary" style="width:35%"></div>-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--            <div class="col-md-3 col-6 mb-3">-->
-<!--                <h3 class="fw-bold text-success">18</h3>-->
-<!--                <small class="text-muted">Open Vacancies</small>-->
-
-<!--                <div class="progress mt-2" style="height:5px">-->
-<!--                    <div class="progress-bar bg-success" style="width:61%"></div>-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--            <div class="col-md-3 col-6 mb-3">-->
-<!--                <h3 class="fw-bold text-info">96%</h3>-->
-<!--                <small class="text-muted">Attendance</small>-->
-
-<!--                <div class="progress mt-2" style="height:5px">-->
-<!--                    <div class="progress-bar bg-info" style="width:96%"></div>-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--            <div class="col-md-3 col-6 mb-3">-->
-<!--                <h3 class="fw-bold text-warning">11</h3>-->
-<!--                <small class="text-muted">Pending Leaves</small>-->
-
-<!--                <div class="progress mt-2" style="height:5px">-->
-<!--                    <div class="progress-bar bg-warning" style="width:87%"></div>-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--        </div>-->
-
-<!--    </div>-->
-
-<!--        <h5>Recent Activities</h5>-->
-
-<!--        <div class="table-responsive">-->
-
-<!--            <tbody>-->
-<!--            <tr th:each="a : ${activities}">-->
-<!--                <td th:text="${a.employeeName}">Employee</td>-->
-<!--                <td th:text="${a.activity}">Activity</td>-->
-
-<!--                <td>-->
-<!--        <span th:classappend="${a.status == 'Completed'} ? 'badge bg-success' :-->
-<!--                              ${a.status == 'Pending'} ? 'badge bg-warning' :-->
-<!--                              'badge bg-primary'"-->
-<!--              th:text="${a.status}">-->
-<!--        </span>-->
-<!--                </td>-->
-<!--            </tr>-->
-<!--            </tbody>-->
-
-<!--            <nav class="mt-3">-->
-<!--                <ul class="pagination">-->
-
-<!--                    <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">-->
-<!--                        <a class="page-link"-->
-<!--                           th:href="@{/admin/dashboard(page=${currentPage-1},size=5)}">-->
-<!--                            Previous-->
-<!--                        </a>-->
-<!--                    </li>-->
-
-<!--                    <li class="page-item"-->
-<!--                        th:each="i : ${#numbers.sequence(0, totalPages-1)}"-->
-<!--                        th:classappend="${i == currentPage} ? 'active'">-->
-
-<!--                        <a class="page-link"-->
-<!--                           th:href="@{/admin/dashboard(page=${i},size=5)}"-->
-<!--                           th:text="${i+1}">-->
-<!--                        </a>-->
-<!--                    </li>-->
-
-<!--                    <li class="page-item"-->
-<!--                        th:classappend="${currentPage+1 == totalPages} ? 'disabled'">-->
-
-<!--                        <a class="page-link"-->
-<!--                           th:href="@{/admin/dashboard(page=${currentPage+1},size=5)}">-->
-<!--                            Next-->
-<!--                        </a>-->
-<!--                    </li>-->
-
-<!--                </ul>-->
-<!--            </nav>-->
-
-
-<!--        </div>-->
-<!--    <div class="row mt-3">-->
-
-<!--        &lt;!&ndash; LEFT: Birthday Table &ndash;&gt;-->
-<!--        <div class="col-md-6 d-flex">-->
-<!--            <div class="box small-table-box w-100">-->
-
-<!--                <h5>🎂 Upcoming Birthdays</h5>-->
-
-<!--                <div class="table-responsive">-->
-<!--                    <table class="table table-sm table-hover">-->
-
-<!--                        <thead>-->
-<!--                        <tr>-->
-<!--                            <th>No</th>-->
-<!--                            <th>User Name</th>-->
-<!--                            <th>Date Of Birthday</th>-->
-<!--                            <th>Remaining</th>-->
-<!--                        </tr>-->
-<!--                        </thead>-->
-
-<!--                        <tbody>-->
-<!--                        <tr th:each="emp,iter : ${birthdays}">-->
-<!--                            <td th:text="${iter.index + 1}"></td>-->
-<!--                            <td th:text="${emp.name}"></td>-->
-<!--                            <td th:text="${emp.dateOfBirth}"></td>-->
-<!--                            <td><span class="badge bg-primary">Upcoming</span></td>-->
-<!--                        </tr>-->
-<!--                        </tbody>-->
-
-<!--                    </table>-->
-<!--                </div>-->
-
-<!--                <nav>-->
-<!--                    <ul class="pagination pagination-sm">-->
-
-<!--                        <li class="page-item"-->
-<!--                            th:if="${birthdayCurrentPage > 0}">-->
-<!--                            <a class="page-link"-->
-<!--                               th:href="@{/admin/dashboard(birthdayPage=${birthdayCurrentPage-1})}">-->
-<!--                                Previous-->
-<!--                            </a>-->
-<!--                        </li>-->
-
-<!--                        <li class="page-item"-->
-<!--                            th:each="i : ${#numbers.sequence(0,birthdayTotalPages-1)}">-->
-<!--                            <a class="page-link"-->
-<!--                               th:text="${i+1}"-->
-<!--                               th:href="@{/admin/dashboard(birthdayPage=${i})}">-->
-<!--                            </a>-->
-<!--                        </li>-->
-
-<!--                        <li class="page-item"-->
-<!--                            th:if="${birthdayCurrentPage < birthdayTotalPages-1}">-->
-<!--                            <a class="page-link"-->
-<!--                               th:href="@{/admin/dashboard(birthdayPage=${birthdayCurrentPage+1})}">-->
-<!--                                Next-->
-<!--                            </a>-->
-<!--                        </li>-->
-
-<!--                    </ul>-->
-<!--                </nav>-->
-
-<!--            </div>-->
-<!--        </div>-->
-
-<!--        &lt;!&ndash; RIGHT: Anniversary Table &ndash;&gt;-->
-<!--        <div class="col-md-6 d-flex">-->
-<!--            <div class="box small-table-box w-100">-->
-
-<!--                <h5>🏆 Work Anniversaries</h5>-->
-
-<!--                <div class="table-responsive">-->
-<!--                    <table class="table table-sm table-hover">-->
-
-<!--                        <thead>-->
-<!--                        <tr>-->
-<!--                            <th>No</th>-->
-<!--                            <th>User Name</th>-->
-<!--                            <th>Date Of Joining</th>-->
-<!--                            <th>Remaining</th>-->
-<!--                        </tr>-->
-<!--                        </thead>-->
-
-<!--                        <tbody>-->
-<!--                        <tr th:each="emp,iter : ${anniversaries}">-->
-<!--                            <td th:text="${iter.index + 1}"></td>-->
-<!--                            <td th:text="${emp.name}"></td>-->
-<!--                            <td th:text="${emp.joiningDate}"></td>-->
-<!--                            <td><span class="badge bg-success">Upcoming</span></td>-->
-<!--                        </tr>-->
-<!--                        </tbody>-->
-
-<!--                    </table>-->
-<!--                </div>-->
-
-<!--                <nav>-->
-<!--                    <ul class="pagination pagination-sm">-->
-
-<!--                        <li class="page-item"-->
-<!--                            th:if="${birthdayCurrentPage > 0}">-->
-<!--                            <a class="page-link"-->
-<!--                               th:href="@{/admin/dashboard(birthdayPage=${birthdayCurrentPage-1})}">-->
-<!--                                Previous-->
-<!--                            </a>-->
-<!--                        </li>-->
-
-<!--                        <li class="page-item"-->
-<!--                            th:each="i : ${#numbers.sequence(0,birthdayTotalPages-1)}">-->
-<!--                            <a class="page-link"-->
-<!--                               th:text="${i+1}"-->
-<!--                               th:href="@{/admin/dashboard(birthdayPage=${i})}">-->
-<!--                            </a>-->
-<!--                        </li>-->
-
-<!--                        <li class="page-item"-->
-<!--                            th:if="${birthdayCurrentPage < birthdayTotalPages-1}">-->
-<!--                            <a class="page-link"-->
-<!--                               th:href="@{/admin/dashboard(birthdayPage=${birthdayCurrentPage+1})}">-->
-<!--                                Next-->
-<!--                            </a>-->
-<!--                        </li>-->
-
-<!--                    </ul>-->
-<!--                </nav>-->
-
-<!--            </div>-->
-
-
-<!--        </div>-->
-
-<!--    </div>-->
-
-<!--    </div>-->
-
-<!--</div>-->
-
-<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>-->
-<!--<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>-->
-<!--<canvas id="myChart"></canvas>-->
-
-
-
-
-
-
-
-
-<!--<script th:inline="javascript">-->
-<!--    /*<![CDATA[*/-->
-
-<!--    const joined = /*[[${joined}]]*/ [];-->
-<!--    const left = /*[[${left}]]*/ [];-->
-<!--    const attendanceTrend = /*[[${attendanceTrend}]]*/ [];-->
-
-<!--    const canvas = document.getElementById("chart");-->
-
-<!--    new Chart(canvas, {-->
-<!--        type: 'bar',-->
-<!--        data: {-->
-<!--            labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul'],-->
-<!--            datasets: [-->
-<!--                {-->
-<!--                    type: 'bar',-->
-<!--                    label: 'Employees Joined',-->
-<!--                    data: joined,-->
-<!--                    backgroundColor: '#3b82f6'-->
-<!--                },-->
-<!--                {-->
-<!--                    type: 'bar',-->
-<!--                    label: 'Employees Left',-->
-<!--                    data: left,-->
-<!--                    backgroundColor: '#ef4444'-->
-<!--                },-->
-<!--                {-->
-<!--                    type: 'line',-->
-<!--                    label: 'Attendance %',-->
-<!--                    data: attendanceTrend,-->
-<!--                    borderColor: '#f59e0b',-->
-<!--                    tension: 0.4-->
-<!--                }-->
-<!--            ]-->
-<!--        },-->
-<!--        options: {-->
-<!--            responsive: true,-->
-<!--            maintainAspectRatio: false-->
-<!--        }-->
-<!--    });-->
-
-<!--    /*]]>*/-->
-<!--</script>-->
-
-
-
-
-
-
-
-<!--&lt;!&ndash;<script>&ndash;&gt;-->
-
-<!--&lt;!&ndash;    function toggleSidebar(){&ndash;&gt;-->
-<!--&lt;!&ndash;        document.getElementById('sidebar').classList.toggle('active');&ndash;&gt;-->
-<!--&lt;!&ndash;        document.getElementById('overlay').classList.toggle('active');&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-
-
-
-<!--&lt;!&ndash;<script th:inline="javascript">&ndash;&gt;-->
-<!--&lt;!&ndash;/*<![CDATA[*/&ndash;&gt;-->
-
-<!--&lt;!&ndash;let joined = [[${joined}]];&ndash;&gt;-->
-<!--&lt;!&ndash;let left = [[${left}]];&ndash;&gt;-->
-<!--&lt;!&ndash;let attendanceTrend = [[${attendanceTrend}]];&ndash;&gt;-->
-
-<!--&lt;!&ndash;const ctx = document.getElementById("chart").getContext("2d");&ndash;&gt;-->
-
-<!--&lt;!&ndash;new Chart(ctx, {&ndash;&gt;-->
-<!--&lt;!&ndash;    data: {&ndash;&gt;-->
-<!--&lt;!&ndash;        labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul'],&ndash;&gt;-->
-<!--&lt;!&ndash;        datasets: [&ndash;&gt;-->
-<!--&lt;!&ndash;            {&ndash;&gt;-->
-<!--&lt;!&ndash;                type: 'bar',&ndash;&gt;-->
-<!--&lt;!&ndash;                label: 'Employees Joined',&ndash;&gt;-->
-<!--&lt;!&ndash;                data: joined,&ndash;&gt;-->
-<!--&lt;!&ndash;                backgroundColor: '#3b82f6'&ndash;&gt;-->
-<!--&lt;!&ndash;            },&ndash;&gt;-->
-<!--&lt;!&ndash;            {&ndash;&gt;-->
-<!--&lt;!&ndash;                type: 'bar',&ndash;&gt;-->
-<!--&lt;!&ndash;                label: 'Employees Left',&ndash;&gt;-->
-<!--&lt;!&ndash;                data: left,&ndash;&gt;-->
-<!--&lt;!&ndash;                backgroundColor: '#ef4444'&ndash;&gt;-->
-<!--&lt;!&ndash;            },&ndash;&gt;-->
-<!--&lt;!&ndash;            {&ndash;&gt;-->
-<!--&lt;!&ndash;                type: 'line',&ndash;&gt;-->
-<!--&lt;!&ndash;                label: 'Attendance %',&ndash;&gt;-->
-<!--&lt;!&ndash;                data: attendanceTrend,&ndash;&gt;-->
-<!--&lt;!&ndash;                borderColor: '#f59e0b',&ndash;&gt;-->
-<!--&lt;!&ndash;                tension: 0.4,&ndash;&gt;-->
-<!--&lt;!&ndash;                yAxisID: 'y1'&ndash;&gt;-->
-<!--&lt;!&ndash;            }&ndash;&gt;-->
-<!--&lt;!&ndash;        ]&ndash;&gt;-->
-<!--&lt;!&ndash;    },&ndash;&gt;-->
-<!--&lt;!&ndash;    options: {&ndash;&gt;-->
-<!--&lt;!&ndash;        responsive: true,&ndash;&gt;-->
-<!--&lt;!&ndash;        maintainAspectRatio: false&ndash;&gt;-->
-<!--&lt;!&ndash;    }&ndash;&gt;-->
-<!--&lt;!&ndash;});&ndash;&gt;-->
-
-<!--&lt;!&ndash;/*]]>*/&ndash;&gt;-->
-<!--&lt;!&ndash;</script>&ndash;&gt;-->
-
-<!--&lt;!&ndash;&lt;!&ndash;new Chart(document.getElementById('chart'),{&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;    type:'bar',&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;    data:{&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;        labels:['Employees','Attendance','Leaves','Payroll'],&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;        datasets:[{&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;            label:'Statistics',&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;            data:[120,95,15,85]&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;        }]&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;    },&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;    options:{&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;        responsive:true,&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;        maintainAspectRatio:false&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;    }&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;&lt;!&ndash;});&ndash;&gt;&ndash;&gt;-->
-
-
-<!--&lt;!&ndash;    });&ndash;&gt;-->
-
-<!--&lt;!&ndash;</script>&ndash;&gt;-->
-
-<!--</body>-->
-<!--</html>-->
