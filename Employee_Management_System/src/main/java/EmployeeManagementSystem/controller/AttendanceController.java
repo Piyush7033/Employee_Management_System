@@ -67,4 +67,19 @@ public class AttendanceController {
 
         return "redirect:/attendance";
     }
+//    @GetMapping("/today")
+//    public List<Attendance> getTodayAttendance() {
+//
+//        return attendanceService.getTodayAttendance();
+//
+//    }
+//
+//    @GetMapping("/wfh")
+//    @ResponseBody
+//    public List<Attendance> getTodayWFHEmployees() {
+//
+//        return attendanceService.getTodayWFHEmployees();
+//
+//    }
+
 }

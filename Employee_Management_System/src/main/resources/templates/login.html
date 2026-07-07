@@ -126,9 +126,6 @@
     </style>
 </head>
 <body>
-<div th:if="${param.logout}" style="color: green; margin-bottom: 15px; text-align: center;">
-    You have been logged out successfully!
-</div>
 
 <div class="login-container">
     <h2>Welcome Back</h2>
@@ -146,6 +143,16 @@
         <div class="form-group">
             <label for="password">Password</label>
             <input type="password" id="password" th:field="*{password}" required placeholder="Enter your password"/>
+        </div>
+
+        <div class="form-group">
+            <label for="workMode">Work Mode</label>
+            <!-- Style input ki tarah hi rakha hai taaki theme match kare -->
+            <select id="workMode" th:field="*{workMode}" required
+                    style="width: 100%; padding: 12px 16px; border: 1px solid #cccccc; border-radius: 8px; font-size: 15px; background-color: #fafafa; outline: none; cursor: pointer;">
+                <option value="WFO">Work From Office</option>
+                <option value="WFH">Work From Home</option>
+            </select>
         </div>
 
         <button type="submit">Sign In</button>
