@@ -18,4 +18,5 @@ public interface AttendanceService {
     void deleteAttendance(Long id);
     List<Attendance> getTodayAttendance();
     List<Attendance> getTodayWFHEmployees();
+    List<Attendance> getAttendanceLogsByEmployeeId(String employeeId);
 }

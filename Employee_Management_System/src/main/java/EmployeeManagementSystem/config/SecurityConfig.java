@@ -52,7 +52,7 @@ public class SecurityConfig {
                         .requestMatchers("/notifications/**").permitAll()
                         .requestMatchers("/employee/**").permitAll()
                         .requestMatchers("/employee/attendance-tracking").permitAll()
-                        .requestMatchers("/employee/**","/salary/slip/**").hasRole("EMPLOYEE")
+                        .requestMatchers("/employee/**","/salary/slip/**","/attendance/signoff-logs").hasRole("EMPLOYEE")
 
                         .requestMatchers("/admin/**").permitAll()
 
