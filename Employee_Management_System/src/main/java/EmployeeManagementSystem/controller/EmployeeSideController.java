@@ -2,10 +2,12 @@ package EmployeeManagementSystem.controller;
 
 import EmployeeManagementSystem.dto.AnniversaryDTO;
 import EmployeeManagementSystem.dto.BirthdayDTO;
+import EmployeeManagementSystem.entity.EmployeeProfile;
 import EmployeeManagementSystem.entity.Policy;
 import EmployeeManagementSystem.entity.RegisterEmployee;
 import EmployeeManagementSystem.entity.WfhRequest;
 import EmployeeManagementSystem.jwt.JwtUtil;
+import EmployeeManagementSystem.repository.EmployeeProfileRepository;
 import EmployeeManagementSystem.repository.LeaveRepository;
 import EmployeeManagementSystem.repository.WfhRequestRepository;
 import EmployeeManagementSystem.service.*;
@@ -15,16 +17,20 @@ import EmployeeManagementSystem.service.RegisterEmployeeService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticatedPrincipal;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 @Controller
@@ -41,6 +47,7 @@ public class EmployeeSideController {
     private final LeaveService leaveService;
     private final WfhRequestRepository wfhRequestRepository;
     private final LeaveRepository leaveRepository;
+    private final EmployeeProfileRepository employeeProfileRepository;
 //    private final PolicyService policyService;
     @GetMapping("/dashboard")
     public String dashboard(HttpServletRequest request, Model model) {
@@ -84,6 +91,26 @@ public class EmployeeSideController {
         model.addAttribute("projectOffLogs", projectOffService.getTodayProjectOffLogs());
 
         model.addAttribute("loggedInEmpId", loggedInEmpId);
+        model.addAttribute("loggedInEmpId", loggedInEmpId);
+
+        //FIX 1: Token se nikli hui asli employeeId (String) ka use karein, na ki numeric auto-incremented ID ka
+        String realEmployeeId = null;
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("jwtToken".equals(cookie.getName()) && cookie.getValue() != null && !cookie.getValue().isEmpty()) {
+                    realEmployeeId = jwtUtil.extractUsername(cookie.getValue());
+                    break;
+                }
+            }
+        }
+
+        //FIX 2: Sahi ID se profile fetch karein aur refresh hone par bhi photo permanent dikhegi
+        if (realEmployeeId != null) {
+            EmployeeProfile empProfile = employeeProfileRepository.findByUserId(realEmployeeId).orElse(null);
+            model.addAttribute("loggedInEmpPhoto", empProfile != null ? empProfile.getPhoto() : null);
+        } else {
+            model.addAttribute("loggedInEmpPhoto", null);
+        }
 
         return "employeeside-dashboard";
     }
@@ -115,6 +142,7 @@ public class EmployeeSideController {
         model.addAttribute("policies",policies);
         return "policies";
     }
+
 //    @GetMapping("/policy")
 //    public String viewPolicy(Model model){
 //        List<Policy> policies=policyService.getAllPolicy();

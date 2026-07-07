@@ -2,7 +2,9 @@ package EmployeeManagementSystem.service;
 
 import EmployeeManagementSystem.entity.EmployeeProfile;
 import EmployeeManagementSystem.repository.EmployeeProfileRepository;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface EmployeeProfileService {
@@ -14,4 +16,5 @@ public interface EmployeeProfileService {
 
     EmployeeProfile getProfileByUserId(String userId);
     void saveOrUpdateProfile(EmployeeProfile profile,String userId);
+    String uploadPhoto(MultipartFile file, String employeeId) throws IOException;
 }

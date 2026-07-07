@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <!-- Is file ko direct render nahi karna hai, isliye styles layout me rahenge -->
 </head>
 <body>
 
@@ -12,13 +11,38 @@
             <i class="fa-solid fa-square-poll-horizontal text-primary"></i> BlueThink Inc.
         </a>
     </div>
+
+    <!-- EMPLOYEE QUICK PROFILE (DIRECT CLICK TO UPLOAD) -->
+    <div class="text-center py-3 border-bottom border-secondary border-opacity-25 mx-3">
+        <!-- Profile Photo Container -->
+        <div class="position-relative d-inline-block style-profile-wrapper" style="cursor: pointer;" onclick="document.getElementById('sidebarPhotoInput').click();" title="Click to change photo">
+            <!-- Actual Image -->
+            <img id="sidebarProfileImg"
+                 th:src="${loggedInEmpPhoto != null} ? @{/storage/photos/{filename}(filename=${loggedInEmpPhoto})} : 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'"
+                 class="rounded-circle border border-2 border-primary"
+                 style="width: 70px; height: 70px; object-fit: cover; transition: opacity 0.2s;"
+                 alt="Profile">
+
+            <!-- Hover Camera Overlay (UI beautiful karne ke liye) -->
+            <div class="position-absolute top-0 start-0 w-100 h-100 rounded-circle d-flex align-items-center justify-content-center bg-dark bg-opacity-50 text-white opacity-0"
+                 id="cameraOverlay" style="transition: opacity 0.2s;">
+                <i class="fa-solid fa-camera" style="font-size: 16px;"></i>
+            </div>
+        </div>
+
+        <!-- Hidden File Input -->
+        <input type="file" id="sidebarPhotoInput" accept="image/*" style="display: none;" onchange="uploadSidebarPhoto(this)">
+
+        <h6 class="text-white mt-2 mb-0" style="font-size: 14px;" th:text="${loggedInEmpName != null} ? ${loggedInEmpName} : 'Employee'">Employee Name</h6>
+        <small class="text-muted" style="font-size: 11px;" th:text="${loggedInEmpId != null} ? ${loggedInEmpId} : 'BT0000'">BT0000</small>
+    </div>
+
     <ul class="sidebar-menu">
-        <!-- th:classappend lagaya hai taaki jis page par ho wo active dikhe -->
         <li th:classappend="${currentPage == 'dashboard'} ? 'active'">
             <a th:href="@{/employee/dashboard}"><i class="fa-solid fa-chart-simple"></i>Dashboard</a>
         </li>
 
-        <!-- PROFILE -->
+        <!-- PROFILE MANAGEMENT -->
         <li>
             <button class="dropdown-trigger" type="button" data-bs-toggle="collapse" data-bs-target="#profileSubmenu" aria-expanded="false">
                 <i class="fa-solid fa-user"></i>
@@ -53,7 +77,7 @@
             <a th:href="@{/timesheet/log}"><i class="fa-solid fa-clock"></i>Timesheet</a>
         </li>
 
-        <!-- WORK FROM HOME (NEW ADDITION) -->
+        <!-- WORK FROM HOME -->
         <li th:classappend="${currentPage == 'wfh'} ? 'active'">
             <a th:href="@{/employee/wfh/apply}"><i class="fa-solid fa-house-laptop"></i>Work From Home</a>
         </li>
@@ -72,6 +96,51 @@
             </div>
         </li>
     </ul>
+
+    <!-- HOVER STYLING FOR PHOTO -->
+    <style>
+        .style-profile-wrapper:hover #cameraOverlay {
+            opacity: 1 !important;
+        }
+        .style-profile-wrapper:hover #sidebarProfileImg {
+            opacity: 0.7;
+        }
+    </style>
+    <!-- AUTOMATIC UPLOAD JAVASCRIPT -->
+    <script th:inline="javascript">
+        function uploadSidebarPhoto(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                const formData = new FormData();
+                formData.append("photo", file);
+
+                const profileImg = document.getElementById("sidebarProfileImg");
+                profileImg.style.opacity = "0.4";
+
+                fetch("/profile/upload-photo", {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Upload failed");
+                    }
+                    return response.text(); // Backend se fileName (e.g. "BT001.jpg") milega
+                })
+                .then(fileName => {
+                    // FIXED: Path ko /uploads/ se badal kar /storage/photos/ kiya gaya hai
+                    profileImg.src = "/storage/photos/" + fileName + "?t=" + new Date().getTime();
+                    profileImg.style.opacity = "1";
+                    alert("Profile photo updated successfully!");
+                })
+                .catch(error => {
+                    console.error(error);
+                    profileImg.style.opacity = "1";
+                    alert("Something went wrong.");
+                });
+            }
+        }
+    </script>
 </aside>
 
 </body>

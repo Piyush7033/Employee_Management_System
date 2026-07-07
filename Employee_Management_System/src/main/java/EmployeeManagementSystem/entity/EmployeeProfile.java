@@ -25,4 +25,5 @@ public class EmployeeProfile {
     private String ifscCode;
     private String currentAddress;
     private String permanentAddress;
+    private String photo;
 }
