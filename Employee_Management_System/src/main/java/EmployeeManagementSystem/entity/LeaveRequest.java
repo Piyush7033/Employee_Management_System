@@ -1,9 +1,6 @@
 package EmployeeManagementSystem.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -21,6 +18,9 @@ public class LeaveRequest {
     private LocalDate endDate;
     private String leaveType;
     private String reason;
-    private String status="PENDING";
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private LeaveStatus status = LeaveStatus.PENDING;
 
 }

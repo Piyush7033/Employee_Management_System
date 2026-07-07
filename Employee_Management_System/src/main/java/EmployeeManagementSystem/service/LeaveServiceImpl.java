@@ -1,6 +1,7 @@
 package EmployeeManagementSystem.service;
 
 import EmployeeManagementSystem.entity.LeaveRequest;
+import EmployeeManagementSystem.entity.LeaveStatus;
 import EmployeeManagementSystem.entity.RegisterEmployee;
 import EmployeeManagementSystem.repository.EmployeeRepository;
 import EmployeeManagementSystem.repository.LeaveRepository;
@@ -36,14 +37,25 @@ public class LeaveServiceImpl implements LeaveService{
         return leaveRepository.findAll();
     }
     @Override
-    public void updateleaveStatus(Long id, String action){
-        LeaveRequest lr=leaveRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid leave request id :"+id));
-        if("approve".equalsIgnoreCase(action)){
-            lr.setStatus("APPROVED");
-        } else if ("reject".equalsIgnoreCase(action)) {
-            lr.setStatus("REJECTED");
+    public void updateleaveStatus(Long id, String action) {
+
+        LeaveRequest lr = leaveRepository.findById(id)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Invalid leave request id: " + id));
+
+        if ("approve".equalsIgnoreCase(action)) {
+            lr.setStatus(LeaveStatus.APPROVED);
         }
+        else if ("reject".equalsIgnoreCase(action)) {
+            lr.setStatus(LeaveStatus.REJECTED);
+        }
+
         leaveRepository.save(lr);
+    }
+
+    @Override
+    public List<LeaveRequest> getAllLeaves() {
+        return leaveRepository.findAll();
     }
 
 }

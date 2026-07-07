@@ -1,4 +1,3 @@
-
 <!-- src/main/resources/templates/fragments/sidebar.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
@@ -20,32 +19,9 @@
         <li th:classappend="${currentPage == 'dashboard'} ? 'active'">
             <a th:href="@{/admin/dashboard}">
                 <i class="fa-solid fa-chart-simple"></i>
-                Dashboard
+                <span>Dashboard</span>
             </a>
         </li>
-
-        <!-- Profile Management -->
-<!--        <li>-->
-<!--            <button class="dropdown-trigger"-->
-<!--                    type="button"-->
-<!--                    data-bs-toggle="collapse"-->
-<!--                    data-bs-target="#profileSubmenu"-->
-<!--                    aria-expanded="false">-->
-<!--                <i class="fa-solid fa-user"></i>-->
-<!--                <span>Profile Management</span>-->
-<!--                <i class="fa-solid fa-chevron-right arrow-icon"></i>-->
-<!--            </button>-->
-
-<!--            <div class="collapse" id="profileSubmenu">-->
-<!--                <ul class="submenu">-->
-<!--                    <li>-->
-<!--                        <a th:href="@{/profile/view}">-->
-<!--                            View Profile-->
-<!--                        </a>-->
-<!--                    </li>-->
-<!--                </ul>-->
-<!--            </div>-->
-<!--        </li>-->
 
         <!-- Employee Management -->
         <li>
@@ -54,25 +30,26 @@
                     data-bs-toggle="collapse"
                     data-bs-target="#employeeSubmenu"
                     aria-expanded="false">
+
                 <i class="fa-solid fa-users"></i>
                 <span>Employee Management</span>
-                <i class="fa-solid fa-chevron-right arrow-icon"></i>
+                <i class="fa-solid fa-chevron-right arrow-icon ms-auto"></i>
             </button>
 
             <div class="collapse" id="employeeSubmenu">
                 <ul class="submenu">
                     <li>
-                        <a th:href="@{/profile/view}">
+                        <a th:href="@{/admin/employees}">
                             Add Employee
                         </a>
                     </li>
                     <li>
-                        <a th:href="@{/admin/employees}">
+                        <a th:href="@{/admin/all/employees}">
                             Employee List
                         </a>
                     </li>
                     <li>
-                        <a th:href="@{/admin/all-profiles-as-employees}">
+                        <a th:href="@{/admin/profile/view}">
                             Employee Profiles
                         </a>
                     </li>
@@ -87,9 +64,10 @@
                     data-bs-toggle="collapse"
                     data-bs-target="#salarySubmenu"
                     aria-expanded="false">
+
                 <i class="fa-solid fa-wallet"></i>
                 <span>Salary Management</span>
-                <i class="fa-solid fa-chevron-right arrow-icon"></i>
+                <i class="fa-solid fa-chevron-right arrow-icon ms-auto"></i>
             </button>
 
             <div class="collapse" id="salarySubmenu">
@@ -110,9 +88,10 @@
                     data-bs-toggle="collapse"
                     data-bs-target="#attendanceSubmenu"
                     aria-expanded="false">
+
                 <i class="fa-solid fa-calendar-days"></i>
                 <span>Attendance</span>
-                <i class="fa-solid fa-chevron-right arrow-icon"></i>
+                <i class="fa-solid fa-chevron-right arrow-icon ms-auto"></i>
             </button>
 
             <div class="collapse" id="attendanceSubmenu">
@@ -135,7 +114,7 @@
         <li th:classappend="${currentPage == 'leave'} ? 'active'">
             <a th:href="@{/leave/apply}">
                 <i class="fa-solid fa-envelope-open"></i>
-                Leave
+                <span>Leave</span>
             </a>
         </li>
 
@@ -143,7 +122,7 @@
         <li th:classappend="${currentPage == 'timesheet'} ? 'active'">
             <a th:href="@{/timesheet/log}">
                 <i class="fa-solid fa-clock"></i>
-                Timesheet
+                <span>Timesheet</span>
             </a>
         </li>
 
@@ -151,7 +130,7 @@
         <li th:classappend="${currentPage == 'wfh'} ? 'active'">
             <a th:href="@{/employee/wfh/apply}">
                 <i class="fa-solid fa-house-laptop"></i>
-                Work From Home
+                <span>Work From Home</span>
             </a>
         </li>
 
@@ -159,6 +138,41 @@
 
 </aside>
 
+<!--&lt;!&ndash; Bootstrap JS &ndash;&gt;-->
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>-->
+
+<!--&lt;!&ndash; Arrow Rotation &ndash;&gt;-->
+<!--<script>-->
+<!--    document.addEventListener("DOMContentLoaded", function () {-->
+
+<!--        document.querySelectorAll('.collapse').forEach(function (collapseEl) {-->
+
+<!--            collapseEl.addEventListener('show.bs.collapse', function () {-->
+<!--                const btn = document.querySelector(-->
+<!--                    '[data-bs-target="#' + collapseEl.id + '"]'-->
+<!--                );-->
+
+<!--                if (btn) {-->
+<!--                    btn.querySelector('.arrow-icon')-->
+<!--                       .style.transform = 'rotate(90deg)';-->
+<!--                }-->
+<!--            });-->
+
+<!--            collapseEl.addEventListener('hide.bs.collapse', function () {-->
+<!--                const btn = document.querySelector(-->
+<!--                    '[data-bs-target="#' + collapseEl.id + '"]'-->
+<!--                );-->
+
+<!--                if (btn) {-->
+<!--                    btn.querySelector('.arrow-icon')-->
+<!--                       .style.transform = 'rotate(0deg)';-->
+<!--                }-->
+<!--            });-->
+
+<!--        });-->
+
+<!--    });-->
+<!--</script>-->
+
 </body>
 </html>
-

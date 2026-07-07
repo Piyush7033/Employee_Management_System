@@ -1,15 +1,12 @@
 package EmployeeManagementSystem.controller;
 
 import EmployeeManagementSystem.dto.DashboardStatsDTO;
-import EmployeeManagementSystem.entity.Activity;
-import EmployeeManagementSystem.entity.Employee;
-import EmployeeManagementSystem.entity.EmployeeProfile;
+import EmployeeManagementSystem.entity.*;
+import EmployeeManagementSystem.repository.DepartmentRepository;
 import EmployeeManagementSystem.repository.EmployeeProfileRepository;
 import EmployeeManagementSystem.repository.EmployeeRepository;
-import EmployeeManagementSystem.service.ActivityService;
-import EmployeeManagementSystem.service.DashboardService;
-import EmployeeManagementSystem.service.EmployeeProfileService;
-import EmployeeManagementSystem.service.EmployeeService;
+import EmployeeManagementSystem.repository.LeaveRepository;
+import EmployeeManagementSystem.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.PrivilegedAction;
 import java.util.Collections;
 import java.util.List;
 
@@ -35,6 +33,15 @@ public class AdminController {
 
     @Autowired
     private  EmployeeProfileService employeeProfileService;
+
+    @Autowired
+    private DepartmentRepository departmentRepository;
+
+    @Autowired
+    private LeaveRepository leaveRepository;
+
+    @Autowired
+    private LeaveService leaveService;
 
     private final ActivityService activityService;
     private final DashboardService dashboardService;
@@ -99,10 +106,18 @@ public class AdminController {
     @GetMapping("/employees")
     public String showAllEmployees(Model model) {
 
-        System.out.println("CONTROLLER HIT");
-
         List<Employee> employees = employeeRepository.findAll();
+
+        Employee employee = new Employee();
+
+        employee.setDepartment(new Department());
+
+        employee.setSalaryDetails(new Salary());
+
+        List<Department> departments = departmentRepository.findAll();
         model.addAttribute("employees", employees);
+        model.addAttribute("employee", employee);
+        model.addAttribute("departments", departments);
 
         return "admin/employees";
     }
@@ -118,5 +133,17 @@ public class AdminController {
         model.addAttribute("profiles", profiles);
 
         return "admin/all-employees";
+    }
+
+    @GetMapping("/admin/dashboard")
+    public String dashboard(Model model) {
+
+        List<LeaveRequest> leaveList = leaveService.getAllLeaves();
+
+        System.out.println("Leave Records Found : " + leaveList.size());
+
+        model.addAttribute("leaveList", leaveList);
+
+        return "admin/dashboard";
     }
 }

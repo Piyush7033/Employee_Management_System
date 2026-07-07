@@ -48,6 +48,7 @@ public class SecurityConfig {
                         .requestMatchers("/admin/employees").permitAll()
                         .requestMatchers("/admin/**").permitAll()
                         .requestMatchers("/admin/all-profiles-as-employees").permitAll()
+                        .requestMatchers("/admin/all/empployees").permitAll()
                         .requestMatchers("/notifications/**").permitAll()
                         .requestMatchers("/employee/**").permitAll()
                         .requestMatchers("/employee/attendance-tracking").permitAll()
@@ -62,6 +63,11 @@ public class SecurityConfig {
                                 "/timesheet/status/**",
                                 "/manager/profile"
                         ).hasRole("MANAGER")
+
+                        .requestMatchers(
+                                "/leave/manage",
+                                "/leave/status/**"
+                        ).permitAll()
 
 
                         .requestMatchers("/leave/apply", "/leave/submit").authenticated()
