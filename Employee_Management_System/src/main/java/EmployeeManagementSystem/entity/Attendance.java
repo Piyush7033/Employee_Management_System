@@ -38,6 +38,8 @@ public class Attendance {
     @Enumerated(EnumType.STRING)
     private WorkMode workMode;
 
+    //private String employeeId;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id", nullable = false)

@@ -26,4 +26,6 @@ public class EmployeeProfile {
     private String currentAddress;
     private String permanentAddress;
     private String photo;
+
+
 }

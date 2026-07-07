@@ -5,6 +5,8 @@ import EmployeeManagementSystem.entity.Employee;
 import EmployeeManagementSystem.service.AttendanceService;
 import EmployeeManagementSystem.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -81,5 +83,24 @@ public class AttendanceController {
 //        return attendanceService.getTodayWFHEmployees();
 //
 //    }
+
+    @GetMapping("/signoff-logs")
+    public String getSignoffLogs(Model model) {
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return "redirect:/login";
+        }
+
+        String employeeId = authentication.getName(); // e.g., BT001
+
+        // 1. Database se is employee ke saare attendance records nikalen
+        // (Aap apne actual service/repository method ka naam use karein)
+        List<Attendance> logs = attendanceService.getAttendanceLogsByEmployeeId(employeeId);
+
+        model.addAttribute("attendanceLogs", logs);
+        model.addAttribute("currentPage", "signoff"); // Sidebar ko active dikhane ke liye
+
+        return "signoff-details"; // Naye HTML page ka naam
+    }
 
 }

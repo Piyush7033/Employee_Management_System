@@ -82,6 +82,14 @@
             <a th:href="@{/employee/wfh/apply}"><i class="fa-solid fa-house-laptop"></i>Work From Home</a>
         </li>
 
+        <!-- POLICY MANAGEMENT ke theek niche ya jahan aapko sahi lage, ye add karein -->
+        <li th:classappend="${currentPage == 'signoff'} ? 'active'">
+            <a th:href="@{/attendance/signoff-logs}">
+                <i class="fa-solid fa-right-from-bracket text-danger"></i>
+                <span>Signoff Logs</span>
+            </a>
+        </li>
+
         <!-- POLICY MANAGEMENT -->
         <li>
             <button class="dropdown-trigger" type="button" data-bs-toggle="collapse" data-bs-target="#policySubmenu" aria-expanded="false">
