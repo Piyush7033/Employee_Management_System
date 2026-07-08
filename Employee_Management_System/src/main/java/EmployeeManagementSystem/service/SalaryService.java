@@ -2,6 +2,7 @@ package EmployeeManagementSystem.service;
 
 import EmployeeManagementSystem.dto.SalarySlipDto;
 import EmployeeManagementSystem.entity.Salary;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
@@ -15,8 +16,21 @@ public interface SalaryService {
 
     Double calculateNetSalary(Long id);
 
-    Salary getSalaryByEmployeeId(Long employeeId);
-
     List<Salary> getAllSalaries();
+
     SalarySlipDto getSalarySlipById(Long id);
+
+    // Dashboard Methods
+    long getTotalEmployees();
+
+    long getPaidEmployeesCount();
+
+    long getPendingEmployeesCount();
+
+    double getTotalPayrollCost();
+
+    double getTotalPaidSalary();
+
+    double getTotalPendingSalary();
+
 }

@@ -64,7 +64,7 @@ public class AdminController {
         model.addAttribute("totalEmployees", stats.getTotalEmployees());
         model.addAttribute("departments", stats.getDepartments());
         model.addAttribute("attendanceRate", stats.getAttendanceRate());
-        model.addAttribute("payroll", stats.getPayroll());
+        model.addAttribute("payroll", stats.getTotalPayrollCost());
 
         model.addAttribute("joined", stats.getJoined());
         model.addAttribute("left", stats.getLeft());

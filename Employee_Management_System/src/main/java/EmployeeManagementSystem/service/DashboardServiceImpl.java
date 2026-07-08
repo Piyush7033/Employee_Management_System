@@ -40,7 +40,7 @@ public class DashboardServiceImpl implements DashboardService {
         dto.setDepartments(departmentRepository.count());
 
         dto.setAttendanceRate(95.0);
-        dto.setPayroll(employeeRepository.count() * 70000);
+        dto.setTotalPayrollCost(employeeRepository.count() * 70000.0);
 
         dto.setJoined(Arrays.asList(5, 8, 6, 10, 7, 12, 9));
         dto.setLeft(Arrays.asList(1, 2, 1, 3, 2, 2, 1));
