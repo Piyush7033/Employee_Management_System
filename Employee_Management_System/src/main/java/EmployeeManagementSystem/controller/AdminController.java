@@ -70,7 +70,7 @@ public class AdminController {
                 model.addAttribute("activeEmployees", stats.getTotalEmployees() - 15); // Calculate active employees
                 model.addAttribute("departments", stats.getDepartments());
                 model.addAttribute("attendanceRate", stats.getAttendanceRate());
-                model.addAttribute("payroll", stats.getPayroll());
+//                model.addAttribute("payroll", stats.getPayroll());
                 model.addAttribute("joined", stats.getJoined());
                 model.addAttribute("left", stats.getLeft());
                 model.addAttribute("attendanceTrend", stats.getAttendanceTrend());

@@ -24,56 +24,152 @@
         </li>
 
         <!-- ===== EMPLOYEE MANAGEMENT (dropdown) ===== -->
-        <li>
-            <button class="dropdown-trigger"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#employeeSubmenu"
-                    aria-expanded="false">
-                <i class="fa-solid fa-users"></i>
-                <span>Employee Management</span>
-                <i class="fa-solid fa-chevron-right arrow-icon ms-auto"></i>
-            </button>
+<!--        <li>-->
+<!--            <button class="dropdown-trigger"-->
+<!--                    type="button"-->
+<!--                    data-bs-toggle="collapse"-->
+<!--                    data-bs-target="#employeeSubmenu"-->
+<!--                    aria-expanded="false">-->
+<!--                <i class="fa-solid fa-users"></i>-->
+<!--                <span>Employee Management</span>-->
+<!--                <i class="fa-solid fa-chevron-right arrow-icon ms-auto"></i>-->
+<!--            </button>-->
 
-            <div class="collapse" id="employeeSubmenu">
-                <ul class="submenu">
-                    <li>
-                        <a th:href="@{/admin/employee-directory}">
-                            Employee Directory
-                        </a>
-                    </li>
-                    <li>
-                        <a th:href="@{/admin/employees/add}">
-                            Add Employee
-                        </a>
-                    </li>
-                    <li>
-                        <a th:href="@{/admin/departments}">
-                            Departments
-                        </a>
-                    </li>
-                    <li>
-                        <a th:href="@{/admin/designations}">
-                            Designations
-                        </a>
-                    </li>
-                    <li>
-                        <a th:href="@{/admin/employee-documents}">
-                            Employee Documents
-                        </a>
-                    </li>
-                    <li>
-                        <a th:href="@{/admin/employee-roles}">
-                            Employee Roles
-                        </a>
-                    </li>
-                    <li>
-                        <a th:href="@{/admin/employee-status}">
-                            Employee Status
-                        </a>
-                    </li>
-                </ul>
-            </div>
+<!--            <div class="collapse" id="employeeSubmenu">-->
+<!--                <ul class="submenu">-->
+<!--                    <li>-->
+<!--                        <a th:href="@{/admin/employee-directory}">-->
+<!--                            Employee Directory-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <a th:href="@{/admin/employees/add}">-->
+<!--                            Add Employee-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <a th:href="@{/admin/departments}">-->
+<!--                            Departments-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <a th:href="@{/admin/designations}">-->
+<!--                            Designations-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <a th:href="@{/admin/employee-documents}">-->
+<!--                            Employee Documents-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <a th:href="@{/admin/employee-roles}">-->
+<!--                            Employee Roles-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <a th:href="@{/admin/employee-status}">-->
+<!--                            Employee Status-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </li>-->
+
+        <li class="menu-title">EMPLOYEE MANAGEMENT</li>
+        <li>
+            <a th:href="@{/admin/employee-directory}">
+                <i class="fas fa-users"></i>
+                Employee Directory
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/employees/add}">
+                <i class="fas fa-user-plus"></i>
+                Add Employee
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/departments}">
+                <i class="fas fa-building"></i>
+                Departments
+                <span class="badge-success">New</span>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/designations}">
+                <i class="fas fa-briefcase"></i>
+                Designations
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/employee-documents}">
+                <i class="fas fa-folder-open"></i>
+                Employee Documents
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/employee-roles}">
+                <i class="fas fa-user-tag"></i>
+                Employee Roles
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/admin/employee-status}">
+                <i class="fas fa-user-check"></i>
+                Employee Status
+            </a>
+        </li>
+
+
+
+
+
+
+
+        <li class="menu-title">SALARY & PAYROLL</li>
+        <li>
+            <a href="/admin/salary/salary-dashboard" class="active">
+                <i class="fas fa-money-bill-wave"></i>
+                Salary Dashboard
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <i class="fas fa-cog"></i>
+                Salary Structure
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <i class="fas fa-calculator"></i>
+                Generate Payroll
+                <span class="badge-success">New</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <i class="fas fa-file-invoice"></i>
+                Payslips
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <i class="fas fa-history"></i>
+                Salary History
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <i class="fas fa-gift"></i>
+                Bonus Management
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <i class="fas fa-hand-holding-usd"></i>
+                Loan & Advances
+            </a>
         </li>
 
         <!-- ===== DIVIDER: INTEGRATIONS (using .menu-title) ===== -->
