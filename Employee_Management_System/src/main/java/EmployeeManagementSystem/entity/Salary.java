@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @Entity
@@ -14,21 +16,30 @@ public class Salary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Double basicSalary;
-    private Double bonus;
-    private Double deduction;
-
-    // IMPORTANT: OneToOne mapping
-    @OneToOne
-    @JoinColumn(name = "employee_id", unique = true, nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    // Net Salary
-    public Double getNetSalary() {
-        double basic = basicSalary == null ? 0 : basicSalary;
-        double bonusAmt = bonus == null ? 0 : bonus;
-        double deductionAmt = deduction == null ? 0 : deduction;
+    @Column(name = "employee_code")
+    private String employeeId;
 
-        return basic + bonusAmt - deductionAmt;
-    }
+    private String employeeName;
+    private String department;
+    private String designation;
+
+    private Double basicSalary;
+    private Double hra;
+    private Double allowance;
+    private Double bonus;
+    private Double deductions;
+
+    private Double grossSalary;
+    private Double netSalary;
+
+    private String paymentStatus;
+
+    private String month;
+    private Integer year;
+
+    private LocalDate paymentDate;
 }

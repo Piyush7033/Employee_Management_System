@@ -6,8 +6,8 @@ import EmployeeManagementSystem.repository.SalaryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SalaryServiceImpl implements SalaryService {
@@ -18,26 +18,30 @@ public class SalaryServiceImpl implements SalaryService {
     @Override
     public Salary saveSalary(Salary salary) {
 
-        if (salary.getEmployee() != null &&
-                salary.getEmployee().getId() != null) {
+        double basicSalary =
+                salary.getBasicSalary() != null ? salary.getBasicSalary() : 0;
 
-            Long empId = salary.getEmployee().getId();
+        double hra =
+                salary.getHra() != null ? salary.getHra() : 0;
 
-            Optional<Salary> existing =
-                    salaryRepository.findByEmployee_Id(empId);
+        double allowance =
+                salary.getAllowance() != null ? salary.getAllowance() : 0;
 
+        double bonus =
+                salary.getBonus() != null ? salary.getBonus() : 0;
 
-            if (existing.isPresent()) {
+        double deductions =
+                salary.getDeductions() != null ? salary.getDeductions() : 0;
 
-                Salary s = existing.get();
+        double grossSalary =
+                basicSalary + hra + allowance + bonus;
 
-                s.setBasicSalary(salary.getBasicSalary());
-                s.setBonus(salary.getBonus());
-                s.setDeduction(salary.getDeduction());
+        double netSalary =
+                grossSalary - deductions;
 
-                return salaryRepository.save(s);
-            }
-        }
+        salary.setGrossSalary(grossSalary);
+        salary.setNetSalary(netSalary);
+
         return salaryRepository.save(salary);
     }
 
@@ -55,45 +59,128 @@ public class SalaryServiceImpl implements SalaryService {
     public Double calculateNetSalary(Long id) {
 
         Salary salary = salaryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Salary not found"));
+                .orElseThrow(() ->
+                        new RuntimeException("Salary record not found"));
 
-        double basic = salary.getBasicSalary() != null ? salary.getBasicSalary() : 0;
-        double bonus = salary.getBonus() != null ? salary.getBonus() : 0;
-        double deduction = salary.getDeduction() != null ? salary.getDeduction() : 0;
+        double basic =
+                salary.getBasicSalary() != null ? salary.getBasicSalary() : 0;
 
-        return basic + bonus - deduction;
-    }
+        double hra =
+                salary.getHra() != null ? salary.getHra() : 0;
 
-    @Override
-    public Salary getSalaryByEmployeeId(Long employeeId) {
-        return salaryRepository.findByEmployee_Id(employeeId)
-                .orElse(null);
+        double allowance =
+                salary.getAllowance() != null ? salary.getAllowance() : 0;
+
+        double bonus =
+                salary.getBonus() != null ? salary.getBonus() : 0;
+
+        double deductions =
+                salary.getDeductions() != null ? salary.getDeductions() : 0;
+
+        return (basic + hra + allowance + bonus) - deductions;
     }
 
     @Override
     public List<Salary> getAllSalaries() {
         return salaryRepository.findAll();
     }
+
+    @Override
     public SalarySlipDto getSalarySlipById(Long id) {
+
         Salary salary = salaryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Salary record not found"));
+                .orElseThrow(() ->
+                        new RuntimeException("Salary record not found"));
 
         SalarySlipDto dto = new SalarySlipDto();
 
-        if (salary.getEmployee() != null) {
-            dto.setEmployeeName(salary.getEmployee().getName());
-            dto.setEmployeeId("EMP-" + salary.getEmployee().getId());
-        }
+        dto.setEmployeeId(salary.getEmployeeId());
+        dto.setEmployeeName(salary.getEmployeeName());
 
         dto.setBasicSalary(salary.getBasicSalary());
         dto.setBonus(salary.getBonus());
-        dto.setDeduction(salary.getDeduction());
+        dto.setDeduction(salary.getDeductions());
 
         dto.setNetSalary(salary.getNetSalary());
 
-        java.time.LocalDate today = java.time.LocalDate.now();
-        dto.setMonthYear(today.getMonth().name() + " " + today.getYear());
+        LocalDate today = LocalDate.now();
+
+        dto.setMonthYear(
+                today.getMonth().name() + " " + today.getYear());
 
         return dto;
+    }
+
+    // ======================
+    // Dashboard Statistics
+    // ======================
+
+    @Override
+    public long getTotalEmployees() {
+        return salaryRepository.count();
+    }
+
+    @Override
+    public long getPaidEmployeesCount() {
+
+        return salaryRepository.findAll()
+                .stream()
+                .filter(s ->
+                        "Paid".equalsIgnoreCase(
+                                s.getPaymentStatus()))
+                .count();
+    }
+
+    @Override
+    public long getPendingEmployeesCount() {
+
+        return salaryRepository.findAll()
+                .stream()
+                .filter(s ->
+                        "Pending".equalsIgnoreCase(
+                                s.getPaymentStatus()))
+                .count();
+    }
+
+    @Override
+    public double getTotalPayrollCost() {
+
+        return salaryRepository.findAll()
+                .stream()
+                .mapToDouble(s ->
+                        s.getNetSalary() != null
+                                ? s.getNetSalary()
+                                : 0)
+                .sum();
+    }
+
+    @Override
+    public double getTotalPaidSalary() {
+
+        return salaryRepository.findAll()
+                .stream()
+                .filter(s ->
+                        "Paid".equalsIgnoreCase(
+                                s.getPaymentStatus()))
+                .mapToDouble(s ->
+                        s.getNetSalary() != null
+                                ? s.getNetSalary()
+                                : 0)
+                .sum();
+    }
+
+    @Override
+    public double getTotalPendingSalary() {
+
+        return salaryRepository.findAll()
+                .stream()
+                .filter(s ->
+                        "Pending".equalsIgnoreCase(
+                                s.getPaymentStatus()))
+                .mapToDouble(s ->
+                        s.getNetSalary() != null
+                                ? s.getNetSalary()
+                                : 0)
+                .sum();
     }
 }

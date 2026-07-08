@@ -63,10 +63,10 @@ public class Employee {
     private Salary salaryDetails;
 
 
-    public void setSalaryDetails(Salary salaryDetails) {
-        this.salaryDetails = salaryDetails;
-        if (salaryDetails != null) {
-            salaryDetails.setEmployee(this);
-        }
-    }
+//    public void setSalaryDetails(Salary salaryDetails) {
+//        this.salaryDetails = salaryDetails;
+//        if (salaryDetails != null) {
+//            salaryDetails.setEmployee(this);
+//        }
+//    }
 }
