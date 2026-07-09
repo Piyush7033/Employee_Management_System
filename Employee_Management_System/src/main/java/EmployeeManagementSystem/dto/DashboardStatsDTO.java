@@ -17,6 +17,7 @@ public class DashboardStatsDTO {
     private long totalEmployees;
     private long departments;
     private double attendanceRate;
+    private double payroll;
 
     private double totalPayrollCost;
     private double paidSalary;
