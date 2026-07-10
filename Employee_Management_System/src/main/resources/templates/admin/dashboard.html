@@ -26,25 +26,30 @@
 
         /* ===== SIDEBAR STYLES ===== */
         .sidebar {
-            width: 280px;
-            min-height: 100vh;
-            background: linear-gradient(
-                    180deg,
-                    #161742 0%,
-                    #1D1E58 100%
-            );
-            padding: 1.5rem 0 2rem 0;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
-            transition: all 0.2s;
-            border-right: none;
+            width: 270px;
+            min-width: 260px;
+            background-color: #1e293b !important;
+            color: #fff !important;
             position: fixed;
+            height: 100vh;
             left: 0;
             top: 0;
-            bottom: 0;
+            display: flex;
+            flex-direction: column;
             z-index: 1000;
-            overflow-y: auto;
+            overflow-y: auto !important;
+            border-right: 1px solid #334155;
+            font-family: 'Inter', system-ui, sans-serif;
+
+
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        /* Chrome, Safari, Opera के लिए स्क्रॉल बार छिपाना */
+        .sidebar::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
         }
 
         .sidebar-brand {
@@ -53,6 +58,7 @@
             margin-bottom: 1.2rem;
         }
         .sidebar-brand a {
+            padding-top: 27px;
             font-size: 1.3rem;
             font-weight: 700;
             color: #D1D5DB;
@@ -99,7 +105,7 @@
             padding: 0.7rem 1rem;
             border-radius: 10px;
             font-weight: 500;
-            font-size: 0.95rem;
+            font-size: 0.80rem;
             color: #D1D5DB;
             text-decoration: none;
             background: transparent;
@@ -128,29 +134,29 @@
 
         .sidebar-menu li a:hover,
         .sidebar-menu li .dropdown-trigger:hover {
-            background: #1E40AF;
+            background: #334155 !important;
             color: #FFFFFF;
         }
         .sidebar-menu li a:hover i,
         .sidebar-menu li .dropdown-trigger:hover i {
-            color: #FFFFFF;
+            color: #334155 !important;
         }
         .sidebar-menu li a:hover .arrow-icon,
         .sidebar-menu li .dropdown-trigger:hover .arrow-icon {
-            color: #FFFFFF;
+            color: #334155 !important;
         }
 
         .sidebar-menu li.active > a {
-            background: #2563EB;
+            background: #334155 !important;
             color: #FFFFFF;
         }
         .sidebar-menu li.active > a i {
-            color: #FFFFFF;
+            color: #334155 !important;
         }
 
         .submenu {
             list-style: none;
-            padding-left: 2.8rem;
+            padding-left: 1.8rem;
             margin: 6px 0 6px 0;
         }
         .submenu li {
@@ -160,10 +166,10 @@
             display: flex;
             align-items: center;
             padding: 0.5rem 1rem 0.5rem 0.5rem;
-            font-size: 0.9rem;
-            font-weight: 450;
+            font-size: 0.7rem;
+            font-weight: 300;
             color: #D1D5DB;
-            border-radius: 8px;
+            border-radius: 5px;
             text-decoration: none;
             transition: background 0.2s, color 0.2s;
             gap: 8px;
@@ -500,7 +506,8 @@
     <!-- Page Header -->
     <div class="page-header">
         <div>
-            <h4>Dashboard</h4>
+            <h4 th:text="'Hi, ' + ${loggedInUser}">Hi, Sujit</h4>
+
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Dashboard</a></li>

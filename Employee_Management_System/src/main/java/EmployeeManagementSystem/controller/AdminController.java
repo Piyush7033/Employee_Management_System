@@ -45,11 +45,14 @@ public class AdminController {
 
     private final ActivityService activityService;
     private final DashboardService dashboardService;
+    private final DepartmentServiceImpl departmentService;
 
     public AdminController(ActivityService activityService,
-                           DashboardService dashboardService) {
+                           DashboardService dashboardService,
+                           DepartmentServiceImpl departmentService) {
         this.activityService = activityService;
         this.dashboardService = dashboardService;
+        this.departmentService = departmentService;
     }
 
     @GetMapping("/dashboard")
@@ -282,5 +285,23 @@ public class AdminController {
         public String getText() { return text; }
         public String getColor() { return color; }
         public String getTime() { return time; }
+    }
+
+    @GetMapping("/departments/add")
+    public String showAddDepartmentPage(Model model) {
+
+        model.addAttribute("department", new Department());
+
+        model.addAttribute("employees",
+                employeeRepository.findAll());
+
+        return "admin/departments/add-department";
+    }
+    @PostMapping("/departments/save")
+    public String saveDepartment(@ModelAttribute Department department) {
+
+        departmentService.saveDepartment(department);
+
+        return "redirect:/admin/departments";
     }
 }
