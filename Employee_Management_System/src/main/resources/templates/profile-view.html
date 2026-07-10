@@ -458,7 +458,7 @@
             color: var(--text-muted);
             font-size: 13px;
             padding: 4px 12px;
-            background: rgba(79, 70, 229, 0.04);
+
             border-radius: 50px;
             transition: var(--transition);
         }
@@ -514,7 +514,6 @@
     <div class="main-content">
         <main class="content-body">
             <div class="container-fluid" style="max-width: 1140px; padding: 0;">
-
                 <!-- HEADER -->
                 <div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-4 animate-fade-in">
                     <div>
@@ -589,11 +588,11 @@
                                     </span>
                                 </div>
                                 <h3 class="fw-700 m-0 text-dark fs-2" style="letter-spacing: -0.5px;" th:text="*{fullName != null && !fullName.isEmpty()} ? *{fullName} : ${loggedInEmpName}">Employee Name</h3>
-                                <div class="d-flex flex-wrap gap-2 mt-3">
+                                <div class="d-flex flex-column flex-wrap gap-2 mt-3">
                                     <span class="stat-item"><i class="fa-regular fa-envelope"></i> <span th:text="*{email}">email@example.com</span></span>
-                                    <span class="stat-item"><i class="fa-regular fa-phone"></i> <span th:text="*{phoneNumber}">+91 9876543210</span></span>
+                                    <span class="stat-item"><i class="fa-solid fa-phone"></i> <span th:text="*{phoneNumber}">+91 9876543210</span></span>
                                     <span class="stat-item"><i class="fa-regular fa-calendar"></i> <span th:text="*{dob}">01 Jan 1990</span></span>
-                                    <span class="stat-item"><i class="fa-regular fa-location-dot"></i> <span th:text="*{currentAddress}">Location</span></span>
+                                    <span class="stat-item"><i class="fa-solid fa-location-dot"></i> <span th:text="*{currentAddress}">Location</span></span>
                                 </div>
                             </div>
                         </div>

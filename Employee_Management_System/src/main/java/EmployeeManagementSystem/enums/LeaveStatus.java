@@ -1,4 +1,4 @@
-package EmployeeManagementSystem.entity;
+package EmployeeManagementSystem.enums;
 
 public enum LeaveStatus {
     PENDING,

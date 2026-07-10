@@ -1,5 +1,6 @@
 package EmployeeManagementSystem.entity;
 
+import EmployeeManagementSystem.enums.LeaveStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
