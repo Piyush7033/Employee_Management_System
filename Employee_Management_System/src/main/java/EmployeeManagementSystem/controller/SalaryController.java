@@ -1,92 +1,89 @@
 package EmployeeManagementSystem.controller;
 
-import EmployeeManagementSystem.dto.SalarySlipDto;
-import EmployeeManagementSystem.entity.Employee;
 import EmployeeManagementSystem.entity.Salary;
-import EmployeeManagementSystem.service.EmployeeService;
 import EmployeeManagementSystem.service.SalaryService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/salary")
-@RequiredArgsConstructor
 public class SalaryController {
+
     private final SalaryService salaryService;
-    private final EmployeeService employeeService;
 
-    // ================= MAIN PAGE =================
-    @GetMapping
-    public String salaryHome(Model model) {
-
-        model.addAttribute("employees",
-                employeeService.getAllEmployeesList());
-
-        model.addAttribute("salaries",
-                salaryService.getAllSalaries());
-
-        return "salary-list";
+    public SalaryController(SalaryService salaryService) {
+        this.salaryService = salaryService;
     }
 
-    // ================= SAVE / UPDATE (FINAL CLEAN LOGIC) =================
+    @GetMapping("/dashboard")
+    public String dashboard(Model model) {
+
+        model.addAttribute("salaryList",
+                salaryService.getAllSalaries());
+
+        model.addAttribute("totalEmployees",
+                salaryService.getTotalEmployees());
+
+        model.addAttribute("paidCount",
+                salaryService.getPaidEmployeesCount());
+
+        model.addAttribute("pendingCount",
+                salaryService.getPendingEmployeesCount());
+
+        model.addAttribute("totalPayroll",
+                salaryService.getTotalPayrollCost());
+
+        model.addAttribute("paidSalary",
+                salaryService.getTotalPaidSalary());
+
+        model.addAttribute("pendingSalary",
+                salaryService.getTotalPendingSalary());
+
+        return "salary-dashboard";
+    }
+
+    @GetMapping("/add")
+    public String addSalaryForm(Model model) {
+
+        model.addAttribute("salary", new Salary());
+
+        return "salary-form";
+    }
+
     @PostMapping("/save")
-    public String saveSalary(@ModelAttribute Salary salary,
-                             @RequestParam Long employeeId) {
-
-        Employee employee = employeeService.getEmployeeById(employeeId);
-
-        if (employee == null) {
-            return "redirect:/employees";
-        }
-
-
-        salary.setEmployee(employee);
+    public String saveSalary(@ModelAttribute Salary salary) {
 
         salaryService.saveSalary(salary);
 
-        return "redirect:/salary";
+        return "redirect:/salary/dashboard";
     }
 
+    @GetMapping("/edit/{id}")
+    public String editSalary(@PathVariable Long id,
+                             Model model) {
 
-    @GetMapping("/{employeeId}")
-    public String viewSalary(@PathVariable Long employeeId, Model model) {
+        model.addAttribute("salary",
+                salaryService.getSalaryById(id));
 
-        Salary salary = salaryService.getSalaryByEmployeeId(employeeId);
-
-        if (salary == null) {
-            return "redirect:/salary";
-        }
-
-        double netSalary =
-                (salary.getBasicSalary() != null ? salary.getBasicSalary() : 0) +
-                        (salary.getBonus() != null ? salary.getBonus() : 0) -
-                        (salary.getDeduction() != null ? salary.getDeduction() : 0);
-
-        model.addAttribute("salary", salary);
-        model.addAttribute("netSalary", netSalary);
-
-        return "salary-view";
+        return "salary-form";
     }
 
-    @GetMapping("/delete/{employeeId}")
-    public String deleteSalary(@PathVariable Long employeeId) {
+    @GetMapping("/delete/{id}")
+    public String deleteSalary(@PathVariable Long id) {
 
-        Salary salary = salaryService.getSalaryByEmployeeId(employeeId);
+        salaryService.deleteSalary(id);
 
-        if (salary != null) {
-            salaryService.deleteSalary(salary.getId());
-        }
-        return "redirect:/salary";
+        return "redirect:/salary/dashboard";
     }
 
     @GetMapping("/slip/{id}")
-    public String getSalarySlip(@PathVariable Long id,Model model) {
-        SalarySlipDto slipDto=salaryService.getSalarySlipById(id);
-        model.addAttribute("slip",slipDto);
+    public String salarySlip(@PathVariable Long id,
+                             Model model) {
+
+        model.addAttribute("salarySlip",
+                salaryService.getSalarySlipById(id));
+
         return "salary-slip";
     }
 }

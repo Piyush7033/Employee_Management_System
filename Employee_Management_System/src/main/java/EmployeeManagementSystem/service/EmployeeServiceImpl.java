@@ -20,6 +20,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+
+
     @Override
     public Employee saveEmployee(Employee employee) {
 
@@ -56,7 +58,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
                 existingSalary.setBasicSalary(newSalary.getBasicSalary());
                 existingSalary.setBonus(newSalary.getBonus());
-                existingSalary.setDeduction(newSalary.getDeduction());
+//                existingSalary.setDeductions(newSalary.getDeduction());
+                existingSalary.setDeductions(newSalary.getDeductions());
 
             } else {
 
