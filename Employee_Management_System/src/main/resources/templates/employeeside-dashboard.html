@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Dashboard</title>
+    <title>My Profile</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap 5 -->
@@ -12,6 +12,7 @@
 
     <style>
         :root {
+            /* Synchronized Dashboard & Profile Colors */
             --sidebar-bg: #1e293b;
             --sidebar-hover: #334155;
             --sidebar-submenu-bg: #111827;
@@ -20,6 +21,7 @@
             --text-main: #0f172a;
             --text-muted: #64748b;
             --primary-color: #0ea5e9;
+            --profile-primary: #4f46e5;
         }
 
         body {
@@ -27,16 +29,19 @@
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-main);
             color: var(--text-main);
+            overflow-x: hidden;
         }
 
+        /* ── 1. LAYOUT STRUCTURE ── */
         .dashboard-container {
             display: flex;
             min-height: 100vh;
         }
 
-        /* Clean Sidebar */
-        .sidebar {
+        /* ── 2. SIDEBAR STYLES ── */
+        aside, [th\:replace], .sidebar {
             width: 260px;
+            min-width: 260px;
             background-color: var(--sidebar-bg);
             color: #fff;
             position: fixed;
@@ -47,104 +52,19 @@
             flex-direction: column;
             z-index: 1000;
             overflow-y: auto;
+            flex-shrink: 0;
         }
 
-        .sidebar-brand {
-            padding: 24px;
-            font-size: 18px;
-            font-weight: 700;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .sidebar-brand a {
-            color: #fff;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .sidebar-menu {
-            list-style: none;
-            padding: 20px 12px;
-            margin: 0;
-            flex-grow: 1;
-        }
-
-        .sidebar-menu li {
-            margin-bottom: 4px;
-        }
-
-        .sidebar-menu a, .sidebar-menu .dropdown-trigger {
-            display: flex;
-            align-items: center;
-            color: #94a3b8;
-            text-decoration: none;
-            padding: 10px 16px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            background: none;
-            border: none;
-            width: 100%;
-            text-align: left;
-            cursor: pointer;
-        }
-
-        .sidebar-menu a i, .sidebar-menu .dropdown-trigger i:first-child {
-            width: 20px;
-            margin-right: 12px;
-            font-size: 16px;
-        }
-
-        .sidebar-menu a:hover, .sidebar-menu li.active > a, .sidebar-menu .dropdown-trigger:hover {
-            background-color: var(--sidebar-hover);
-            color: #fff;
-        }
-
-        /* Dropdown Arrow Animation */
-        .arrow-icon {
-            margin-left: auto;
-            font-size: 11px;
-            transition: transform 0.2s ease;
-        }
-
-        .dropdown-trigger[aria-expanded="true"] .arrow-icon {
-            transform: rotate(90deg);
-        }
-
-        /* Submenu Styling */
-        .submenu {
-            list-style: none;
-            padding-left: 0;
-            margin: 4px 0 8px 0;
-            background-color: var(--sidebar-submenu-bg);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .submenu a {
-            padding: 8px 16px 8px 48px;
-            font-size: 13px;
-            color: #94a3b8;
-        }
-
-        .submenu a:hover {
-            background-color: rgba(255, 255, 255, 0.05);
-            color: #fff;
-        }
-
-        /* Main Section Wrapper */
+        /* ── 3. MAIN WORKSPACE ── */
         .main-content {
             margin-left: 260px;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
             width: calc(100% - 260px);
+            min-width: 0;
         }
 
-        /* Top Header Area */
         .top-navbar {
             background-color: #fff;
             border-bottom: 1px solid var(--border-color);
@@ -161,56 +81,47 @@
             color: var(--text-main);
         }
 
-        /* Content Dashboard Body */
         .content-body {
             padding: 40px;
         }
 
-        /* Flat Clean Stat Cards */
+        /* Missing Quick Stat Cards Style added */
         .stat-card {
             background: #fff;
             border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 24px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            transition: border-color 0.2s ease;
-        }
-
-        .stat-card:hover {
-            border-color: #cbd5e1;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
         }
 
         .stat-info span {
             font-size: 13px;
             color: var(--text-muted);
-            font-weight: 500;
             display: block;
             margin-bottom: 4px;
         }
 
         .stat-info h4 a {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
             color: var(--text-main);
             text-decoration: none;
         }
 
         .stat-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 8px;
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
-            background-color: #f1f5f9;
-            color: #475569;
+            font-size: 20px;
         }
 
         .truncate-text {
-            display: block;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -221,6 +132,7 @@
 <body>
 
 <div class="dashboard-container">
+    <!-- SIDEBAR -->
     <aside th:replace="~{fragments/sidebar :: sidebar-component}"></aside>
 
     <!-- MAIN INTERFACE -->
@@ -251,7 +163,7 @@
 
             <!-- 1. CRITICAL ALERT BANNER -->
             <div class="alert border-0 rounded-3 p-3 mb-4 d-flex align-items-center gap-3"
-                 style="background-color: #fef2f2; color: #991b1b; border-left: 4px solid #ef4444 !important; margin-top: -24px !important;">
+                 style="background-color: #fef2f2; color: #991b1b; border-left: 4px solid #ef4444 !important;">
                 <div class="fs-4"><i class="fa-solid fa-bullhorn text-danger"></i></div>
                 <div>
                     <strong class="d-block mb-1" style="font-size: 14px; font-weight: 700;">Alert Notice</strong>
@@ -312,15 +224,14 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <!-- bday, stat ka use karke serial number add kiya -->
                                 <tr th:each="bday, stat : ${birthdayList}" class="border-bottom-subtle">
                                     <td class="py-2 fw-semibold text-muted" th:text="${stat.count}">1</td>
                                     <td class="py-2 fw-medium" th:text="${bday?.name}">Employee Name</td>
                                     <td class="py-2 text-muted" th:text="${bday?.dateOfBirth}">1st Jul, Wed</td>
                                     <td class="py-2 text-end">
-                            <span th:classappend="${bday?.remainingDays == 1} ? 'bg-danger-subtle text-danger' : 'bg-light text-dark'"
-                                  class="badge rounded-1"
-                                  th:text="${bday?.remainingDays == 1 ? '1 Day left' : bday?.remainingDays + ' Days'}">1 Day left</span>
+                                        <span th:classappend="${bday?.remainingDays == 1} ? 'bg-danger-subtle text-danger' : 'bg-light text-dark'"
+                                              class="badge rounded-1"
+                                              th:text="${bday?.remainingDays == 1 ? '1 Day left' : bday?.remainingDays + ' Days'}">1 Day left</span>
                                     </td>
                                 </tr>
                                 <tr th:if="${#lists.isEmpty(birthdayList)}">
@@ -350,15 +261,14 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <!-- anniv, stat ka use karke serial number add kiya -->
                                 <tr th:each="anniv, stat : ${anniversaryList}" class="border-bottom-subtle">
                                     <td class="py-2 fw-semibold text-muted" th:text="${stat.count}">1</td>
                                     <td class="py-2 fw-medium" th:text="${anniv?.name}">Employee Name</td>
                                     <td class="py-2 text-muted" th:text="${anniv?.joiningDate}">1st Jul, Wed</td>
                                     <td class="py-2 text-end">
-                            <span th:classappend="${anniv?.remainingDays == 'Tomorrow' || anniv?.remainingDays == 1} ? 'bg-primary-subtle text-primary' : 'bg-light text-dark'"
-                                  class="badge rounded-1"
-                                  th:text="${anniv?.remainingDays}">Tomorrow</span>
+                                        <span th:classappend="${anniv?.remainingDays == 'Tomorrow' || anniv?.remainingDays == 1} ? 'bg-primary-subtle text-primary' : 'bg-light text-dark'"
+                                              class="badge rounded-1"
+                                              th:text="${anniv?.remainingDays}">Tomorrow</span>
                                     </td>
                                 </tr>
                                 <tr th:if="${#lists.isEmpty(anniversaryList)}">
@@ -370,6 +280,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="row g-4">
                 <!-- ALL LEAVE REQUESTS TRACKER -->
                 <div class="col-xl-8">
@@ -407,23 +318,21 @@
                     </div>
                 </div>
 
-                <!-- SIDE LOGS (PARALLEL STRUCTURE) -->
+                <!-- SIDE LOGS -->
                 <div class="col-xl-4">
                     <!-- WFH List Card -->
-                    <div class="bg-white rounded-3 border p-4 mb-4" style="height: 380px; display: flex; flex-direction: column;">
+                    <div class="bg-white rounded-3 border p-4 mb-4" style="height: 240px; display: flex; flex-direction: column;">
                         <h6 class="fw-bold mb-3" style="font-size: 14px;">
                             <i class="fa-solid fa-house-user text-success me-2"></i>WFH List
                         </h6>
-
-                        <!-- Table Responsive Div to lock inside Card -->
-                        <div class="table-responsive w-100 flex-grow-1" style="max-height: 290px; overflow-y: auto;">
+                        <div class="table-responsive w-100 flex-grow-1" style="max-height: 160px; overflow-y: auto;">
                             <table class="table table-sm table-borderless align-middle mb-0" style="font-size: 13px; table-layout: fixed; width: 100%;">
                                 <thead class="text-muted sticky-top bg-white" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border-color);">
                                 <tr>
                                     <th style="width: 15%;" class="pb-2">S.No.</th>
-                                    <th style="width: 30%;" class="pb-2">Employee</th>
-                                    <th style="width: 20%;" class="pb-2">Emp ID</th>
-                                    <th style="width: 35%;" class="pb-2 text-end">Duration</th>
+                                    <th style="width: 35%;" class="pb-2">Employee</th>
+                                    <th style="width: 20%;" class="pb-2">ID</th>
+                                    <th style="width: 30%;" class="pb-2 text-end">Duration</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -476,7 +385,7 @@
     </div>
 </div>
 
-<!-- Bootstrap JS for Dropdown Toggles -->
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

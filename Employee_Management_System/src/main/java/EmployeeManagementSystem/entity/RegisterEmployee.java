@@ -20,5 +20,7 @@ public class RegisterEmployee {
     private String role;
     private String otp;
     private LocalDateTime otpExpiryTime;
+    private String designation;
+
 
 }

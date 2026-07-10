@@ -1,5 +1,6 @@
 package EmployeeManagementSystem.service;
 
+import EmployeeManagementSystem.entity.Attendance;
 import EmployeeManagementSystem.entity.AttendanceTracking;
 import EmployeeManagementSystem.entity.Employee;
 import EmployeeManagementSystem.repository.AttendanceTrackingRepository;
@@ -11,6 +12,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -83,6 +85,19 @@ public List<AttendanceTracking> getAttendanceHistory(Long employeeId) {
     return attendanceTrackingRepository
             .findByEmployeeIdOrderByDateDesc(employeeId);
 }
+    @Override
+    public LocalDateTime getPunchInTimeForToday(String employeeId) {
+        // 1. डेटाबेस से आज का अटेंडेंस रिकॉर्ड खोजें
+        Optional<Attendance> attendanceOpt = attendanceTrackingRepository.findTodayAttendanceByEmployeeId(employeeId);
+
+        // 2. अगर रिकॉर्ड मौजूद है, तो punchInTime (LocalDateTime) रिटर्न करें
+        if (attendanceOpt.isPresent()) {
+            return attendanceOpt.get().getCheckInTime(); // मान लेते हैं एंटिटी में getPunchInTime() मेथड है
+        }
+
+        // 3. अगर कर्मचारी ने आज पंच-इन नहीं किया है, तो null रिटर्न करें
+        return null;
+    }
 
 //    @Override
 //    public List<AttendanceTracking> getAttendanceHistory(Long employeeId) {

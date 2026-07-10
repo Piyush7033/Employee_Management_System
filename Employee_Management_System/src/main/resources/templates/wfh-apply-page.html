@@ -233,7 +233,7 @@
 
 <div class="dashboard-container">
 
-    <!-- SIDEBAR FRAGMENT REPLACEMENT (Will take layout definitions perfectly now) -->
+    <!-- SIDEBAR FRAGMENT REPLACEMENT -->
     <aside th:replace="~{fragments/sidebar :: sidebar-component}"></aside>
 
     <!-- MAIN INTERFACE WRAPPER -->
@@ -275,19 +275,14 @@
                     <!-- FORM HANDLING TRIPPED VIA THYMELEAF -->
                     <form th:action="@{/employee/wfh/save}" th:object="${wfhRequest}" method="POST">
 
+                        <!-- OPTIONAL HIDDEN FIELDS FOR UPDATES (Uncomment if needed) -->
+                        <!-- <input type="hidden" th:field="*{id}" /> -->
+
+                        <!-- ADDED CRITICAL OPENING ROW CONTAINER HERE -->
                         <div class="row g-4">
-                            <!-- Duration Setup Mode -->
-                            <div class="col-md-6">
-                                <label class="form-label" for="wfhMode">Request Mode</label>
-                                <select id="wfhMode" th:field="*{wfhMode}" class="form-select" required>
-                                    <option value="Single Day">Single Day</option>
-                                    <option value="Custom Range">Custom Date Range</option>
-                                    <option value="Long Term">Long-Term Remote Arrangement</option>
-                                </select>
-                            </div>
 
                             <!-- Target Project reference allocation -->
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <label class="form-label" for="projectName">Current Project Title</label>
                                 <input type="text" id="projectName" th:field="*{projectName}" class="form-control" placeholder="e.g. E-Commerce Platform" required>
                             </div>

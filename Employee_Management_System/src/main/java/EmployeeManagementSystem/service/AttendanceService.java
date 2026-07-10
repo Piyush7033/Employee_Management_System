@@ -3,6 +3,7 @@ package EmployeeManagementSystem.service;
 import EmployeeManagementSystem.entity.Attendance;
 import EmployeeManagementSystem.entity.WfhRequest;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AttendanceService {
@@ -19,4 +20,5 @@ public interface AttendanceService {
     List<Attendance> getTodayAttendance();
     List<Attendance> getTodayWFHEmployees();
     List<Attendance> getAttendanceLogsByEmployeeId(String employeeId);
+
 }

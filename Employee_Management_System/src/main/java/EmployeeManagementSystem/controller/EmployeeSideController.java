@@ -91,7 +91,7 @@ public class EmployeeSideController {
         model.addAttribute("projectOffLogs", projectOffService.getTodayProjectOffLogs());
 
         model.addAttribute("loggedInEmpId", loggedInEmpId);
-        model.addAttribute("loggedInEmpId", loggedInEmpId);
+        //model.addAttribute("loggedInEmpId", loggedInEmpId);
 
         //FIX 1: Token se nikli hui asli employeeId (String) ka use karein, na ki numeric auto-incremented ID ka
         String realEmployeeId = null;

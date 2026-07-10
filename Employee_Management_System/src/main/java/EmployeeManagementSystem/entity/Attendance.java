@@ -3,16 +3,19 @@ package EmployeeManagementSystem.entity;
 import EmployeeManagementSystem.enums.AttendanceStatus;
 import EmployeeManagementSystem.enums.WorkMode;
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "attendance")
+@Data
 public class Attendance {
 
     @Id
@@ -23,7 +26,7 @@ public class Attendance {
     private LocalDate attendanceDate;
 
     // Punch In
-    private LocalTime checkInTime;
+    private LocalDateTime checkInTime;
 
     // Punch Out
     private LocalTime checkOutTime;

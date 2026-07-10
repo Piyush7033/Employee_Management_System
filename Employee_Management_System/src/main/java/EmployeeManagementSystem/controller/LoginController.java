@@ -5,6 +5,7 @@ import EmployeeManagementSystem.entity.AttendanceTracking;
 import EmployeeManagementSystem.entity.RegisterEmployee;
 import EmployeeManagementSystem.jwt.JwtUtil;
 import EmployeeManagementSystem.repository.AttendanceTrackingRepository;
+import EmployeeManagementSystem.service.AttendanceService;
 import EmployeeManagementSystem.service.RegisterEmployeeService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -79,6 +80,7 @@ public class LoginController {
             attendance.setStatus("Present");
 
             attendanceTrackingRepository.save(attendance);
+
 
             System.out.println("Attendance Saved Successfully");
 
