@@ -1,9 +1,8 @@
 package EmployeeManagementSystem.service;
 
 import EmployeeManagementSystem.entity.LeaveRequest;
-import EmployeeManagementSystem.entity.LeaveStatus;
+import EmployeeManagementSystem.enums.LeaveStatus;
 import EmployeeManagementSystem.entity.RegisterEmployee;
-import EmployeeManagementSystem.repository.EmployeeRepository;
 import EmployeeManagementSystem.repository.LeaveRepository;
 import EmployeeManagementSystem.repository.RegisterEmployeeRepository;
 import lombok.RequiredArgsConstructor;

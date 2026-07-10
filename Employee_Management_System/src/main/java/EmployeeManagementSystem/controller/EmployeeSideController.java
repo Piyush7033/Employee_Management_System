@@ -6,6 +6,7 @@ import EmployeeManagementSystem.entity.EmployeeProfile;
 import EmployeeManagementSystem.entity.Policy;
 import EmployeeManagementSystem.entity.RegisterEmployee;
 import EmployeeManagementSystem.entity.WfhRequest;
+import EmployeeManagementSystem.enums.LeaveStatus;
 import EmployeeManagementSystem.jwt.JwtUtil;
 import EmployeeManagementSystem.repository.EmployeeProfileRepository;
 import EmployeeManagementSystem.repository.LeaveRepository;
@@ -85,7 +86,7 @@ public class EmployeeSideController {
         model.addAttribute("wfhList",wfhService.getWFHEmployees());
         model.addAttribute("leaveList",leaveService.getAllLeaveRequest());
         model.addAttribute("totalWFH",wfhRequestRepository.countByStatus("APPROVED"));
-        model.addAttribute("totalLeaves",leaveRepository.countByStatus("APPROVED"));
+        model.addAttribute("totalLeaves",leaveRepository.countByStatus(LeaveStatus.APPROVED));
 
 
         model.addAttribute("projectOffLogs", projectOffService.getTodayProjectOffLogs());
