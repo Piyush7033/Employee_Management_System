@@ -125,8 +125,9 @@
 
 
         <li class="menu-title">SALARY & PAYROLL</li>
+        <!-- In your sidebar fragment -->
         <li>
-            <a href="/admin/salary/salary-dashboard" class="active">
+            <a th:href="@{/admin/salary/salary-dashboard}">  <!-- Changed from salary-dashboard to dashboard -->
                 <i class="fas fa-money-bill-wave"></i>
                 Salary Dashboard
             </a>
