@@ -56,7 +56,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
                 Salary existingSalary = existing.getSalaryDetails();
 
-                existingSalary.setBasicSalary(newSalary.getBasicSalary());
+//                existingSalary.setBasicSalary(newSalary.getBasicSalary());
                 existingSalary.setBonus(newSalary.getBonus());
 //                existingSalary.setDeductions(newSalary.getDeduction());
                 existingSalary.setDeductions(newSalary.getDeductions());
