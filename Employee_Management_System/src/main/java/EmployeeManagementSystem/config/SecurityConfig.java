@@ -50,6 +50,7 @@ public class SecurityConfig {
 //                        .requestMatchers("/admin/salary/salary-dashboard").hasRole("ADMIN")
                         .requestMatchers("/admin/all-profiles-as-employees").permitAll()
                         .requestMatchers("/admin/all/empployees").permitAll()
+                                .requestMatchers("/admin/departments/**").permitAll()
                         .requestMatchers("/admin/salary/salary-dashboard").permitAll()
                         .requestMatchers("/notifications/**").permitAll()
                         .requestMatchers("/employee/**").permitAll()

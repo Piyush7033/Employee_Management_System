@@ -23,8 +23,6 @@ import java.util.List;
 @Slf4j
 public class AdminController {
 
-
-
     @Autowired
     private EmployeeRepository employeeRepository;
 
@@ -162,7 +160,6 @@ public class AdminController {
             );
             model.addAttribute("recentActivities", recentActivities);
 
-
         } catch (Exception e) {
             log.error("Error loading dashboard: ", e);
             model.addAttribute("error", e.getMessage());
@@ -287,21 +284,5 @@ public class AdminController {
         public String getTime() { return time; }
     }
 
-    @GetMapping("/departments/add")
-    public String showAddDepartmentPage(Model model) {
 
-        model.addAttribute("department", new Department());
-
-        model.addAttribute("employees",
-                employeeRepository.findAll());
-
-        return "admin/departments/add-department";
-    }
-    @PostMapping("/departments/save")
-    public String saveDepartment(@ModelAttribute Department department) {
-
-        departmentService.saveDepartment(department);
-
-        return "redirect:/admin/departments";
-    }
 }

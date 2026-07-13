@@ -6,173 +6,473 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Department</title>
 
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- Google Font Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Sidebar CSS -->
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}">
+
     <style>
-        body{
-            background:#f5f7fb;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        .page-wrapper{
-            max-width:850px;
-            margin:40px auto;
+        html, body {
+            font-family: 'Inter', sans-serif;
+            background: #f4f7fc;
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden;
         }
 
-        .card{
-            border:none;
-            border-radius:14px;
-            box-shadow:0 8px 25px rgba(0,0,0,.08);
+        body {
+            display: flex;
+            flex-direction: row;
         }
 
-        .card-header{
-            background:#0d6efd;
-            color:#fff;
-            padding:18px 25px;
-            border-radius:14px 14px 0 0 !important;
+        .main-content {
+            flex: 1;
+            padding: 1.5rem 2rem;
+            background: #f4f7fc;
+            min-height: 100vh;
+            margin-left: 280px;
+            width: calc(100% - 280px);
         }
 
-        .form-label{
-            font-weight:600;
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 1rem;
+            }
         }
 
-        .required{
-            color:red;
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
-        .btn{
-            min-width:120px;
+        .page-header h4 {
+            font-weight: 600;
+            color: #1a2639;
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .page-header .breadcrumb {
+            background: transparent;
+            padding: 0;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .page-header .breadcrumb-item + .breadcrumb-item::before {
+            content: "›";
+        }
+
+        .page-header .breadcrumb-item a {
+            color: #6b7a8f;
+            text-decoration: none;
+        }
+
+        .page-header .breadcrumb-item.active {
+            color: #1a2639;
+        }
+
+        .card-custom {
+            background: #fff;
+            border-radius: 12px;
+            border: 1px solid #e9edf4;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            padding: 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .card-custom .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1a2639;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #1a2639;
+            font-size: 0.9rem;
+        }
+
+        .required {
+            color: #d94a4a;
+        }
+
+        .form-control, .form-select {
+            border: 1px solid #e9edf4;
+            border-radius: 8px;
+            padding: 0.7rem 1rem;
+            font-size: 0.9rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #2a6df4;
+            box-shadow: 0 0 0 3px rgba(42, 109, 244, 0.1);
+        }
+
+        .form-text {
+            color: #6b7a8f;
+            font-size: 0.75rem;
+            margin-top: 0.3rem;
+        }
+
+        .btn {
+            font-weight: 500;
+            padding: 0.7rem 2rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #2a6df4;
+            border: none;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #1a5cdb;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(42, 109, 244, 0.3);
+        }
+
+        .btn-primary:disabled {
+            background: #a0b8d9;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #e9edf4;
+            border: none;
+            color: #4a5a72;
+        }
+
+        .btn-secondary:hover {
+            background: #d5dbe6;
+            color: #1a2639;
+        }
+
+        .logout-btn {
+            color: #6b7a8f;
+            text-decoration: none;
+            padding: 0.4rem 1rem;
+            border-radius: 8px;
+            transition: 0.2s;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logout-btn:hover {
+            background: #fde8e8;
+            color: #d94a4a;
+        }
+
+        .today-badge {
+            background: rgba(42, 109, 244, 0.1);
+            color: #2a6df4;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .designation-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #f0f4ff;
+            color: #2a6df4;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin: 0.2rem;
+        }
+
+        .designation-chip .remove-designation {
+            cursor: pointer;
+            color: #d94a4a;
+            font-size: 0.7rem;
+        }
+
+        .designation-chip .remove-designation:hover {
+            color: #b33a3a;
+        }
+
+        .designation-input-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .designation-input-group .form-control {
+            flex: 1;
+        }
+
+        .add-btn-container {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e9edf4;
+        }
+
+        @media (max-width: 768px) {
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .card-custom {
+                padding: 1.5rem;
+            }
+            .designation-input-group {
+                flex-direction: column;
+            }
         }
     </style>
-
 </head>
 <body>
 
-<div class="container page-wrapper">
+<!-- Include Sidebar -->
+<div th:replace="~{fragments/sidebar-admin :: sidebar-component}"></div>
 
-    <div class="card">
+<!-- ===== MAIN CONTENT ===== -->
+<div class="main-content">
 
-        <div class="card-header">
-            <h3 class="mb-0">
-                Add Department
-            </h3>
+    <!-- Page Header -->
+    <div class="page-header">
+        <div>
+            <h4>Add Department</h4>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a th:href="@{/admin/dashboard}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/admin/departments/list}">Departments</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Add Department</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+            <span class="today-badge">
+                <i class="fa-regular fa-calendar"></i> Today
+            </span>
+            <a th:href="@{/auth/logout}" class="logout-btn">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </a>
+        </div>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fa-solid fa-check-circle me-2"></i> <span th:text="${successMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fa-solid fa-exclamation-circle me-2"></i> <span th:text="${errorMessage}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <!-- Add Department Form -->
+    <div class="card-custom">
+        <div class="card-title">
+            <i class="fa-solid fa-building me-2" style="color: #2a6df4;"></i>
+            Department Information
         </div>
 
-        <div class="card-body">
+        <form th:action="@{/admin/departments/save}"
+              th:object="${department}"
+              method="post">
 
-            <form th:action="@{/admin/departments/save}"
-                  th:object="${department}"
-                  method="post">
+            <div class="mb-3">
+                <label class="form-label">
+                    Department Name
+                    <span class="required">*</span>
+                </label>
+                <input type="text"
+                       class="form-control"
+                       th:field="*{departmentName}"
+                       placeholder="Enter Department Name"
+                       required>
+                <div class="form-text">e.g., Information Technology, Human Resources, Sales</div>
+            </div>
 
-                <div class="row">
+            <div class="mb-3">
+                <label class="form-label">
+                    Department Code
+                    <span class="required">*</span>
+                </label>
+                <input type="text"
+                       class="form-control"
+                       th:field="*{departmentCode}"
+                       placeholder="Example: IT001"
+                       required>
+                <div class="form-text">Unique code for the department</div>
+            </div>
 
-                    <div class="col-md-6 mb-3">
-
-                        <label class="form-label">
-                            Department Name
-                            <span class="required">*</span>
-                        </label>
-
-                        <input type="text"
-                               class="form-control"
-                               th:field="*{departmentName}"
-                               placeholder="Enter Department Name"
-                               required>
-
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-
-                        <label class="form-label">
-                            Department Code
-                            <span class="required">*</span>
-                        </label>
-
-                        <input type="text"
-                               class="form-control"
-                               th:field="*{departmentCode}"
-                               placeholder="Example : IT001"
-                               required>
-
-                    </div>
-
-                </div>
-
-                <div class="mb-3">
-
-                    <label class="form-label">
-                        Description
-                    </label>
-
-                    <textarea class="form-control"
-                              rows="4"
-                              th:field="*{description}"
-                              placeholder="Department Description">
-                    </textarea>
-
-                </div>
-
-                <div class="row">
-
-                    <div class="col-md-6 mb-3">
-
-                        <label class="form-label">
-                            Department Head
-                        </label>
-
-                        <select class="form-select"
-                                th:field="*{departmentHeadId}">
-
-                            <option value="">Select Employee</option>
-
-                            <option
-                                    th:each="emp : ${employees}"
-                                    th:value="${emp.id}"
-                                    th:text="${emp.name}">
-                            </option>
-
-                        </select>
-
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-
-                        <label class="form-label">
-                            Status
-                        </label>
-
-                        <select class="form-select"
-                                th:field="*{status}">
-
-                            <option value="ACTIVE">Active</option>
-                            <option value="INACTIVE">Inactive</option>
-
-                        </select>
-
-                    </div>
-
-                </div>
-
-                <div class="d-flex justify-content-end gap-2 mt-4">
-
-                    <a th:href="@{/admin/departments}"
-                       class="btn btn-secondary">
-                        Cancel
-                    </a>
-
-                    <button class="btn btn-primary"
-                            type="submit">
-                        Save Department
+            <!-- Designations Section -->
+            <div class="mb-3">
+                <label class="form-label">Designations</label>
+                <div class="designation-input-group">
+                    <input type="text"
+                           class="form-control"
+                           id="designationInput"
+                           placeholder="Enter designation (e.g., Software Developer)">
+                    <button type="button"
+                            class="btn btn-primary"
+                            onclick="addDesignation()">
+                        <i class="fa-solid fa-plus"></i> Add
                     </button>
-
                 </div>
+                <div class="form-text">Add all designations available in this department</div>
+            </div>
 
-            </form>
+            <!-- Designation Chips -->
+            <div id="designationContainer" class="mb-3">
+                <div th:each="designation : ${department.designations}"
+                     class="designation-chip">
+                    <span th:text="${designation}"></span>
+                    <span class="remove-designation"
+                          onclick="removeDesignation(this, 'designation')">
+                        <i class="fa-solid fa-times"></i>
+                    </span>
+                    <input type="hidden"
+                           th:field="*{designations}"
+                           th:value="${designation}" />
+                </div>
+                <div id="emptyDesignationMsg" th:unless="${not #lists.isEmpty(department.designations)}"
+                     class="text-muted" style="font-size:0.9rem;">
+                    <i class="fa-regular fa-circle"></i> No designations added yet
+                </div>
+            </div>
 
-        </div>
+            <!-- Hidden input for designations list -->
+            <div id="hiddenDesignations"></div>
 
+            <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+                <a th:href="@{/admin/departments/list}" class="btn btn-secondary">
+                    <i class="fa-solid fa-times me-1"></i> Cancel
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-save me-1"></i> Save Department
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Footer note -->
+    <div class="mt-4 text-muted" style="font-size:0.75rem; border-top:1px solid #e9edf4; padding-top:1rem;">
+        <span>HRMS v2.0</span>
+        <span class="ms-3">Add Department</span>
     </div>
 
 </div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Add designation
+    function addDesignation() {
+        const input = document.getElementById('designationInput');
+        const designation = input.value.trim();
+
+        if (designation === '') {
+            alert('Please enter a designation');
+            return;
+        }
+
+        // Check if already exists
+        const existing = document.querySelectorAll('#designationContainer .designation-chip span:first-child');
+        for (let chip of existing) {
+            if (chip.textContent.toLowerCase() === designation.toLowerCase()) {
+                alert('This designation already exists');
+                return;
+            }
+        }
+
+        // Create chip
+        const container = document.getElementById('designationContainer');
+        const emptyMsg = document.getElementById('emptyDesignationMsg');
+        if (emptyMsg) {
+            emptyMsg.remove();
+        }
+
+        const chip = document.createElement('div');
+        chip.className = 'designation-chip';
+        chip.innerHTML = `
+            <span>${designation}</span>
+            <span class="remove-designation" onclick="removeDesignation(this, '${designation}')">
+                <i class="fa-solid fa-times"></i>
+            </span>
+            <input type="hidden" name="designations" value="${designation}" />
+        `;
+        container.appendChild(chip);
+
+        // Clear input
+        input.value = '';
+    }
+
+    // Remove designation
+    function removeDesignation(element, designation) {
+        const chip = element.closest('.designation-chip');
+        chip.remove();
+
+        // Check if container is empty
+        const container = document.getElementById('designationContainer');
+        const chips = container.querySelectorAll('.designation-chip');
+        if (chips.length === 0) {
+            const emptyMsg = document.createElement('div');
+            emptyMsg.id = 'emptyDesignationMsg';
+            emptyMsg.className = 'text-muted';
+            emptyMsg.style.fontSize = '0.9rem';
+            emptyMsg.innerHTML = '<i class="fa-regular fa-circle"></i> No designations added yet';
+            container.appendChild(emptyMsg);
+        }
+    }
+</script>
+
+<!-- Active menu highlighting -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebarLinks = document.querySelectorAll('.sidebar-menu a');
+        const currentPath = window.location.pathname;
+
+        sidebarLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href && currentPath.includes(href)) {
+                document.querySelectorAll('.sidebar-menu li').forEach(li => {
+                    li.classList.remove('active');
+                });
+                link.closest('li').classList.add('active');
+            }
+        });
+    });
+</script>
 
 </body>
 </html>
