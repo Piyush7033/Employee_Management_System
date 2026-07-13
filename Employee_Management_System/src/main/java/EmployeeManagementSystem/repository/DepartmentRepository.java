@@ -12,8 +12,6 @@ import java.util.Optional;
 public interface DepartmentRepository extends JpaRepository<Department, Long> {
 
     Optional<Department> findByDepartmentName(String departmentName);
-    Optional<Department> findByDepartmentCode(String departmentCode);
     List<Department> findByStatus(String status);
     boolean existsByDepartmentName(String departmentName);
-    boolean existsByDepartmentCode(String departmentCode);
 }

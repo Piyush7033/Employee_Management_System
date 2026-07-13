@@ -27,7 +27,6 @@ public class DepartmentServiceImpl implements DepartmentService {
             department.setDesignations(getDefaultDesignations(department.getDepartmentName()));
         }
 
-        // Set timestamps
         if (department.getCreatedAt() == null) {
             department.setCreatedAt(LocalDateTime.now());
         }
@@ -39,13 +38,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Department updateDepartment(Long id, Department department) {
         Department existing = departmentRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Department not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("Department not found with id: " + id));
 
         existing.setDepartmentName(department.getDepartmentName());
-        existing.setDepartmentCode(department.getDepartmentCode());
         existing.setDescription(department.getDescription());
-        existing.setDepartmentHead(department.getDepartmentHead());
         existing.setStatus(department.getStatus());
         existing.setDesignations(department.getDesignations());
         existing.setUpdatedAt(LocalDateTime.now());
@@ -64,8 +60,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Department getDepartmentById(Long id) {
         return departmentRepository.findById(id)
-                .orElseThrow(() ->
-                        new RuntimeException("Department not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("Department not found with id: " + id));
     }
 
     @Override
@@ -98,57 +93,30 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentRepository.existsByDepartmentName(name);
     }
 
-    @Override
-    public boolean existsByDepartmentCode(String code) {
-        return departmentRepository.existsByDepartmentCode(code);
-    }
-
     private List<String> getDefaultDesignations(String departmentName) {
         Map<String, List<String>> defaultDesignations = new HashMap<>();
 
         defaultDesignations.put("IT", Arrays.asList(
-                "Software Developer", "Senior Developer", "Tech Lead",
-                "System Administrator", "Network Engineer", "Database Administrator",
-                "DevOps Engineer", "Full Stack Developer", "Frontend Developer",
-                "Backend Developer", "QA Engineer", "IT Manager",
-                "Python Developer", "Java Developer", "Salesforce Developer"
+                "Software Developer", "Senior Developer", "Tech Lead"
         ));
 
         defaultDesignations.put("Human Resources", Arrays.asList(
-                "HR Manager", "HR Executive", "Recruiter",
-                "Talent Acquisition", "Training Specialist", "Compensation Specialist",
-                "Employee Relations", "HR Coordinator", "HR Assistant"
+                "HR Manager", "HR Executive", "Recruiter"
         ));
 
         defaultDesignations.put("Sales", Arrays.asList(
-                "Sales Manager", "Sales Executive", "Sales Representative",
-                "Business Development Manager", "Account Manager", "Regional Sales Manager",
-                "Inside Sales", "Sales Associate", "Sales Director", "BDE"
+                "Sales Manager", "Sales Executive", "Business Development"
         ));
 
         defaultDesignations.put("Marketing", Arrays.asList(
-                "Marketing Manager", "Digital Marketing Specialist", "Content Writer",
-                "SEO Specialist", "Social Media Manager", "Brand Manager",
-                "Marketing Executive", "Marketing Analyst", "PR Manager"
+                "Marketing Manager", "Digital Marketing", "Content Writer"
         ));
 
         defaultDesignations.put("Finance", Arrays.asList(
-                "Finance Manager", "Accountant", "Financial Analyst",
-                "Auditor", "Tax Specialist", "Payroll Specialist",
-                "Finance Executive", "Accounts Payable", "Accounts Receivable"
-        ));
-
-        defaultDesignations.put("Operations", Arrays.asList(
-                "Operations Manager", "Operations Executive", "Project Manager",
-                "Supply Chain Manager", "Logistics Coordinator", "Quality Assurance"
-        ));
-
-        defaultDesignations.put("Research", Arrays.asList(
-                "Research Scientist", "Research Analyst", "Data Scientist",
-                "ML Engineer", "AI Researcher", "Research Coordinator"
+                "Finance Manager", "Accountant", "Financial Analyst"
         ));
 
         return defaultDesignations.getOrDefault(departmentName,
-                Arrays.asList("Manager", "Executive", "Associate", "Team Lead"));
+                Arrays.asList("Manager", "Executive", "Associate"));
     }
 }

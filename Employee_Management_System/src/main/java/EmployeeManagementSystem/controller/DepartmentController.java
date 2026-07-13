@@ -2,7 +2,6 @@ package EmployeeManagementSystem.controller;
 
 import EmployeeManagementSystem.entity.Department;
 import EmployeeManagementSystem.service.DepartmentService;
-import EmployeeManagementSystem.service.EmployeeProfileService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -20,15 +20,11 @@ public class DepartmentController {
     @Autowired
     private DepartmentService departmentService;
 
-    @Autowired
-    private EmployeeProfileService employeeProfileService;
-
     @GetMapping("/add")
     public String showAddDepartmentForm(Model model) {
         model.addAttribute("department", new Department());
-        model.addAttribute("employees", employeeProfileService.getAllProfiles());
+        model.addAttribute("departments", departmentService.getAllDepartments()); // FIX: Add this
         model.addAttribute("pageTitle", "Add Department");
-        // Redirect to admin/employee-management/add-department (matches AdminController path)
         return "admin/employee-management/add-department";
     }
 
@@ -38,50 +34,62 @@ public class DepartmentController {
                                  RedirectAttributes redirectAttributes,
                                  Model model) {
 
-        // Check for duplicate department name
         if (departmentService.existsByDepartmentName(department.getDepartmentName())) {
             bindingResult.rejectValue("departmentName", "error.department", "Department name already exists");
         }
 
-        // Check for duplicate department code
-        if (department.getDepartmentCode() != null && !department.getDepartmentCode().isEmpty()) {
-            if (departmentService.existsByDepartmentCode(department.getDepartmentCode())) {
-                bindingResult.rejectValue("departmentCode", "error.department", "Department code already exists");
-            }
-        }
-
         if (bindingResult.hasErrors()) {
-            model.addAttribute("employees", employeeProfileService.getAllProfiles());
+            model.addAttribute("departments", departmentService.getAllDepartments());
             model.addAttribute("pageTitle", "Add Department");
             return "admin/employee-management/add-department";
         }
 
         try {
-            Department savedDepartment = departmentService.saveDepartment(department);
+            departmentService.saveDepartment(department);
             redirectAttributes.addFlashAttribute("successMessage",
-                    "Department '" + savedDepartment.getDepartmentName() + "' added successfully!");
-            // Redirect to department list
-            return "redirect:/admin/departments/list";
+                    "Department added successfully!");
+            return "redirect:/admin/departments/add";
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Error adding department: " + e.getMessage());
-            model.addAttribute("employees", employeeProfileService.getAllProfiles());
+            model.addAttribute("departments", departmentService.getAllDepartments());
             model.addAttribute("pageTitle", "Add Department");
             return "admin/employee-management/add-department";
         }
     }
 
-    @GetMapping("/list")
-    public String listDepartments(Model model) {
-        model.addAttribute("departments", departmentService.getAllDepartments());
-        model.addAttribute("pageTitle", "Department List");
-        return "admin/employee-management/department-list";
+    @PostMapping("/add-designation")
+    public String addDesignation(@RequestParam Long departmentId,
+                                 @RequestParam String designationName,
+                                 RedirectAttributes redirectAttributes) {
+        try {
+            Department department = departmentService.getDepartmentById(departmentId);
+
+            List<String> designations = department.getDesignations();
+            if (designations == null) {
+                designations = new ArrayList<>();
+            }
+
+            if (!designations.contains(designationName)) {
+                designations.add(designationName);
+                department.setDesignations(designations);
+                departmentService.updateDepartment(departmentId, department);
+                redirectAttributes.addFlashAttribute("successMessage",
+                        "Designation '" + designationName + "' added to '" + department.getDepartmentName() + "' successfully!");
+            } else {
+                redirectAttributes.addFlashAttribute("errorMessage",
+                        "Designation '" + designationName + "' already exists in this department!");
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error adding designation: " + e.getMessage());
+        }
+        return "redirect:/admin/departments/add";
     }
 
     @GetMapping("/edit/{id}")
     public String showEditDepartmentForm(@PathVariable Long id, Model model) {
         Department department = departmentService.getDepartmentById(id);
         model.addAttribute("department", department);
-        model.addAttribute("employees", employeeProfileService.getAllProfiles());
+        model.addAttribute("departments", departmentService.getAllDepartments());
         model.addAttribute("pageTitle", "Edit Department");
         return "admin/employee-management/add-department";
     }
@@ -94,7 +102,7 @@ public class DepartmentController {
                                    Model model) {
 
         if (bindingResult.hasErrors()) {
-            model.addAttribute("employees", employeeProfileService.getAllProfiles());
+            model.addAttribute("departments", departmentService.getAllDepartments());
             model.addAttribute("pageTitle", "Edit Department");
             return "admin/employee-management/add-department";
         }
@@ -102,10 +110,10 @@ public class DepartmentController {
         try {
             departmentService.updateDepartment(id, department);
             redirectAttributes.addFlashAttribute("successMessage", "Department updated successfully!");
-            return "redirect:/admin/departments/list";
+            return "redirect:/admin/departments/add";
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Error updating department: " + e.getMessage());
-            model.addAttribute("employees", employeeProfileService.getAllProfiles());
+            model.addAttribute("departments", departmentService.getAllDepartments());
             model.addAttribute("pageTitle", "Edit Department");
             return "admin/employee-management/add-department";
         }
@@ -119,17 +127,15 @@ public class DepartmentController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Error deleting department: " + e.getMessage());
         }
-        return "redirect:/admin/departments/list";
+        return "redirect:/admin/departments/add";
     }
 
-    // AJAX endpoint to get designations by department
     @GetMapping("/designations")
     @ResponseBody
     public List<String> getDesignations(@RequestParam String departmentName) {
         return departmentService.getDesignationsByDepartment(departmentName);
     }
 
-    // Redirect from department to employee form
     @GetMapping("/add-employee/{departmentId}")
     public String redirectToAddEmployee(@PathVariable Long departmentId, RedirectAttributes redirectAttributes) {
         Department department = departmentService.getDepartmentById(departmentId);

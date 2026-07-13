@@ -14,5 +14,4 @@ public interface DepartmentService {
     Optional<Department> getDepartmentByName(String name);
     List<String> getDesignationsByDepartment(String departmentName);
     boolean existsByDepartmentName(String name);
-    boolean existsByDepartmentCode(String code);
 }
