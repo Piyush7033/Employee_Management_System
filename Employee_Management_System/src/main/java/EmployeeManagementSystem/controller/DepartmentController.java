@@ -142,4 +142,36 @@ public class DepartmentController {
         redirectAttributes.addAttribute("department", department.getDepartmentName());
         return "redirect:/admin/employees/add";
     }
+
+    // Show Manage Designations page
+    @GetMapping("/designations/add")
+    public String showManageDesignationsPage(Model model) {
+        model.addAttribute("departments", departmentService.getAllDepartments());
+        model.addAttribute("pageTitle", "Manage Designations");
+        return "admin/employee-management/manage-designations";
+    }
+
+    // Remove designation from department
+    @GetMapping("/remove-designation/{deptId}/{designation}")
+    public String removeDesignation(@PathVariable Long deptId,
+                                    @PathVariable String designation,
+                                    RedirectAttributes redirectAttributes) {
+        try {
+            Department department = departmentService.getDepartmentById(deptId);
+            List<String> designations = department.getDesignations();
+            if (designations != null && designations.contains(designation)) {
+                designations.remove(designation);
+                department.setDesignations(designations);
+                departmentService.updateDepartment(deptId, department);
+                redirectAttributes.addFlashAttribute("successMessage",
+                        "Designation '" + designation + "' removed successfully!");
+            } else {
+                redirectAttributes.addFlashAttribute("errorMessage",
+                        "Designation '" + designation + "' not found!");
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error removing designation: " + e.getMessage());
+        }
+        return "redirect:/admin/departments/designations/add";
+    }
 }
