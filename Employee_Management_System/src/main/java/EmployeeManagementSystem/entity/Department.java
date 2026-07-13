@@ -2,6 +2,7 @@ package EmployeeManagementSystem.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,22 +20,18 @@ public class Department {
     @Column(nullable = false, unique = true)
     private String departmentName;
 
-    @Column(unique = true)
-    private String departmentCode;
-
     @Column(columnDefinition = "TEXT")
     private String description;
-
-    @Column(name = "department_head")
-    private String departmentHead;
 
     @Column(name = "status")
     private String status = "ACTIVE";
 
     @Column(name = "created_at")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime updatedAt;
 
     // Designations related to this department
@@ -48,6 +45,9 @@ public class Department {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
+        if (status == null) {
+            status = "ACTIVE";
+        }
     }
 
     @PreUpdate
