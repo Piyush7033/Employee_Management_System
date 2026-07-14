@@ -29,7 +29,7 @@ public class AttendanceTrackingServiceImpl implements AttendanceTrackingService 
         AttendanceTracking attendanceTracking = new AttendanceTracking();
 
         attendanceTracking.setEmployeeId(employee.getId());
-        attendanceTracking.setEmployeeName(employee.getName());
+        attendanceTracking.setEmployeeName(employee.getFirstName());
         attendanceTracking.setDate(LocalDate.now());
         attendanceTracking.setLoginTime(LocalDateTime.now());
         attendanceTracking.setStatus("Present");

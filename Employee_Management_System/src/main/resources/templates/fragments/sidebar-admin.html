@@ -241,7 +241,7 @@
             </a>
         </li>
 
-
+        <!-- ===== EMPLOYEE MANAGEMENT ===== -->
         <li>
             <button class="dropdown-trigger"
                     type="button"
@@ -259,7 +259,8 @@
                         <a th:href="@{/admin/departments/add}">
                             Add Departments
                         </a>
-                    </li><li>
+                    </li>
+                    <li>
                         <a th:href="@{/admin/departments/designations/add}">
                             Manage Designations
                         </a>
@@ -283,7 +284,43 @@
             </div>
         </li>
 
+        <!-- ===== PROJECT MANAGEMENT ===== -->
+        <li>
+            <button class="dropdown-trigger"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#projectSubmenu"
+                    aria-expanded="false">
+                <i class="fa-solid fa-project-diagram"></i>
+                <span>Project Management</span>
+                <i class="fa-solid fa-chevron-right arrow-icon ms-auto"></i>
+            </button>
 
+            <div class="collapse" id="projectSubmenu">
+                <ul class="submenu">
+                    <li>
+                        <a th:href="@{/admin/projects/add}">
+                            Add Project
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/projects}">
+                            Project List
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/projects/assigned}">
+                            Assigned Projects
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/admin/projects/status}">
+                            Project Status
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
 
         <!-- ===== DIVIDER: INTEGRATIONS (using .menu-title) ===== -->
         <li class="menu-title">INTEGRATIONS</li>
@@ -348,34 +385,34 @@
 </aside>
 
 <script th:inline="javascript">
-(function() {
-    // rotate arrow on page load if collapse is open
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.collapse.show').forEach(function(collapseEl) {
-            const trigger = document.querySelector('[data-bs-target="#' + collapseEl.id + '"]');
-            if (trigger) {
-                const arrow = trigger.querySelector('.arrow-icon');
-                if (arrow) arrow.style.transform = 'rotate(90deg)';
-            }
-        });
-
-        // listen to show/hide events
-        document.querySelectorAll('.collapse').forEach(function(collapseEl) {
-            collapseEl.addEventListener('show.bs.collapse', function() {
+    (function() {
+        // rotate arrow on page load if collapse is open
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.collapse.show').forEach(function(collapseEl) {
                 const trigger = document.querySelector('[data-bs-target="#' + collapseEl.id + '"]');
                 if (trigger) {
                     const arrow = trigger.querySelector('.arrow-icon');
                     if (arrow) arrow.style.transform = 'rotate(90deg)';
                 }
             });
-            collapseEl.addEventListener('hide.bs.collapse', function() {
-                const trigger = document.querySelector('[data-bs-target="#' + collapseEl.id + '"]');
-                if (trigger) {
-                    const arrow = trigger.querySelector('.arrow-icon');
-                    if (arrow) arrow.style.transform = 'rotate(0deg)';
-                }
+
+            // listen to show/hide events
+            document.querySelectorAll('.collapse').forEach(function(collapseEl) {
+                collapseEl.addEventListener('show.bs.collapse', function() {
+                    const trigger = document.querySelector('[data-bs-target="#' + collapseEl.id + '"]');
+                    if (trigger) {
+                        const arrow = trigger.querySelector('.arrow-icon');
+                        if (arrow) arrow.style.transform = 'rotate(90deg)';
+                    }
+                });
+                collapseEl.addEventListener('hide.bs.collapse', function() {
+                    const trigger = document.querySelector('[data-bs-target="#' + collapseEl.id + '"]');
+                    if (trigger) {
+                        const arrow = trigger.querySelector('.arrow-icon');
+                        if (arrow) arrow.style.transform = 'rotate(0deg)';
+                    }
+                });
             });
         });
-    });
-})();
+    })();
 </script>

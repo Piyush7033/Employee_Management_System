@@ -14,6 +14,13 @@ import java.util.Optional;
 @Repository
 public interface EmployeeProfileRepository extends JpaRepository<EmployeeProfile, Long> {
 
+    // Find by department name (since department is a String column)
+    List<EmployeeProfile> findByDepartment(String department);
+
+    // Using @Query with department name
+    @Query("SELECT ep FROM EmployeeProfile ep WHERE ep.department = :departmentName")
+    List<EmployeeProfile> findEmployeeProfilesByDepartment(@Param("departmentName") String departmentName);
+
     Optional<EmployeeProfile> findByUserId(String userId);
 
     Optional<EmployeeProfile> findByEmail(String email);
@@ -22,15 +29,28 @@ public interface EmployeeProfileRepository extends JpaRepository<EmployeeProfile
 
     Page<EmployeeProfile> findByStatus(String status, Pageable pageable);
 
-    // ADD THIS METHOD - to get the last employee for ID generation
+    // Get the last employee for ID generation
     Optional<EmployeeProfile> findFirstByOrderByIdDesc();
 
-    @Query("SELECT e FROM EmployeeProfile e WHERE LOWER(e.fullName) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
-            "OR LOWER(e.email) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
-            "OR LOWER(e.userId) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    // ===== FIXED: Using fullName instead of firstName and lastName =====
+    @Query("SELECT e FROM EmployeeProfile e WHERE " +
+            "LOWER(e.fullName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "LOWER(e.email) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "LOWER(e.userId) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<EmployeeProfile> searchEmployees(@Param("keyword") String keyword);
+
+    // ===== FIXED: Search with pagination using fullName =====
+    @Query("SELECT e FROM EmployeeProfile e WHERE " +
+            "LOWER(e.fullName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "LOWER(e.email) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+            "LOWER(e.userId) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    Page<EmployeeProfile> searchEmployees(@Param("keyword") String keyword, Pageable pageable);
 
     boolean existsByUserId(String userId);
 
     boolean existsByEmail(String email);
+
+    // ===== Search by department ID using native query =====
+    @Query(value = "SELECT * FROM employee_profiles WHERE department = (SELECT department_name FROM departments WHERE id = :departmentId)", nativeQuery = true)
+    List<EmployeeProfile> findEmployeeProfilesByDepartmentId(@Param("departmentId") Long departmentId);
 }

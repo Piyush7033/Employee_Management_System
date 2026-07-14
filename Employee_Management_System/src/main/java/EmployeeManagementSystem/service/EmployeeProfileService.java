@@ -3,6 +3,8 @@ package EmployeeManagementSystem.service;
 import EmployeeManagementSystem.dto.EmployeeCredentialsDTO;
 import EmployeeManagementSystem.entity.EmployeeProfile;
 import EmployeeManagementSystem.repository.EmployeeProfileRepository;
+import jakarta.validation.Valid;
+import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;        // ✅ CORRECT
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,22 +15,58 @@ import java.util.List;
 import java.util.Optional;
 
 public interface EmployeeProfileService {
-//    public static List<EmployeeProfile> getAllProfiles() {
-//        return EmployeeProfileRepository.findAll();   // ✅ REAL DATA FROM DB
-//    }
+    EmployeeProfile saveEmployeeProfile(EmployeeProfile employeeProfile);
 
-    EmployeeProfile getProfileByUserId(String userId);
-    EmployeeCredentialsDTO saveOrUpdateProfile(EmployeeProfile profile, String userId);
-    List<EmployeeProfile> getAllProfiles();
-    Page<EmployeeProfile> getAllProfiles(Pageable pageable);
-    Page<EmployeeProfile> getActiveProfiles(Pageable pageable);
-    Optional<EmployeeProfile> getProfileById(Long id);
-    String uploadPhoto(MultipartFile file, String employeeId) throws IOException;
+    EmployeeProfile updateEmployeeProfile(Long id, EmployeeProfile employeeProfile);
+
+    void deleteEmployeeProfile(Long id);
+
+    EmployeeProfile getEmployeeProfileById(Long id);
+
+    @Nullable
+    Object getAllEmployeeProfiles();
+
+    // Query by department name (String)
+    List<EmployeeProfile> getEmployeeProfilesByDepartment(String departmentName);
+
+    // Query by department ID - converts ID to department name then queries
+    List<EmployeeProfile> getEmployeeProfilesByDepartment(Long departmentId);
+
+    EmployeeProfile getEmployeeProfileByUserId(String userId);
+
+    EmployeeProfile getEmployeeProfileByEmail(String email);
+
+    List<EmployeeProfile> getEmployeeProfilesByStatus(String status);
+
     boolean existsByUserId(String userId);
+
     boolean existsByEmail(String email);
-    void deleteEmployee(Long id);
-    void softDeleteEmployee(Long id);
+
+    long countEmployeeProfiles();
+
     List<EmployeeProfile> searchEmployees(String keyword);
+
     String generateUserId();
-    void updateEmployee(Long id, EmployeeProfile employee, MultipartFile photoFile) throws IOException;
+
+    String generateDefaultPassword();
+
+    EmployeeProfile registerEmployee(EmployeeProfile employeeProfile);
+
+    void updateEmployeePassword(Long id, String newPassword);
+
+    EmployeeCredentialsDTO saveOrUpdateProfile(@Valid EmployeeProfile employee, Object o);
+
+    String uploadPhoto(MultipartFile photoFile, String userId);
+
+    Page<EmployeeProfile> getAllProfiles(Pageable pageable);
+
+    Optional<Object> getProfileById(Long id);
+
+    String updateEmployee(Long id, @Valid EmployeeProfile employee, MultipartFile photoFile);
+
+    void deleteEmployee(Long id);
+
+    void softDeleteEmployee(Long id);
+
+    EmployeeProfile getProfileByUserId(String currentEmplId);
 }

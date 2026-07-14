@@ -153,7 +153,7 @@ public class EmployeeProfileController {
 
     @GetMapping("/employees/edit/{id}")
     public String showEditEmployeeForm(@PathVariable Long id, Model model) {
-        EmployeeProfile employee = employeeProfileService.getProfileById(id)
+        EmployeeProfile employee =(EmployeeProfile) employeeProfileService.getProfileById(id)
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
         model.addAttribute("employee", employee);
         model.addAttribute("genders", Arrays.asList("Male", "Female", "Other"));
@@ -173,7 +173,7 @@ public class EmployeeProfileController {
                                  RedirectAttributes redirectAttributes,
                                  Model model) {
 
-        EmployeeProfile existingEmployee = employeeProfileService.getProfileById(id)
+        EmployeeProfile existingEmployee = (EmployeeProfile) employeeProfileService.getProfileById(id)
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
 
         if (!existingEmployee.getEmail().equals(employee.getEmail()) &&
@@ -218,7 +218,7 @@ public class EmployeeProfileController {
 
     @GetMapping("/employees/view/{id}")
     public String viewEmployee(@PathVariable Long id, Model model) {
-        EmployeeProfile employee = employeeProfileService.getProfileById(id)
+        EmployeeProfile employee =(EmployeeProfile) employeeProfileService.getProfileById(id)
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
         model.addAttribute("employee", employee);
         model.addAttribute("pageTitle", "Employee Details");
@@ -238,7 +238,7 @@ public class EmployeeProfileController {
     @GetMapping("/employees/toggle-status/{id}")
     public String toggleEmployeeStatus(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
-            EmployeeProfile employee = employeeProfileService.getProfileById(id)
+            EmployeeProfile employee = (EmployeeProfile) employeeProfileService.getProfileById(id)
                     .orElseThrow(() -> new RuntimeException("Employee not found"));
 
             if ("ACTIVE".equals(employee.getStatus())) {

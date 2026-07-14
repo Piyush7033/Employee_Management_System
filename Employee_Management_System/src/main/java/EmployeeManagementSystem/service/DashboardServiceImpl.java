@@ -69,7 +69,7 @@ public class DashboardServiceImpl implements DashboardService {
             long days = ChronoUnit.DAYS.between(today, nextBirthday);
 
             BirthdayDTO dto = new BirthdayDTO();
-            dto.setName(e.getName());
+            dto.setName(e.getFirstName());
             dto.setDateOfBirth(e.getDateOfBirth());
             dto.setRemainingDays(days);
             dto.setNextDate(nextBirthday);
@@ -101,7 +101,7 @@ public class DashboardServiceImpl implements DashboardService {
             long days = ChronoUnit.DAYS.between(today, nextAnniversary);
 
             AnniversaryDTO dto = new AnniversaryDTO();
-            dto.setName(e.getName());
+            dto.setName(e.getFirstName());
             dto.setJoiningDate(e.getJoiningDate());
             dto.setRemainingDays(days);
             dto.setNextDate(nextAnniversary);

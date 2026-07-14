@@ -22,7 +22,10 @@ public class Employee {
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
 
     @Column(nullable = false)
     private LocalDate dateOfBirth;
@@ -62,6 +65,15 @@ public class Employee {
             orphanRemoval = true)
     private Salary salaryDetails;
 
+    // Constructors, Getters, and Setters
+    public Employee() {}
+
+    public Employee(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
 
 //    public void setSalaryDetails(Salary salaryDetails) {
 //        this.salaryDetails = salaryDetails;
@@ -69,4 +81,8 @@ public class Employee {
 //            salaryDetails.setEmployee(this);
 //        }
 //    }
+// Helper method to get full name
+    public String getFullName() {
+      return firstName + " " + lastName;
+}
 }

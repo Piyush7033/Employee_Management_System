@@ -2,7 +2,9 @@ package EmployeeManagementSystem.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
@@ -10,6 +12,8 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "employee_profiles")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class EmployeeProfile {
 
     @Id
@@ -103,6 +107,7 @@ public class EmployeeProfile {
 
     @Column(name = "registered_at")
     private LocalDateTime registeredAt;  // When the employee was registered
+
 
     @Transient
     private String confirmEmail;

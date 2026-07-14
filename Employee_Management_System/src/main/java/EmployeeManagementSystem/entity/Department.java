@@ -17,8 +17,9 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String departmentName;
+    @Column(name = "department_name", nullable = false, unique = true)
+    private String departmentName;  // This matches the department column in employee_profiles
+
 
     @Column(columnDefinition = "TEXT")
     private String description;

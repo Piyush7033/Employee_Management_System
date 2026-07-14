@@ -1,16 +1,17 @@
 package EmployeeManagementSystem.service;
 
 import EmployeeManagementSystem.dto.EmployeeCredentialsDTO;
-import EmployeeManagementSystem.entity.Employee;
+import EmployeeManagementSystem.entity.Department;
 import EmployeeManagementSystem.entity.EmployeeProfile;
 import EmployeeManagementSystem.repository.EmployeeProfileRepository;
-import EmployeeManagementSystem.repository.EmployeeRepository;
-import lombok.RequiredArgsConstructor;
+import EmployeeManagementSystem.service.DepartmentService;
+import EmployeeManagementSystem.service.EmployeeProfileService;
+
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,246 +19,387 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
+import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 public class EmployeeProfileServiceImpl implements EmployeeProfileService {
-    private final EmployeeProfileRepository repository;
-    private final EmployeeRepository employeeRepo;
-    private final PasswordEncoder passwordEncoder;
-    private final JavaMailSender mailSender;
+
+    @Autowired
+    private EmployeeProfileRepository employeeProfileRepository;
+
+    @Autowired
+    private DepartmentService departmentService;
+
+    // ===== Basic CRUD Operations =====
 
     @Override
-    public EmployeeProfile getProfileByUserId(String userId) {
-        return repository.findByUserId(userId).orElse(new EmployeeProfile());
-    }
-
-    @Override
-    public EmployeeCredentialsDTO saveOrUpdateProfile(EmployeeProfile profile, String userId) {
-        EmployeeProfile existingProfile = null;
-        Employee newEmployee = null;
-        String rawPassword = null;
-        String generatedUserId = null;
-
-        // If userId is provided, try to find existing profile
-        if (userId != null && !userId.isEmpty()) {
-            existingProfile = repository.findByUserId(userId).orElse(null);
+    public EmployeeProfile saveEmployeeProfile(EmployeeProfile employeeProfile) {
+        if (employeeProfile.getUserId() == null || employeeProfile.getUserId().isEmpty()) {
+            employeeProfile.setUserId(generateUserId());
         }
 
-        if (existingProfile != null) {
-            // Update existing profile
-            profile.setId(existingProfile.getId());
-            profile.setCreatedAt(existingProfile.getCreatedAt());
-            profile.setUpdatedAt(LocalDateTime.now());
-            profile.setUserId(existingProfile.getUserId());
-            profile.setPassword(existingProfile.getPassword());
-            profile.setRegisteredAt(existingProfile.getRegisteredAt());
-            profile.setEmailSent(existingProfile.isEmailSent());
-            repository.save(profile);
+        if (employeeProfile.getPassword() == null || employeeProfile.getPassword().isEmpty()) {
+            employeeProfile.setPassword(generateDefaultPassword());
+        }
 
-            return null; // No new credentials for update
-        } else {
-            // New employee - generate credentials
-            generatedUserId = generateNextEmployeeId();
-            profile.setUserId(generatedUserId);
+        if (employeeProfile.getCreatedAt() == null) {
+            employeeProfile.setCreatedAt(LocalDateTime.now());
+        }
+        if (employeeProfile.getRegisteredAt() == null) {
+            employeeProfile.setRegisteredAt(LocalDateTime.now());
+        }
+        employeeProfile.setUpdatedAt(LocalDateTime.now());
 
-            // Generate random password
-            rawPassword = generateRandomPassword(8);
-            profile.setPassword(passwordEncoder.encode(rawPassword));
+        if (employeeProfile.getStatus() == null) {
+            employeeProfile.setStatus("ACTIVE");
+        }
 
-            // Set timestamps
-            profile.setCreatedAt(LocalDateTime.now());
-            profile.setUpdatedAt(LocalDateTime.now());
-            profile.setStatus("ACTIVE");
-            profile.setRegisteredAt(LocalDateTime.now());
-            profile.setEmailSent(false);
+        return employeeProfileRepository.save(employeeProfile);
+    }
 
-            // Send email with credentials
-            sendCredentialsEmail(profile.getEmail(), generatedUserId, rawPassword);
-            profile.setEmailSent(true);
+    @Override
+    public EmployeeProfile updateEmployeeProfile(Long id, EmployeeProfile employeeProfile) {
+        EmployeeProfile existing = employeeProfileRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("EmployeeProfile not found with id: " + id));
 
-            repository.save(profile);
+        existing.setFullName(employeeProfile.getFullName());
+        existing.setPhoneNumber(employeeProfile.getPhoneNumber());
+        existing.setDob(employeeProfile.getDob());
+        existing.setGender(employeeProfile.getGender());
+        existing.setBloodGroup(employeeProfile.getBloodGroup());
+        existing.setEmail(employeeProfile.getEmail());
+        existing.setMaritalStatus(employeeProfile.getMaritalStatus());
+        existing.setFieldOfStudy(employeeProfile.getFieldOfStudy());
+        existing.setHighestQualification(employeeProfile.getHighestQualification());
+        existing.setUniversity(employeeProfile.getUniversity());
+        existing.setPassingYear(employeeProfile.getPassingYear());
+        existing.setBankName(employeeProfile.getBankName());
+        existing.setAccountNumber(employeeProfile.getAccountNumber());
+        existing.setAccountHolderName(employeeProfile.getAccountHolderName());
+        existing.setIfscCode(employeeProfile.getIfscCode());
+        existing.setCurrentAddress(employeeProfile.getCurrentAddress());
+        existing.setPermanentAddress(employeeProfile.getPermanentAddress());
+        existing.setPhoto(employeeProfile.getPhoto());
+        existing.setDepartment(employeeProfile.getDepartment());
+        existing.setDesignation(employeeProfile.getDesignation());
+        existing.setStatus(employeeProfile.getStatus());
+        existing.setEmailSent(employeeProfile.isEmailSent());
+        existing.setUpdatedAt(LocalDateTime.now());
 
-            // Return credentials for popup
-            return new EmployeeCredentialsDTO(
-                    generatedUserId,
-                    rawPassword,
-                    profile.getEmail(),
-                    profile.getFullName()
-            );
+        return employeeProfileRepository.save(existing);
+    }
+
+    @Override
+    public void deleteEmployeeProfile(Long id) {
+        EmployeeProfile existing = employeeProfileRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("EmployeeProfile not found with id: " + id));
+        employeeProfileRepository.delete(existing);
+    }
+
+    @Override
+    public EmployeeProfile getEmployeeProfileById(Long id) {
+        return employeeProfileRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("EmployeeProfile not found with id: " + id));
+    }
+
+    @Override
+    @Nullable
+    public Object getAllEmployeeProfiles() {
+        List<EmployeeProfile> profiles = employeeProfileRepository.findAll();
+        if (profiles.isEmpty()) {
+            return null;
+        }
+        return profiles;
+    }
+
+    // ===== Query Methods =====
+
+    @Override
+    public List<EmployeeProfile> getEmployeeProfilesByDepartment(String departmentName) {
+        if (departmentName == null || departmentName.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return employeeProfileRepository.findByDepartment(departmentName);
+    }
+
+    @Override
+    public List<EmployeeProfile> getEmployeeProfilesByDepartment(Long departmentId) {
+        if (departmentId == null) {
+            return new ArrayList<>();
+        }
+
+        try {
+            Department department = departmentService.getDepartmentById(departmentId);
+            String departmentName = department.getDepartmentName();
+            return employeeProfileRepository.findByDepartment(departmentName);
+        } catch (Exception e) {
+            System.err.println("Error fetching employee profiles by department ID: " + e.getMessage());
+            return new ArrayList<>();
         }
     }
 
     @Override
-    public List<EmployeeProfile> getAllProfiles() {
-        return repository.findAll();
+    public EmployeeProfile getEmployeeProfileByUserId(String userId) {
+        return employeeProfileRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("EmployeeProfile not found with userId: " + userId));
     }
 
     @Override
-    public Page<EmployeeProfile> getAllProfiles(Pageable pageable) {
-        return repository.findAll(pageable);
+    public EmployeeProfile getEmployeeProfileByEmail(String email) {
+        return employeeProfileRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("EmployeeProfile not found with email: " + email));
     }
 
     @Override
-    public Page<EmployeeProfile> getActiveProfiles(Pageable pageable) {
-        return repository.findByStatus("ACTIVE", pageable);
-    }
-
-    @Override
-    public Optional<EmployeeProfile> getProfileById(Long id) {
-        return repository.findById(id);
-    }
-
-    @Override
-    public String uploadPhoto(MultipartFile file, String employeeId) throws IOException {
-        EmployeeProfile employee = repository.findByUserId(employeeId)
-                .orElseThrow(() -> new RuntimeException("Employee Not Found"));
-
-        String uploadDir = "C:/New folder/uploadFile/";
-        Path uploadPath = Paths.get(uploadDir);
-
-        if (!Files.exists(uploadPath)) {
-            Files.createDirectories(uploadPath);
-        }
-
-        String originalFileName = file.getOriginalFilename();
-        String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-        String fileName = employeeId + fileExtension;
-
-        Path filePath = uploadPath.resolve(fileName);
-        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-
-        employee.setPhoto(fileName);
-        repository.save(employee);
-
-        return fileName;
+    public List<EmployeeProfile> getEmployeeProfilesByStatus(String status) {
+        return employeeProfileRepository.findByStatus(status);
     }
 
     @Override
     public boolean existsByUserId(String userId) {
-        return repository.existsByUserId(userId);
+        return employeeProfileRepository.existsByUserId(userId);
     }
 
     @Override
     public boolean existsByEmail(String email) {
-        return repository.existsByEmail(email);
+        return employeeProfileRepository.existsByEmail(email);
     }
 
     @Override
-    public void deleteEmployee(Long id) {
-        repository.deleteById(id);
-    }
-
-    @Override
-    public void softDeleteEmployee(Long id) {
-        EmployeeProfile employee = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found"));
-        employee.setStatus("INACTIVE");
-        employee.setUpdatedAt(LocalDateTime.now());
-        repository.save(employee);
+    public long countEmployeeProfiles() {
+        return employeeProfileRepository.count();
     }
 
     @Override
     public List<EmployeeProfile> searchEmployees(String keyword) {
-        return repository.searchEmployees(keyword);
+        if (keyword == null || keyword.isEmpty()) {
+            return employeeProfileRepository.findAll();
+        }
+        return employeeProfileRepository.searchEmployees(keyword);
     }
+
+    // ===== Utility Methods =====
 
     @Override
     public String generateUserId() {
-        return generateNextEmployeeId();
+        EmployeeProfile lastProfile = employeeProfileRepository.findFirstByOrderByIdDesc().orElse(null);
+
+        if (lastProfile == null) {
+            return "EMP0001";
+        }
+
+        String lastUserId = lastProfile.getUserId();
+        if (lastUserId == null || lastUserId.isEmpty()) {
+            return "EMP0001";
+        }
+
+        String numericPart = lastUserId.replaceAll("[^0-9]", "");
+        if (numericPart.isEmpty()) {
+            return "EMP0001";
+        }
+
+        try {
+            int lastNumber = Integer.parseInt(numericPart);
+            int nextNumber = lastNumber + 1;
+            return String.format("EMP%04d", nextNumber);
+        } catch (NumberFormatException e) {
+            return "EMP0001";
+        }
     }
 
     @Override
-    public void updateEmployee(Long id, EmployeeProfile employee, MultipartFile photoFile) throws IOException {
-        EmployeeProfile existingEmployee = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found"));
+    public String generateDefaultPassword() {
+        return UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+    }
 
-        existingEmployee.setFullName(employee.getFullName());
-        existingEmployee.setPhoneNumber(employee.getPhoneNumber());
-        existingEmployee.setDob(employee.getDob());
-        existingEmployee.setGender(employee.getGender());
-        existingEmployee.setBloodGroup(employee.getBloodGroup());
-        existingEmployee.setEmail(employee.getEmail());
-        existingEmployee.setMaritalStatus(employee.getMaritalStatus());
-        existingEmployee.setFieldOfStudy(employee.getFieldOfStudy());
-        existingEmployee.setHighestQualification(employee.getHighestQualification());
-        existingEmployee.setUniversity(employee.getUniversity());
-        existingEmployee.setPassingYear(employee.getPassingYear());
-        existingEmployee.setBankName(employee.getBankName());
-        existingEmployee.setAccountNumber(employee.getAccountNumber());
-        existingEmployee.setAccountHolderName(employee.getAccountHolderName());
-        existingEmployee.setIfscCode(employee.getIfscCode());
-        existingEmployee.setCurrentAddress(employee.getCurrentAddress());
-        existingEmployee.setPermanentAddress(employee.getPermanentAddress());
-        existingEmployee.setDepartment(employee.getDepartment());
-        existingEmployee.setDesignation(employee.getDesignation());
-        existingEmployee.setUpdatedAt(LocalDateTime.now());
+    @Override
+    public EmployeeProfile registerEmployee(EmployeeProfile employeeProfile) {
+        employeeProfile.setUserId(generateUserId());
+        employeeProfile.setPassword(generateDefaultPassword());
+        employeeProfile.setRegisteredAt(LocalDateTime.now());
+        employeeProfile.setCreatedAt(LocalDateTime.now());
+        employeeProfile.setUpdatedAt(LocalDateTime.now());
 
-        if (photoFile != null && !photoFile.isEmpty()) {
-            uploadPhoto(photoFile, existingEmployee.getUserId());
+        if (employeeProfile.getStatus() == null) {
+            employeeProfile.setStatus("ACTIVE");
         }
 
-        repository.save(existingEmployee);
+        employeeProfile.setEmailSent(false);
+
+        return employeeProfileRepository.save(employeeProfile);
     }
 
-    // ===== HELPER METHODS =====
-
-    private String generateNextEmployeeId() {
-        return repository.findFirstByOrderByIdDesc()
-                .map(lastEmp -> {
-                    String lastUserId = lastEmp.getUserId();
-                    if (lastUserId != null && lastUserId.startsWith("EMP")) {
-                        try {
-                            int lastNumber = Integer.parseInt(lastUserId.replace("EMP", ""));
-                            return String.format("EMP%04d", lastNumber + 1);
-                        } catch (NumberFormatException e) {
-                            return "EMP0001";
-                        }
-                    }
-                    return "EMP0001";
-                })
-                .orElse("EMP0001");
+    @Override
+    public void updateEmployeePassword(Long id, String newPassword) {
+        EmployeeProfile existing = employeeProfileRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("EmployeeProfile not found with id: " + id));
+        existing.setPassword(newPassword);
+        existing.setUpdatedAt(LocalDateTime.now());
+        employeeProfileRepository.save(existing);
     }
 
-    private String generateRandomPassword(int length) {
-        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%";
-        Random random = new Random();
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < length; i++) {
-            int index = random.nextInt(chars.length());
-            sb.append(chars.charAt(index));
-        }
-        return sb.toString();
+    // ===== New Methods Implementation =====
+
+    @Override
+    public EmployeeCredentialsDTO saveOrUpdateProfile(@Valid EmployeeProfile employee, Object o) {
+        // Save the employee profile
+        EmployeeProfile savedProfile = saveEmployeeProfile(employee);
+
+        // Create and return credentials DTO
+        EmployeeCredentialsDTO credentials = new EmployeeCredentialsDTO();
+        credentials.setUserId(savedProfile.getUserId());
+        credentials.setPassword(savedProfile.getPassword());
+        credentials.setEmail(savedProfile.getEmail());
+        credentials.setFullName(savedProfile.getFullName());
+
+        return credentials;
     }
 
-    private void sendCredentialsEmail(String email, String userId, String password) {
+    @Override
+    public String uploadPhoto(MultipartFile photoFile, String userId) {
         try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(email);
-            message.setSubject("Welcome to BlueThink Inc. - Your Employee Credentials");
-            message.setText(String.format(
-                    "Dear Employee,\n\n" +
-                            "Welcome to BlueThink Inc.! Your employee account has been created.\n\n" +
-                            "Your Login Credentials:\n" +
-                            "------------------------\n" +
-                            "User ID: %s\n" +
-                            "Password: %s\n" +
-                            "------------------------\n\n" +
-                            "Please login to the employee portal using these credentials.\n" +
-                            "It is recommended to change your password after first login.\n\n" +
-                            "Login URL: http://localhost:8080/login\n\n" +
-                            "Best Regards,\n" +
-                            "BlueThink Inc. HR Team",
-                    userId, password
-            ));
-            mailSender.send(message);
+            // Get employee by userId
+            EmployeeProfile employee = getEmployeeProfileByUserId(userId);
+
+            // Define upload directory
+            String uploadDir = "uploads/employee_photos/";
+            Path uploadPath = Paths.get(uploadDir);
+
+            // Create directory if it doesn't exist
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+
+            // Generate unique filename
+            String originalFilename = photoFile.getOriginalFilename();
+            String fileExtension = "";
+            if (originalFilename != null && originalFilename.contains(".")) {
+                fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
+            }
+            String fileName = userId + "_" + System.currentTimeMillis() + fileExtension;
+            Path filePath = uploadPath.resolve(fileName);
+
+            // Save file
+            Files.write(filePath, photoFile.getBytes());
+
+            // Update employee profile with photo path
+            String photoPath = filePath.toString();
+            employee.setPhoto(photoPath);
+            employee.setUpdatedAt(LocalDateTime.now());
+            employeeProfileRepository.save(employee);
+
+            // Return the photo path
+            return photoPath;
+
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to upload photo: " + e.getMessage());
         } catch (Exception e) {
-            System.err.println("Failed to send email: " + e.getMessage());
+            throw new RuntimeException("Error uploading photo: " + e.getMessage());
         }
+    }
+
+    @Override
+    public Page<EmployeeProfile> getAllProfiles(Pageable pageable) {
+        return employeeProfileRepository.findAll(pageable);
+    }
+
+    @Override
+    public Optional<Object> getProfileById(Long id) {
+        Optional<EmployeeProfile> profile = employeeProfileRepository.findById(id);
+        return profile.map(p -> (Object) p);
+    }
+
+    @Override
+    public String updateEmployee(Long id, @Valid EmployeeProfile employee, MultipartFile photoFile) {
+        try {
+            // Get existing employee
+            EmployeeProfile existing = employeeProfileRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("EmployeeProfile not found with id: " + id));
+
+            // Update all fields
+            existing.setFullName(employee.getFullName());
+            existing.setPhoneNumber(employee.getPhoneNumber());
+            existing.setDob(employee.getDob());
+            existing.setGender(employee.getGender());
+            existing.setBloodGroup(employee.getBloodGroup());
+            existing.setEmail(employee.getEmail());
+            existing.setMaritalStatus(employee.getMaritalStatus());
+            existing.setFieldOfStudy(employee.getFieldOfStudy());
+            existing.setHighestQualification(employee.getHighestQualification());
+            existing.setUniversity(employee.getUniversity());
+            existing.setPassingYear(employee.getPassingYear());
+            existing.setBankName(employee.getBankName());
+            existing.setAccountNumber(employee.getAccountNumber());
+            existing.setAccountHolderName(employee.getAccountHolderName());
+            existing.setIfscCode(employee.getIfscCode());
+            existing.setCurrentAddress(employee.getCurrentAddress());
+            existing.setPermanentAddress(employee.getPermanentAddress());
+            existing.setDepartment(employee.getDepartment());
+            existing.setDesignation(employee.getDesignation());
+            existing.setStatus(employee.getStatus());
+            existing.setUpdatedAt(LocalDateTime.now());
+
+            String photoPath = existing.getPhoto();
+
+            // Upload photo if provided
+            if (photoFile != null && !photoFile.isEmpty()) {
+                // Define upload directory
+                String uploadDir = "uploads/employee_photos/";
+                Path uploadPath = Paths.get(uploadDir);
+
+                if (!Files.exists(uploadPath)) {
+                    Files.createDirectories(uploadPath);
+                }
+
+                String originalFilename = photoFile.getOriginalFilename();
+                String fileExtension = "";
+                if (originalFilename != null && originalFilename.contains(".")) {
+                    fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
+                }
+                String fileName = existing.getUserId() + "_" + System.currentTimeMillis() + fileExtension;
+                Path filePath = uploadPath.resolve(fileName);
+                Files.write(filePath, photoFile.getBytes());
+                photoPath = filePath.toString();
+                existing.setPhoto(photoPath);
+            }
+
+            employeeProfileRepository.save(existing);
+
+            // Return the photo path
+            return photoPath;
+
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to update employee with photo: " + e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException("Error updating employee: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void deleteEmployee(Long id) {
+        // Hard delete - permanently remove from database
+        EmployeeProfile existing = employeeProfileRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("EmployeeProfile not found with id: " + id));
+        employeeProfileRepository.delete(existing);
+    }
+
+    @Override
+    public void softDeleteEmployee(Long id) {
+        // Soft delete - just update status to DELETED
+        EmployeeProfile existing = employeeProfileRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("EmployeeProfile not found with id: " + id));
+        existing.setStatus("DELETED");
+        existing.setUpdatedAt(LocalDateTime.now());
+        employeeProfileRepository.save(existing);
+    }
+
+    @Override
+    public EmployeeProfile getProfileByUserId(String currentEmplId) {
+        return employeeProfileRepository.findByUserId(currentEmplId)
+                .orElseThrow(() -> new RuntimeException("EmployeeProfile not found with userId: " + currentEmplId));
     }
 }
