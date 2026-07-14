@@ -57,6 +57,12 @@ public class Employee {
     private List<Attendance> attendanceList = new ArrayList<>();
 
 
+    @OneToMany(mappedBy = "employee",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<Salary> salaries = new ArrayList<>();
+
+
     @OneToOne(mappedBy = "employee",
             cascade = CascadeType.ALL,
             orphanRemoval = true)

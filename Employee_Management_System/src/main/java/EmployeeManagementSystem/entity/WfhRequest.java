@@ -12,9 +12,6 @@ public class WfhRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "wfh_mode", nullable = false)
-    private String wfhMode;
-
     @Column(name = "project_name", nullable = false)
     private String projectName;
 

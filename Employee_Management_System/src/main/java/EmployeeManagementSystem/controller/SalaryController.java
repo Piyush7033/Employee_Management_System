@@ -1,10 +1,15 @@
 package EmployeeManagementSystem.controller;//package EmployeeManagementSystem.controller;
 
+import EmployeeManagementSystem.entity.Employee;
 import EmployeeManagementSystem.entity.Salary;
+import EmployeeManagementSystem.repository.EmployeeRepository;
 import EmployeeManagementSystem.service.SalaryService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("employee/salary")
@@ -12,8 +17,11 @@ public class SalaryController {
 
     private final SalaryService salaryService;
 
-    public SalaryController(SalaryService salaryService) {
+    private final EmployeeRepository employeeRepository;
+
+    public SalaryController(SalaryService salaryService, EmployeeRepository employeeRepository) {
         this.salaryService = salaryService;
+        this.employeeRepository = employeeRepository;
     }
 
     @GetMapping("/dashboard")
@@ -99,6 +107,20 @@ public class SalaryController {
 
         return "salary-slip";
     }
+
+
+    @GetMapping("/salary-list")
+    public String salaryList(Model model) {
+
+        List<Salary> salaries = salaryService.getAllSalaries();
+
+        model.addAttribute("salaries", salaries);
+
+        return "salary-list";
+    }
+
+
+
 }
 
 

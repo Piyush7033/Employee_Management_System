@@ -56,6 +56,7 @@ public class SecurityConfig {
                                 .requestMatchers("/salary/**").permitAll()
                         .requestMatchers("/notifications/**").permitAll()
                         .requestMatchers("/employee/**").permitAll()
+                                .requestMatchers("/salary/**").permitAll()
                         .requestMatchers("/employee/attendance-tracking").permitAll()
                         .requestMatchers("/employee/**","/salary/slip/**","/attendance/signoff-logs").hasRole("EMPLOYEE")
 

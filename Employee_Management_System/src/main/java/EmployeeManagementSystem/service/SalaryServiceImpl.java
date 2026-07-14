@@ -17,31 +17,7 @@ public class SalaryServiceImpl implements SalaryService {
 
     @Override
     public Salary saveSalary(Salary salary) {
-//
-////        double basicSalary =
-////                salary.getBasicSalary() != null ? salary.getBasicSalary() : 0;
-//
-//        double hra =
-//                salary.getHra() != null ? salary.getHra() : 0;
-//
-////        double allowance =
-////                salary.getAllowance() != null ? salary.getAllowance() : 0;
-//
-//        double bonus =
-//                salary.getBonus() != null ? salary.getBonus() : 0;
-//
-//        double deductions =
-//                salary.getDeductions() != null ? salary.getDeductions() : 0;
-//
-////        double grossSalary =
-////                basicSalary + hra + allowance + bonus;
-//
-//        double netSalary =
-//                grossSalary - deductions;
-//
-//        salary.setGrossSalary(grossSalary);
-//        salary.setNetSalary(netSalary);
-//
+
         return salaryRepository.save(salary);
     }
 
@@ -62,14 +38,10 @@ public class SalaryServiceImpl implements SalaryService {
                 .orElseThrow(() ->
                         new RuntimeException("Salary record not found"));
 
-//        double basic =
-//                salary.getBasicSalary() != null ? salary.getBasicSalary() : 0;
 
         double hra =
                 salary.getHra() != null ? salary.getHra() : 0;
 
-//        double allowance =
-//                salary.getAllowance() != null ? salary.getAllowance() : 0;
 
         double bonus =
                 salary.getBonus() != null ? salary.getBonus() : 0;
@@ -182,5 +154,12 @@ public class SalaryServiceImpl implements SalaryService {
                                 ? s.getNetSalary()
                                 : 0)
                 .sum();
+    }
+
+    @Override
+    public List<Salary> findByEmployeeId(String employeeId) {
+
+        return salaryRepository.findByEmployeeId(employeeId);
+
     }
 }

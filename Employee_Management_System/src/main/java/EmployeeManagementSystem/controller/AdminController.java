@@ -188,7 +188,7 @@ public class AdminController {
         List<Employee> employees = employeeRepository.findAll();
         Employee employee = new Employee();
         employee.setDepartment(new Department());
-        employee.setSalaryDetails(new Salary());
+//        employee.setSalaryDetails(new Salary());
         List<Department> departments = departmentRepository.findAll();
         model.addAttribute("employees", employees);
         model.addAttribute("employee", employee);
