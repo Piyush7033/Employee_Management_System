@@ -23,8 +23,6 @@ import java.util.List;
 @Slf4j
 public class AdminController {
 
-
-
     @Autowired
     private EmployeeRepository employeeRepository;
 
@@ -45,11 +43,14 @@ public class AdminController {
 
     private final ActivityService activityService;
     private final DashboardService dashboardService;
+    private final DepartmentServiceImpl departmentService;
 
     public AdminController(ActivityService activityService,
-                           DashboardService dashboardService) {
+                           DashboardService dashboardService,
+                           DepartmentServiceImpl departmentService) {
         this.activityService = activityService;
         this.dashboardService = dashboardService;
+        this.departmentService = departmentService;
     }
 
     @GetMapping("/dashboard")
@@ -158,7 +159,6 @@ public class AdminController {
                     new ActivityDTO("<strong>Rohan Patel</strong>'s profile has been updated", "#8a9bb5", "5 hours ago")
             );
             model.addAttribute("recentActivities", recentActivities);
-
 
         } catch (Exception e) {
             log.error("Error loading dashboard: ", e);
@@ -283,4 +283,6 @@ public class AdminController {
         public String getColor() { return color; }
         public String getTime() { return time; }
     }
+
+
 }

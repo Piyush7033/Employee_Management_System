@@ -24,57 +24,63 @@
             flex-direction: row;
         }
 
-        /* ===== SIDEBAR STYLES ===== */
-        .sidebar {
-            width: 280px;
-            min-height: 100vh;
-            background: linear-gradient(
-                    180deg,
-                    #161742 0%,
-                    #1D1E58 100%
-            );
-            padding: 1.5rem 0 2rem 0;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
-            transition: all 0.2s;
-            border-right: none;
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            z-index: 1000;
-            overflow-y: auto;
-        }
+        /*!* ===== SIDEBAR STYLES ===== *!*/
+        /*.sidebar {*/
+        /*    width: 270px;*/
+        /*    min-width: 260px;*/
+        /*    background-color: #1e293b !important;*/
+        /*    color: #fff !important;*/
+        /*    position: fixed;*/
+        /*    height: 100vh;*/
+        /*    left: 0;*/
+        /*    top: 0;*/
+        /*    display: flex;*/
+        /*    flex-direction: column;*/
+        /*    z-index: 1000;*/
+        /*    overflow-y: auto !important;*/
+        /*    border-right: 1px solid #334155;*/
+        /*    font-family: 'Inter', system-ui, sans-serif;*/
 
-        .sidebar-brand {
-            padding: 0 1.5rem 1.8rem 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            margin-bottom: 1.2rem;
-        }
-        .sidebar-brand a {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #D1D5DB;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .sidebar-brand a i {
-            font-size: 1.6rem;
-            color: #60A5FA;
-        }
 
-        .sidebar-menu {
-            list-style: none;
-            padding: 0 0.75rem;
-            margin: 0;
-            flex: 1;
-        }
-        .sidebar-menu li {
-            margin-bottom: 4px;
-        }
+        /*    -ms-overflow-style: none;  !* IE and Edge *!*/
+        /*    scrollbar-width: none;  !* Firefox *!*/
+        /*}*/
+
+        /*!* Chrome, Safari, Opera के लिए स्क्रॉल बार छिपाना *!*/
+        /*.sidebar::-webkit-scrollbar {*/
+        /*    width: 0px;*/
+        /*    background: transparent;*/
+        /*}*/
+
+        /*.sidebar-brand {*/
+        /*    padding: 0 1.5rem 1.8rem 1.5rem;*/
+        /*    border-bottom: 1px solid rgba(255, 255, 255, 0.08);*/
+        /*    margin-bottom: 1.2rem;*/
+        /*}*/
+        /*.sidebar-brand a {*/
+        /*    padding-top: 27px;*/
+        /*    font-size: 1.3rem;*/
+        /*    font-weight: 700;*/
+        /*    color: #D1D5DB;*/
+        /*    text-decoration: none;*/
+        /*    display: flex;*/
+        /*    align-items: center;*/
+        /*    gap: 10px;*/
+        /*}*/
+        /*.sidebar-brand a i {*/
+        /*    font-size: 1.6rem;*/
+        /*    color: #60A5FA;*/
+        /*}*/
+
+        /*.sidebar-menu {*/
+        /*    list-style: none;*/
+        /*    padding: 0 0.75rem;*/
+        /*    margin: 0;*/
+        /*    flex: 1;*/
+        /*}*/
+        /*.sidebar-menu li {*/
+        /*    margin-bottom: 4px;*/
+        /*}*/
 
         .menu-title {
             color: #9CA3AF;
@@ -91,66 +97,66 @@
             margin-top: 0.5rem;
         }
 
-        .sidebar-menu li a,
-        .sidebar-menu li .dropdown-trigger {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 0.7rem 1rem;
-            border-radius: 10px;
-            font-weight: 500;
-            font-size: 0.95rem;
-            color: #D1D5DB;
-            text-decoration: none;
-            background: transparent;
-            border: none;
-            width: 100%;
-            transition: background 0.25s, color 0.25s;
-            cursor: pointer;
-        }
-        .sidebar-menu li a i,
-        .sidebar-menu li .dropdown-trigger i {
-            width: 20px;
-            font-size: 1.1rem;
-            color: #9CA3AF;
-            transition: color 0.25s;
-        }
-        .sidebar-menu li a span,
-        .sidebar-menu li .dropdown-trigger span {
-            flex: 1;
-            text-align: left;
-        }
-        .arrow-icon {
-            font-size: 0.75rem;
-            transition: transform 0.25s ease;
-            color: #9CA3AF;
-        }
+        /*.sidebar-menu li a,*/
+        /*.sidebar-menu li .dropdown-trigger {*/
+        /*    display: flex;*/
+        /*    align-items: center;*/
+        /*    gap: 14px;*/
+        /*    padding: 0.7rem 1rem;*/
+        /*    border-radius: 10px;*/
+        /*    font-weight: 500;*/
+        /*    font-size: 0.80rem;*/
+        /*    color: #D1D5DB;*/
+        /*    text-decoration: none;*/
+        /*    background: transparent;*/
+        /*    border: none;*/
+        /*    width: 100%;*/
+        /*    transition: background 0.25s, color 0.25s;*/
+        /*    cursor: pointer;*/
+        /*}*/
+        /*.sidebar-menu li a i,*/
+        /*.sidebar-menu li .dropdown-trigger i {*/
+        /*    width: 20px;*/
+        /*    font-size: 1.1rem;*/
+        /*    color: #9CA3AF;*/
+        /*    transition: color 0.25s;*/
+        /*}*/
+        /*.sidebar-menu li a span,*/
+        /*.sidebar-menu li .dropdown-trigger span {*/
+        /*    flex: 1;*/
+        /*    text-align: left;*/
+        /*}*/
+        /*.arrow-icon {*/
+        /*    font-size: 0.75rem;*/
+        /*    transition: transform 0.25s ease;*/
+        /*    color: #9CA3AF;*/
+        /*}*/
 
-        .sidebar-menu li a:hover,
-        .sidebar-menu li .dropdown-trigger:hover {
-            background: #1E40AF;
-            color: #FFFFFF;
-        }
-        .sidebar-menu li a:hover i,
-        .sidebar-menu li .dropdown-trigger:hover i {
-            color: #FFFFFF;
-        }
-        .sidebar-menu li a:hover .arrow-icon,
-        .sidebar-menu li .dropdown-trigger:hover .arrow-icon {
-            color: #FFFFFF;
-        }
+        /*.sidebar-menu li a:hover,*/
+        /*.sidebar-menu li .dropdown-trigger:hover {*/
+        /*    background: #334155 !important;*/
+        /*    color: #FFFFFF;*/
+        /*}*/
+        /*.sidebar-menu li a:hover i,*/
+        /*.sidebar-menu li .dropdown-trigger:hover i {*/
+        /*    color: #334155 !important;*/
+        /*}*/
+        /*.sidebar-menu li a:hover .arrow-icon,*/
+        /*.sidebar-menu li .dropdown-trigger:hover .arrow-icon {*/
+        /*    color: #334155 !important;*/
+        /*}*/
 
-        .sidebar-menu li.active > a {
-            background: #2563EB;
-            color: #FFFFFF;
-        }
-        .sidebar-menu li.active > a i {
-            color: #FFFFFF;
-        }
+        /*.sidebar-menu li.active > a {*/
+        /*    background: #334155 !important;*/
+        /*    color: #FFFFFF;*/
+        /*}*/
+        /*.sidebar-menu li.active > a i {*/
+        /*    color: #334155 !important;*/
+        /*}*/
 
         .submenu {
             list-style: none;
-            padding-left: 2.8rem;
+            padding-left: 1.8rem;
             margin: 6px 0 6px 0;
         }
         .submenu li {
@@ -160,10 +166,10 @@
             display: flex;
             align-items: center;
             padding: 0.5rem 1rem 0.5rem 0.5rem;
-            font-size: 0.9rem;
-            font-weight: 450;
+            font-size: 0.7rem;
+            font-weight: 300;
             color: #D1D5DB;
-            border-radius: 8px;
+            border-radius: 5px;
             text-decoration: none;
             transition: background 0.2s, color 0.2s;
             gap: 8px;
@@ -500,7 +506,8 @@
     <!-- Page Header -->
     <div class="page-header">
         <div>
-            <h4>Dashboard</h4>
+            <h4 th:text="'Hi, ' + ${loggedInUser}">Hi, Sujit</h4>
+
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
