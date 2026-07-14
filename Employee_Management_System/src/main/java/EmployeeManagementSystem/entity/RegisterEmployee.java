@@ -2,6 +2,7 @@ package EmployeeManagementSystem.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CurrentTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,6 +22,5 @@ public class RegisterEmployee {
     private String otp;
     private LocalDateTime otpExpiryTime;
     private String designation;
-
 
 }

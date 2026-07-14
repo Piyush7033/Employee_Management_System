@@ -157,6 +157,7 @@ public class LoginController {
                 }
             }
         }
+
         return "redirect:/auth/loginPage?logout=true";
     }
 }

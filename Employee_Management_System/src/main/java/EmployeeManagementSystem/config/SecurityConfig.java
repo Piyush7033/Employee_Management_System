@@ -41,7 +41,8 @@ public class SecurityConfig {
                 )
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**","/access-denied","/profile/**","/employees/**").permitAll()
+                        .requestMatchers("/auth/**","/error",
+                                "/favicon.ico","/access-denied","/profile/**","/employees/**").permitAll()
 
                         // PUBLIC ENDPOINTS
                         .requestMatchers("/auth/**", "/access-denied", "/profile/**").permitAll()
@@ -54,7 +55,7 @@ public class SecurityConfig {
                         .requestMatchers("/notifications/**").permitAll()
                         .requestMatchers("/employee/**").permitAll()
                         .requestMatchers("/employee/attendance-tracking").permitAll()
-                        .requestMatchers("/employee/**","/salary/slip/**","/attendance/signoff-logs").hasRole("EMPLOYEE")
+                        .requestMatchers("/employee/**","/salary/slip/**","/employee/signoff-logs").hasRole("EMPLOYEE")
 
                         .requestMatchers("/admin/**").permitAll()
 

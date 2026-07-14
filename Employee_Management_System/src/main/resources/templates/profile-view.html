@@ -79,7 +79,7 @@
             background: linear-gradient(135deg, #ffffff 0%, #f8faff 100%);
             border-radius: var(--radius-lg);
             border: 1px solid rgba(79, 70, 229, 0.08);
-            padding: 32px 36px;
+            padding: 24px;
             box-shadow: var(--shadow-md);
             position: relative;
             overflow: hidden;
@@ -136,14 +136,6 @@
             transition: var(--transition);
             cursor: pointer;
         }
-        .info-value.read-only {
-    color: #475569;
-    background: #f8fafc;
-    padding: 4px 10px;
-    border-radius: 6px;
-    border-left: 0 0 0;
-    /* border-left: 3px solid var(--profile-primary); */
-}
         .avatar-upload-overlay:hover {
             opacity: 1;
         }
@@ -172,9 +164,6 @@
             transition: var(--transition);
             pointer-events: none;
         }
-        .avatar-badge:hover {
-            transform: scale(1.1);
-        }
 
         /* Badges */
         .badge-id {
@@ -184,18 +173,6 @@
             padding: 6px 16px;
             border-radius: 50px;
             font-size: 13px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .badge-designation {
-            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
-            color: #1e40af;
-            font-weight: 500;
-            padding: 6px 16px;
-            border-radius: 50px;
-            font-size: 12px;
-            letter-spacing: 0.3px;
             display: inline-flex;
             align-items: center;
             gap: 6px;
@@ -244,14 +221,11 @@
             margin: 0;
             letter-spacing: -0.2px;
         }
-        .profile-info-card .card-body {
-            padding: 0;
-        }
         .info-row {
             display: flex;
-            padding: 8px 0;
+            padding: 12px 0;
             border-bottom: 1px solid #f8fafc;
-            align-items: flex-start;
+            align-items: center;
         }
         .info-row:last-child {
             border-bottom: none;
@@ -260,10 +234,9 @@
             font-size: 12px;
             font-weight: 600;
             color: #64748b;
-            min-width: 120px;
+            min-width: 150px;
             text-transform: uppercase;
             letter-spacing: 0.3px;
-            padding-top: 2px;
         }
         .info-value {
             font-size: 14px;
@@ -271,27 +244,16 @@
             font-weight: 500;
             flex: 1;
             word-break: break-word;
-            margin-left:10px;
-        }
-        .info-value .edit-btn {
-            margin-left: 8px;
-            color: var(--profile-primary);
-            font-size: 12px;
-            cursor: pointer;
-            opacity: 0;
-            transition: var(--transition);
-        }
-        .info-row:hover .info-value .edit-btn {
-            opacity: 1;
+            margin-left: 10px;
         }
 
         /* Read-only fields styling */
         .info-value.read-only {
             color: #475569;
             background: #f8fafc;
-            padding: 4px 10px;
+            padding: 6px 12px;
             border-radius: 6px;
-            /*border-left: 3px solid var(--profile-primary);*/
+            display: block;
         }
         .read-only-badge {
             display: inline-block;
@@ -305,68 +267,25 @@
             letter-spacing: 0.3px;
         }
 
-        /* Tabs - Hide tabs since we're using cards */
-        .custom-nav-tabs {
-            display: none;
-        }
-
         /* Form Elements for Edit Mode */
-        .form-label {
-            font-size: 12px;
-            font-weight: 600;
-            color: #475569;
-            margin-bottom: 6px;
-            letter-spacing: 0.3px;
-            text-transform: uppercase;
-        }
         .form-control, .form-select {
             border: 1.5px solid #e2e8f0 !important;
             border-radius: var(--radius-sm);
-            padding: 11px 16px;
+            padding: 8px 14px;
             font-size: 14px;
             background-color: #fafbff !important;
             color: var(--text-main) !important;
             transition: var(--transition);
-            font-weight: 400;
         }
         .form-control:focus, .form-select:focus {
             border-color: var(--profile-primary) !important;
             box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.08);
             background-color: #ffffff !important;
         }
-        .form-control:hover, .form-select:hover {
-            border-color: #94a3b8 !important;
-        }
-        .form-control:disabled, .form-control[readonly] {
-            background-color: #f1f5f9 !important;
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-        textarea.form-control {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        /* Edit Mode Toggle */
-        .edit-mode .info-value {
-            display: none;
-        }
-        .edit-mode .edit-field {
-            display: block !important;
-        }
         .edit-field {
             display: none;
-        }
-        .edit-field .form-control,
-        .edit-field .form-select {
-            font-size: 14px;
-            padding: 8px 12px;
-        }
-
-
-        .edit-mode .read-only-badge {
-            background: #e2e8f0;
-            color: #475569;
+            flex: 1;
+            margin-left: 10px;
         }
 
         /* Buttons */
@@ -383,16 +302,11 @@
             font-size: 14px;
             box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
             transition: var(--transition);
-            letter-spacing: 0.3px;
         }
         .btn-action-primary:hover {
             background: linear-gradient(135deg, var(--profile-primary-dark), var(--gradient-end));
             color: white;
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
-        }
-        .btn-action-primary:active {
-            transform: translateY(0px);
         }
 
         .btn-outline-action {
@@ -409,99 +323,62 @@
             background: var(--profile-primary);
             color: white;
             border-color: var(--profile-primary);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
         }
 
-        /* Alerts */
+        /* Custom Alerts */
         .alert-success-custom {
             background: linear-gradient(135deg, #f0fdf4, #dcfce7);
             border: 1px solid #86efac;
             color: #166534;
             border-radius: var(--radius-sm);
             padding: 14px 24px;
-            font-size: 14px;
-            font-weight: 500;
             display: flex;
             align-items: center;
             gap: 12px;
-            box-shadow: var(--shadow-sm);
         }
-        .alert-success-custom i {
-            font-size: 18px;
-            color: #22c55e;
-        }
-
         .alert-danger-custom {
             background: linear-gradient(135deg, #fef2f2, #fee2e2);
             border: 1px solid #fca5a5;
             color: #991b1b;
             border-radius: var(--radius-sm);
             padding: 14px 24px;
-            font-size: 14px;
-            font-weight: 500;
             display: flex;
             align-items: center;
             gap: 12px;
-            box-shadow: var(--shadow-sm);
-        }
-        .alert-danger-custom i {
-            font-size: 18px;
-            color: #ef4444;
         }
 
         /* Quick Stats */
         .stat-item {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             color: var(--text-muted);
             font-size: 13px;
-            padding: 4px 12px;
-
-            border-radius: 50px;
-            transition: var(--transition);
-        }
-        .stat-item:hover {
-            background: rgba(79, 70, 229, 0.08);
+            padding: 4px 0;
         }
         .stat-item i {
             color: var(--profile-primary);
-            font-size: 13px;
+            width: 16px;
         }
 
-        /* Animations */
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .animate-fade-in {
-            animation: fadeInUp 0.6s ease-out forwards;
+        .animate-fade-in { animation: fadeInUp 0.6s ease-out forwards; }
+
+        /* Fixed Responsive CSS Block */
+        @media (max-width: 992px) {
+            .profile-cards-grid { grid-template-columns: 1fr; }
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .main-content { margin-left: 0; width: 100%; }
             .content-body { padding: 16px; }
             .profile-banner-card { padding: 24px; }
-            .profile-cards-grid { grid-template-columns: 1fr; }
-            .profile-banner-card .row { flex-direction: column; text-align: center; }
-            .avatar-container { margin: 0 auto; }
-            .info-row { flex-direction: column; padding: 12px 0; }
-            .info-label { min-width: 100%; margin-bottom: 4px; }
-            .btn-outline-action { width: 100%; }
-            .d-flex.gap-2 { flex-direction: column; width: 100%; }
-        }
-
-        @media (max-width: 576px) {
-            .profile-info-card { padding: 16px; }
-            .profile-banner-card { padding: 16px; }
+            .info-row { flex-direction: column; align-items: flex-start; gap: 6px; }
+            .info-label { min-width: 100%; }
+            .edit-field, .info-value { margin-left: 0; width: 100%; }
         }
     </style>
 </head>
@@ -531,7 +408,7 @@
                             <i class="fa-regular fa-pen-to-square"></i> Edit Profile
                         </button>
                         <span class="badge bg-light text-dark px-3 py-2 rounded-pill border">
-                            <i class="fa-regular fa-clock me-1"></i> Last updated: <span th:text="${#dates.format(profile.updatedAt, 'dd MMM yyyy')}">Today</span>
+                            <i class="fa-regular fa-clock me-1"></i> Last updated: <span th:text="${profile.updatedAt != null ? #dates.format(profile.updatedAt, 'dd MMM yyyy') : 'Today'}">Today</span>
                         </span>
                     </div>
                 </div>
@@ -555,7 +432,6 @@
                     <input type="hidden" th:field="*{id}" />
                     <input type="hidden" th:field="*{userId}" />
                     <input type="hidden" th:field="*{photo}" id="photoHidden" />
-                    <!-- Hidden fields for read-only values to still submit them -->
                     <input type="hidden" th:field="*{fullName}" />
                     <input type="hidden" th:field="*{dob}" />
                     <input type="hidden" th:field="*{gender}" />
@@ -563,6 +439,7 @@
                     <!-- HERO BANNER CARD -->
                     <div class="profile-banner-card mb-4">
                         <div class="row align-items-center g-4">
+                            <!-- Profile Photo -->
                             <div class="col-md-auto text-center text-md-start">
                                 <div class="avatar-container" id="avatarContainer">
                                     <img th:src="${loggedInEmpPhoto != null} ? @{/storage/photos/{filename}(filename=${loggedInEmpPhoto})} : 'https://ui-avatars.com/api/?name=' + ${profile.fullName} + '&size=130&background=4f46e5&color=fff&bold=true'"
@@ -573,27 +450,60 @@
                                     <div class="avatar-badge">
                                         <i class="fa-solid fa-camera"></i>
                                     </div>
-                                    <input type="file" class="avatar-upload-input" id="photoUpload" accept="image/*" />
+                                    <input type="file" class="avatar-upload-input" id="photoUpload" name="photoFile" accept="image/*" />
                                 </div>
                             </div>
-                            <div class="col-md-7">
-                                <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+
+                            <!-- Profile Details & Action Buttons -->
+                            <div class="col-md col-12 text-center text-md-start">
+                                <div class="mb-2">
                                     <span class="badge-id">
                                         <i class="fa-regular fa-id-card"></i>
                                         <span th:text="${profile.userId != null ? profile.userId : loggedInEmpId}">BT001</span>
                                     </span>
-                                    <span class="badge-designation">
-                                        <i class="fa-regular fa-briefcase"></i>
-                                        <span th:text="${loggedInEmpDesignation != null ? loggedInEmpDesignation : 'Software Engineer'}">Software Engineer</span>
-                                    </span>
                                 </div>
-                                <h3 class="fw-700 m-0 text-dark fs-2" style="letter-spacing: -0.5px;" th:text="*{fullName != null && !fullName.isEmpty()} ? *{fullName} : ${loggedInEmpName}">Employee Name</h3>
-                                <div class="d-flex flex-column flex-wrap gap-2 mt-3">
+
+                                <h3 class="fw-700 m-0 text-dark fs-2" th:text="*{fullName != null && !fullName.isEmpty()} ? *{fullName} : ${loggedInEmpName}">Employee Name</h3>
+                                <p class="text-muted fw-medium mb-3" th:text="${loggedInEmpDesignation != null ? loggedInEmpDesignation : 'Software Engineer'}">Software Engineer</p>
+
+                                <!-- Quick Contacts -->
+                                <div class="d-flex flex-column gap-1 align-items-center align-items-md-start">
                                     <span class="stat-item"><i class="fa-regular fa-envelope"></i> <span th:text="*{email}">email@example.com</span></span>
                                     <span class="stat-item"><i class="fa-solid fa-phone"></i> <span th:text="*{phoneNumber}">+91 9876543210</span></span>
                                     <span class="stat-item"><i class="fa-regular fa-calendar"></i> <span th:text="*{dob}">01 Jan 1990</span></span>
                                     <span class="stat-item"><i class="fa-solid fa-location-dot"></i> <span th:text="*{currentAddress}">Location</span></span>
                                 </div>
+
+                                <!-- Action Buttons -->
+                                <div class="d-flex flex-wrap gap-2 mt-4 justify-content-center justify-content-md-start">
+                                    <button type="button" class="btn btn-action-primary py-2 px-4 fs-6 shadow-sm" id="innerEditProfileBtn">
+                                        <i class="fa-regular fa-pen-to-square me-1"></i> Edit Profile
+                                    </button>
+                                    <a th:href="@{/auth/forgot-password}" class="btn btn-outline-secondary py-2 px-4 rounded-pill border" style="font-size: 14px; font-weight: 500; display: inline-flex; align-items: center;">
+                                        <i class="fa-solid fa-key me-1"></i> Change Password
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Circular Profile Completion -->
+                            <div class="col-md-auto col-12 d-flex flex-column align-items-center justify-content-center ms-md-auto py-2">
+                                <div class="position-relative d-flex align-items-center justify-content-center" style="width: 110px; height: 110px;">
+                                    <svg width="110" height="110" viewBox="0 0 110 110" style="transform: rotate(-90deg);">
+                                        <circle cx="55" cy="55" r="48" stroke="#f1f5f9" stroke-width="8" fill="transparent" />
+                                        <circle cx="55" cy="55" r="48" stroke="url(#profileGradient)" stroke-width="8" fill="transparent"
+                                                stroke-dasharray="301.6" stroke-dashoffset="45.24" stroke-linecap="round" />
+                                        <defs>
+                                            <linearGradient id="profileGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                                <stop offset="0%" stop-color="#4f46e5" />
+                                                <stop offset="100%" stop-color="#7c3aed" />
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                    <div class="position-absolute text-center">
+                                        <span class="fs-4 fw-800 d-block text-dark" style="line-height: 1; letter-spacing: -1px;">85%</span>
+                                    </div>
+                                </div>
+                                <span class="text-muted fw-semibold mt-2 text-uppercase" style="font-size: 10px; letter-spacing: 0.8px;">Profile Completion</span>
                             </div>
                         </div>
                     </div>
@@ -608,28 +518,21 @@
                                 <h5>Personal Information</h5>
                             </div>
                             <div class="card-body">
-                                <!-- READ-ONLY: Full Name -->
                                 <div class="info-row">
-                                    <span class="info-label">Full Name <span class=""></span></span>
+                                    <span class="info-label">Full Name</span>
                                     <span class="info-value read-only" th:text="*{fullName}">John Doe</span>
                                 </div>
-
-                                <!-- READ-ONLY: Date of Birth -->
                                 <div class="info-row">
-                                    <span class="info-label">Date of Birth <span class=""></span></span>
+                                    <span class="info-label">Date of Birth</span>
                                     <span class="info-value read-only" th:text="*{dob}">1990-01-01</span>
                                 </div>
-
-                                <!-- READ-ONLY: Gender -->
                                 <div class="info-row">
-                                    <span class="info-label">Gender <span class=""></span></span>
+                                    <span class="info-label">Gender</span>
                                     <span class="info-value read-only" th:text="*{gender}">Male</span>
                                 </div>
-
-                                <!-- EDITABLE: Blood Group -->
                                 <div class="info-row">
                                     <span class="info-label">Blood Group</span>
-                                    <span class="info-value" th:text="*{bloodGroup}">O+</span>
+                                    <span class="info-value text-data" th:text="*{bloodGroup}">O+</span>
                                     <div class="edit-field">
                                         <select th:field="*{bloodGroup}" class="form-select">
                                             <option value="">Select Blood Group</option>
@@ -644,20 +547,16 @@
                                         </select>
                                     </div>
                                 </div>
-
-                                <!-- EDITABLE: Phone Number -->
                                 <div class="info-row">
                                     <span class="info-label">Phone Number</span>
-                                    <span class="info-value" th:text="*{phoneNumber}">9876543210</span>
+                                    <span class="info-value text-data" th:text="*{phoneNumber}">9876543210</span>
                                     <div class="edit-field">
-                                        <input type="tel" th:field="*{phoneNumber}" class="form-control" required />
+                                        <input type="tel" th:field="*{phoneNumber}" id="phoneNumber" class="form-control" required />
                                     </div>
                                 </div>
-
-                                <!-- EDITABLE: Marital Status -->
                                 <div class="info-row">
                                     <span class="info-label">Marital Status</span>
-                                    <span class="info-value" th:text="*{maritalStatus}">Single</span>
+                                    <span class="info-value text-data" th:text="*{maritalStatus}">Single</span>
                                     <div class="edit-field">
                                         <select th:field="*{maritalStatus}" class="form-select">
                                             <option value="">Select Status</option>
@@ -668,10 +567,8 @@
                                         </select>
                                     </div>
                                 </div>
-
-                                <!-- READ-ONLY: Email -->
                                 <div class="info-row">
-                                    <span class="info-label">Email <span class="read-only-badge"></span></span>
+                                    <span class="info-label">Email <span class="read-only-badge">Read Only</span></span>
                                     <span class="info-value read-only" th:text="*{email}">email@example.com</span>
                                 </div>
                             </div>
@@ -680,36 +577,36 @@
                         <!-- EDUCATION CARD -->
                         <div class="profile-info-card">
                             <div class="card-header">
-                                <i class="fa-regular fa-graduation-cap"></i>
+                                <i class="fa-solid fa-graduation-cap"></i>
                                 <h5>Education Credentials</h5>
                             </div>
                             <div class="card-body">
                                 <div class="info-row">
                                     <span class="info-label">Highest Qualification</span>
-                                    <span class="info-value ml-1" th:text="*{highestQualification}">MCA</span>
+                                    <span class="info-value text-data" th:text="*{highestQualification}">MCA</span>
                                     <div class="edit-field">
-                                        <input type="text" th:field="*{highestQualification}" class="form-control" placeholder="e.g. MCA / B.Tech" />
+                                        <input type="text" th:field="*{highestQualification}" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="info-row">
                                     <span class="info-label">Passing Year</span>
-                                    <span class="info-value" th:text="*{passingYear}">2023</span>
+                                    <span class="info-value text-data" th:text="*{passingYear}">2023</span>
                                     <div class="edit-field">
-                                        <input type="text" th:field="*{passingYear}" class="form-control" placeholder="e.g. 2023" />
+                                        <input type="text" th:field="*{passingYear}" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="info-row">
                                     <span class="info-label">Institution</span>
-                                    <span class="info-value" th:text="*{university}">Galgotias University</span>
+                                    <span class="info-value text-data" th:text="*{university}">Galgotias University</span>
                                     <div class="edit-field">
-                                        <input type="text" th:field="*{university}" class="form-control" placeholder="e.g. Galgotias University" />
+                                        <input type="text" th:field="*{university}" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="info-row">
                                     <span class="info-label">Field of Study</span>
-                                    <span class="info-value" th:text="*{fieldOfStudy}">Computer Applications</span>
+                                    <span class="info-value text-data" th:text="*{fieldOfStudy}">Computer Applications</span>
                                     <div class="edit-field">
-                                        <input type="text" th:field="*{fieldOfStudy}" class="form-control" placeholder="e.g. Computer Science" />
+                                        <input type="text" th:field="*{fieldOfStudy}" class="form-control" />
                                     </div>
                                 </div>
                             </div>
@@ -718,36 +615,36 @@
                         <!-- BANK DETAILS CARD -->
                         <div class="profile-info-card">
                             <div class="card-header">
-                                <i class="fa-regular fa-building-columns"></i>
+                                <i class="fa-solid fa-building-columns"></i>
                                 <h5>Bank Details</h5>
                             </div>
                             <div class="card-body">
                                 <div class="info-row">
                                     <span class="info-label">Bank Name</span>
-                                    <span class="info-value" th:text="*{bankName}">State Bank of India</span>
+                                    <span class="info-value text-data" th:text="*{bankName}">State Bank of India</span>
                                     <div class="edit-field">
-                                        <input type="text" th:field="*{bankName}" class="form-control" placeholder="e.g. State Bank of India" />
+                                        <input type="text" th:field="*{bankName}" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="info-row">
                                     <span class="info-label">IFSC Code</span>
-                                    <span class="info-value" th:text="*{ifscCode}">SBIN0001234</span>
+                                    <span class="info-value text-data" th:text="*{ifscCode}">SBIN0001234</span>
                                     <div class="edit-field">
-                                        <input type="text" th:field="*{ifscCode}" class="form-control" placeholder="e.g. SBIN0001234" />
+                                        <input type="text" th:field="*{ifscCode}" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="info-row">
                                     <span class="info-label">Account Number</span>
-                                    <span class="info-value" th:text="*{accountNumber}">3412XXXXXXXX</span>
+                                    <span class="info-value text-data" th:text="*{accountNumber}">3412XXXXXXXX</span>
                                     <div class="edit-field">
-                                        <input type="text" th:field="*{accountNumber}" class="form-control" placeholder="e.g. 3412XXXXXXXX" />
+                                        <input type="text" th:field="*{accountNumber}" class="form-control" />
                                     </div>
                                 </div>
                                 <div class="info-row">
                                     <span class="info-label">Account Holder</span>
-                                    <span class="info-value" th:text="*{accountHolderName}">Ankit Kumar Singh</span>
+                                    <span class="info-value text-data" th:text="*{accountHolderName}">Ankit Kumar Singh</span>
                                     <div class="edit-field">
-                                        <input type="text" th:field="*{accountHolderName}" class="form-control" placeholder="As per bank passbook" />
+                                        <input type="text" th:field="*{accountHolderName}" class="form-control" />
                                     </div>
                                 </div>
                             </div>
@@ -756,46 +653,45 @@
                         <!-- ADDRESS CARD -->
                         <div class="profile-info-card">
                             <div class="card-header">
-                                <i class="fa-regular fa-location-dot"></i>
+                                <i class="fa-solid fa-location-dot"></i>
                                 <h5>Address Details</h5>
                             </div>
                             <div class="card-body">
                                 <div class="info-row">
                                     <span class="info-label">Current Address</span>
-                                    <span class="info-value" th:text="*{currentAddress}">Vill - Khoripakar, PO - Paitluhata, PS - Risali, Bhilai, Durg, Chhattisgarh - 490006</span>
+                                    <span class="info-value text-data" th:text="*{currentAddress}">Address Details</span>
                                     <div class="edit-field">
-                                        <textarea th:field="*{currentAddress}" class="form-control" rows="2" placeholder="Enter current address"></textarea>
+                                        <textarea th:field="*{currentAddress}" class="form-control" rows="2"></textarea>
                                     </div>
                                 </div>
                                 <div class="info-row">
                                     <span class="info-label">Permanent Address</span>
-                                    <span class="info-value" th:text="*{permanentAddress}">Vill - Khoripakar, PO - Paitluhata, PS - Risali, Bhilai, Durg, Chhattisgarh - 490006</span>
+                                    <span class="info-value text-data" th:text="*{permanentAddress}">Address Details</span>
                                     <div class="edit-field">
-                                        <textarea th:field="*{permanentAddress}" class="form-control" rows="2" placeholder="Enter permanent address"></textarea>
+                                        <textarea th:field="*{permanentAddress}" class="form-control" rows="2"></textarea>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- SUBMIT BUTTON -->
-                    <div class="d-flex flex-wrap justify-content-between align-items-center mt-4 mb-5">
+                    <!-- SUBMIT BUTTONS -->
+                    <div class="d-flex flex-wrap justify-content-between align-items-center mt-4 mb-5 gap-3">
                         <div class="text-muted small">
-                            <i class="fa-regular fa-info-circle me-1"></i>
-                            <span class="read-only-badge" style="background: #eef2ff;">Read Only</span> fields cannot be modified
+                            <i class="fa-solid fa-circle-info me-1"></i>
+                            <span class="read-only-badge m-0" style="background: #eef2ff;">Read Only</span> fields cannot be modified.
                         </div>
                         <div class="d-flex gap-2">
                             <button type="button" class="btn btn-outline-action" id="cancelEdit" style="display:none;">
-                                <i class="fa-regular fa-xmark"></i> Cancel
+                                <i class="fa-solid fa-xmark"></i> Cancel
                             </button>
-                            <button type="submit" class="btn btn-action-primary shadow-sm px-5 py-2.5" id="saveButton" style="display:none;">
+                            <button type="submit" class="btn btn-action-primary shadow-sm px-5" id="saveButton" style="display:none;">
                                 <i class="fa-regular fa-floppy-disk"></i> Save Changes
                             </button>
                         </div>
                     </div>
                 </form>
             </div>
-            <!-- FOOTER COPYRIGHT SECTION -->
             <footer class="mt-5 pt-4 text-center text-muted border-top" style="font-size: 12px;">
                 <p class="mb-0">Copyright &copy; 2026 Bluethink IT Consulting Pvt. Ltd. All rights reserved.</p>
             </footer>
@@ -804,7 +700,6 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Auto-close alerts after 5 seconds
@@ -812,7 +707,7 @@
         alerts.forEach(alert => {
             setTimeout(() => {
                 const bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
-                bsAlert.close();
+                if(bsAlert) bsAlert.close();
             }, 5000);
         });
 
@@ -829,32 +724,26 @@
         photoUpload.addEventListener('change', function(event) {
             const file = event.target.files[0];
             if (file) {
-                // Validate file type
                 if (!file.type.startsWith('image/')) {
                     alert('Please select an image file.');
                     return;
                 }
-                // Validate file size (max 5MB)
                 if (file.size > 5 * 1024 * 1024) {
                     alert('Image size should be less than 5MB.');
                     return;
                 }
-
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     profileImage.src = e.target.result;
-                    // Store the file for upload
                     photoHidden.value = file.name;
                 };
                 reader.readAsDataURL(file);
-
-                // Here you can implement AJAX upload to save the photo immediately
-                // uploadPhoto(file);
             }
         });
 
         // ========== EDIT MODE TOGGLE ==========
         const toggleEditBtn = document.getElementById('toggleEditMode');
+        const innerEditProfileBtn = document.getElementById('innerEditProfileBtn');
         const cancelEditBtn = document.getElementById('cancelEdit');
         const saveButton = document.getElementById('saveButton');
         const profileForm = document.getElementById('profileForm');
@@ -863,32 +752,20 @@
         function toggleEditMode(enable) {
             isEditMode = enable;
             const editFields = document.querySelectorAll('.edit-field');
-            const infoValues = document.querySelectorAll('.info-value:not(.read-only)');
+            const infoValues = document.querySelectorAll('.info-value.text-data');
 
             if (enable) {
-                // Show edit fields for editable fields only, hide editable values
                 editFields.forEach(field => field.style.display = 'block');
                 infoValues.forEach(val => val.style.display = 'none');
-                // Read-only values should remain visible
-                document.querySelectorAll('.info-value.read-only').forEach(val => {
-                    val.style.display = 'block';
-                });
                 toggleEditBtn.innerHTML = '<i class="fa-regular fa-eye"></i> View Profile';
                 cancelEditBtn.style.display = 'inline-flex';
                 saveButton.style.display = 'inline-flex';
-                // Add edit mode class
-                document.querySelectorAll('.profile-info-card').forEach(card => card.classList.add('edit-mode'));
             } else {
-                // Hide edit fields, show all values
                 editFields.forEach(field => field.style.display = 'none');
                 infoValues.forEach(val => val.style.display = 'block');
-                document.querySelectorAll('.info-value.read-only').forEach(val => {
-                    val.style.display = 'block';
-                });
                 toggleEditBtn.innerHTML = '<i class="fa-regular fa-pen-to-square"></i> Edit Profile';
                 cancelEditBtn.style.display = 'none';
                 saveButton.style.display = 'none';
-                document.querySelectorAll('.profile-info-card').forEach(card => card.classList.remove('edit-mode'));
             }
         }
 
@@ -896,81 +773,25 @@
             toggleEditMode(!isEditMode);
         });
 
+        if(innerEditProfileBtn) {
+            innerEditProfileBtn.addEventListener('click', function() {
+                toggleEditMode(true);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
         cancelEditBtn.addEventListener('click', function() {
-            // Reset form to original values
             location.reload();
         });
 
-        // ========== FORM SUBMISSION ==========
-        profileForm.addEventListener('submit', function(e) {
-            // You can add custom validation here
-            const requiredFields = this.querySelectorAll('[required]');
-            let valid = true;
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) {
-                    valid = false;
-                    field.classList.add('is-invalid');
-                } else {
-                    field.classList.remove('is-invalid');
-                }
-            });
-
-            if (!valid) {
-                e.preventDefault();
-                alert('Please fill in all required fields.');
-            }
-        });
-
-        // ========== KEYBOARD SHORTCUTS ==========
-        document.addEventListener('keydown', function(e) {
-            // Ctrl+E to toggle edit mode
-            if (e.ctrlKey && e.key === 'e') {
-                e.preventDefault();
-                toggleEditMode(!isEditMode);
-            }
-            // Escape to cancel edit
-            if (e.key === 'Escape' && isEditMode) {
-                cancelEditBtn.click();
-            }
-        });
-
-        // ========== REAL-TIME VALIDATION ==========
+        // Phone Input Clean validation
         const phoneInput = document.getElementById('phoneNumber');
         if (phoneInput) {
             phoneInput.addEventListener('input', function() {
                 this.value = this.value.replace(/[^0-9+]/g, '');
             });
         }
-
-        console.log('Profile page loaded successfully!');
     });
-
-    // ========== AJAX PHOTO UPLOAD FUNCTION (Optional) ==========
-    function uploadPhoto(file) {
-        const formData = new FormData();
-        formData.append('photo', file);
-        formData.append('userId', document.querySelector('input[name="userId"]').value);
-
-        fetch('/profile/upload-photo', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                console.log('Photo uploaded successfully');
-                // Update the photo field
-                document.getElementById('photoHidden').value = data.filename;
-            } else {
-                alert('Failed to upload photo. Please try again.');
-            }
-        })
-        .catch(error => {
-            console.error('Error uploading photo:', error);
-            alert('Error uploading photo. Please try again.');
-        });
-    }
 </script>
-
 </body>
 </html>

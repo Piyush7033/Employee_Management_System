@@ -242,10 +242,10 @@
             <span class="text-info mb-0" style="font-size: 11px; font-weight: 500; line-height: 1.2;" th:text="${loggedInEmpDesignation != null} ? ${loggedInEmpDesignation} : 'Software Engineer'">Software Engineer</span>
             <small class="text-muted d-block mt-0.5" style="font-size: 10px; opacity: 0.7;" th:text="${loggedInEmpId != null} ? ${loggedInEmpId} : 'BT0000'">BT0000</small>
 
-            <!-- LIVE TIMER BADGE -->
             <div class="live-timer-badge">
                 <i class="fa-solid fa-circle text-warning" style="font-size: 6px;"></i>
-                <span id="sidebarLiveTimer">00:00:00</span>
+                <!-- dhyan dein: th:data-checkin zaroor hona chahiye -->
+                <span id="sidebarLiveTimer" th:data-checkin="${checkInTime}">00:00:00</span>
             </div>
         </div>
     </div>
@@ -291,7 +291,7 @@
             <a th:href="@{/employee/wfh/apply}"><i class="fa-solid fa-house-laptop"></i>Work From Home</a>
         </li>
         <li th:classappend="${currentPage == 'signoff'} ? 'active'">
-            <a th:href="@{/attendance/signoff-logs}">
+            <a th:href="@{/employee/signoff-logs}">
                 <i class="fa-solid fa-right-from-bracket text-danger"></i>
                 <span>Signoff Logs</span>
             </a>
@@ -312,12 +312,26 @@
 
     <!-- UPDATED: JAVASCRIPT CONNECTED WITH BACKEND -->
     <script th:inline="javascript">
-        // FIXED: अब यह बैकएंड से आने वाले कुल सेकंड्स (backendTotalSeconds) को कलेक्ट करेगा
-        let totalSeconds = [[${backendTotalSeconds != null ? backendTotalSeconds : 0}]];
+        document.addEventListener('DOMContentLoaded', function() {
         const timerElement = document.getElementById("sidebarLiveTimer");
+        const loginTimestamp = timerElement.getAttribute('data-checkin');
 
-        // फ़ंक्शन जो स्क्रीन पर टाइम अपडेट करेगा
+        // Safety Check: Agar timestamp nahi mila ya 0 hai
+        if (!loginTimestamp || loginTimestamp === "null" || parseInt(loginTimestamp) === 0) {
+            timerElement.innerText = "00:00:00";
+            return;
+        }
+
+        // Milliseconds se direct Date Object banana (Ekdam safe aur accurate method)
+        const loginTime = new Date(parseInt(loginTimestamp));
+
         function updateTimerDisplay() {
+            const now = new Date();
+            let diff = now - loginTime;
+
+            if (diff < 0) diff = 0;
+
+            let totalSeconds = Math.floor(diff / 1000);
             let hrs = Math.floor(totalSeconds / 3600);
             let mins = Math.floor((totalSeconds % 3600) / 60);
             let secs = totalSeconds % 60;
@@ -329,14 +343,9 @@
             timerElement.textContent = `${hrs}:${mins}:${secs}`;
         }
 
-        // पेज लोड होते ही तुरंत सही टाइम दिखाएं (ताकि 00:00:00 न चमके)
         updateTimerDisplay();
-
-        // हर एक सेकंड में टाइमर को आगे बढ़ाने के लिए
-        setInterval(() => {
-            totalSeconds++;
-            updateTimerDisplay();
-        }, 1000);
+        setInterval(updateTimerDisplay, 1000);
+    });
 
         // PHOTO UPLOAD JAVASCRIPT
         function uploadSidebarPhoto(input) {

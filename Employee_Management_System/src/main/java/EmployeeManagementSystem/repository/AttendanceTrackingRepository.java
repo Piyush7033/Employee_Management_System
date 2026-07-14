@@ -17,9 +17,16 @@ public interface AttendanceTrackingRepository
             LocalDate date
     );
 
-//    List<AttendanceTracking> findByEmployeeIdAndDateOrderByIdDesc(Long employeeId);
+   //List<AttendanceTracking> findByEmployeeIdAndDateOrderByIdDesc(Long employeeId);
 
     List<AttendanceTracking> findByEmployeeIdOrderByDateDesc(Long employeeId);
     //@Query("SELECT a FROM Attendance a WHERE a.employeeId = :empId AND FUNCTION('DATE', a.punchInTime) = CURRENT_DATE")
-    Optional<Attendance> findTodayAttendanceByEmployeeId(@Param("empId") String empId);
+    Optional<AttendanceTracking> findTodayAttendanceByEmployeeId(Long empId);
+    List<AttendanceTracking> findByEmployeeId(Long employeeId);
+//    AttendanceTracking findTopByEmployeeIdAndDateOrderByIdDesc(
+//            String employeeId,
+//            LocalDate date
+//    );
+// Repository mein single first record query limit lagayein
+Optional<AttendanceTracking> findFirstByEmployeeIdAndDateOrderByLoginTimeAsc(String employeeId, LocalDate date);
 }

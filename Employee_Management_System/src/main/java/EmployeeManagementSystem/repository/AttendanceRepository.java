@@ -29,6 +29,5 @@ public interface AttendanceRepository
             LocalDate date);
     List<Attendance> findByAttendanceDate(LocalDate attendanceDate);
     List<Attendance> findByAttendanceDateAndWorkMode(LocalDate attendanceDate, WorkMode workMode);
-    List<Attendance> findByEmployeeId(String employeeId);
 
 }

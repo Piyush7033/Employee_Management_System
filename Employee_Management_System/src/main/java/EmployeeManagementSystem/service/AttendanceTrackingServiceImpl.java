@@ -1,5 +1,6 @@
 package EmployeeManagementSystem.service;
 
+import EmployeeManagementSystem.controller.AttendanceTrackingController;
 import EmployeeManagementSystem.entity.Attendance;
 import EmployeeManagementSystem.entity.AttendanceTracking;
 import EmployeeManagementSystem.entity.Employee;
@@ -19,6 +20,7 @@ import java.util.Optional;
 public class AttendanceTrackingServiceImpl implements AttendanceTrackingService {
 
     private final AttendanceTrackingRepository attendanceTrackingRepository;
+
 
 
     @Override
@@ -86,17 +88,48 @@ public List<AttendanceTracking> getAttendanceHistory(Long employeeId) {
             .findByEmployeeIdOrderByDateDesc(employeeId);
 }
     @Override
-    public LocalDateTime getPunchInTimeForToday(String employeeId) {
-        // 1. डेटाबेस से आज का अटेंडेंस रिकॉर्ड खोजें
-        Optional<Attendance> attendanceOpt = attendanceTrackingRepository.findTodayAttendanceByEmployeeId(employeeId);
+    public LocalDateTime getPunchInTimeForToday(Long employeeId) {
 
-        // 2. अगर रिकॉर्ड मौजूद है, तो punchInTime (LocalDateTime) रिटर्न करें
+        Optional<AttendanceTracking> attendanceOpt = attendanceTrackingRepository.findTodayAttendanceByEmployeeId(employeeId);
         if (attendanceOpt.isPresent()) {
-            return attendanceOpt.get().getCheckInTime(); // मान लेते हैं एंटिटी में getPunchInTime() मेथड है
+            return attendanceOpt.get().getLoginTime();
         }
 
-        // 3. अगर कर्मचारी ने आज पंच-इन नहीं किया है, तो null रिटर्न करें
         return null;
+    }
+    public List<AttendanceTracking> getAttendanceLogsByEmployeeId(Long employeeId) {
+        // 1. Database se saare logs nikalen
+        List<AttendanceTracking> logs = attendanceTrackingRepository.findByEmployeeId(employeeId);
+
+        // 2. (Optional Fix) Agar working hours DB me null hain aur logout time maujood hai,
+        // toh hum runtime par calculate karke UI ke liye set kar sakte hain.
+        for (AttendanceTracking log : logs) {
+            LocalDateTime logoutTime = LocalDateTime.now();
+            log.setLogoutTime(logoutTime);
+
+            Duration duration = Duration.between(
+                    log.getLoginTime(),
+                    logoutTime
+            );
+
+            double workingHours = duration.toMinutes() / 60.0;
+            log.setWorkingHours(workingHours);
+
+            attendanceTrackingRepository.save(log);
+
+//            if (log.getWorkingHours() == null && log.getLoginTime() != null && log.getLogoutTime() != null) {
+//                try {
+//                    // Maan lijiye aapka time String format me hai ya LocalTime me,
+//                    // Calculate duration logic (agar jarurat ho):
+//                    // long mins = Duration.between(log.getLoginTime(), log.getLogoutTime()).toMinutes();
+//                    // log.setWorkHours((mins / 60) + "h " + (mins % 60) + "m");
+//                } catch (Exception e) {
+//                    log.setWorkingHours(Double.valueOf("-"));
+//                }
+//            }
+        }
+
+        return logs;
     }
 
 //    @Override

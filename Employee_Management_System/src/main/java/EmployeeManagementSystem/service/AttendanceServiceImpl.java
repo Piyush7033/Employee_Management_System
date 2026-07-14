@@ -60,27 +60,6 @@ public class AttendanceServiceImpl implements AttendanceService {
                 );
 
     }
-    public List<Attendance> getAttendanceLogsByEmployeeId(String employeeId) {
-        // 1. Database se saare logs nikalen
-        List<Attendance> logs = attendanceRepository.findByEmployeeId(employeeId);
-
-        // 2. (Optional Fix) Agar working hours DB me null hain aur logout time maujood hai,
-        // toh hum runtime par calculate karke UI ke liye set kar sakte hain.
-        for (Attendance log : logs) {
-            if (log.getWorkingHours() == null && log.getCheckInTime() != null && log.getCheckOutTime() != null) {
-                try {
-                    // Maan lijiye aapka time String format me hai ya LocalTime me,
-                    // Calculate duration logic (agar jarurat ho):
-                    // long mins = Duration.between(log.getLoginTime(), log.getLogoutTime()).toMinutes();
-                    // log.setWorkHours((mins / 60) + "h " + (mins % 60) + "m");
-                } catch (Exception e) {
-                    log.setWorkingHours(Double.valueOf("-"));
-                }
-            }
-        }
-
-        return logs;
-    }
 
 
 }

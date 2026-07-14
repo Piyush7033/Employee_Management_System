@@ -1,8 +1,11 @@
 package EmployeeManagementSystem.service;
 
+import EmployeeManagementSystem.entity.Attendance;
 import EmployeeManagementSystem.entity.AttendanceTracking;
 import EmployeeManagementSystem.entity.Employee;
+import org.hibernate.annotations.CurrentTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -13,5 +16,6 @@ public interface AttendanceTrackingService {
     AttendanceTracking getTodayAttendance(Long employeeId);
 
     List<AttendanceTracking> getAttendanceHistory(Long employeeId);
-    LocalDateTime getPunchInTimeForToday(String employeeId);
+    LocalDateTime getPunchInTimeForToday(Long employeeId);
+    List<AttendanceTracking> getAttendanceLogsByEmployeeId(Long employeeId);
 }

@@ -1,9 +1,14 @@
 package EmployeeManagementSystem.controller;
 
 import EmployeeManagementSystem.entity.Attendance;
+import EmployeeManagementSystem.entity.AttendanceTracking;
 import EmployeeManagementSystem.entity.Employee;
+import EmployeeManagementSystem.entity.RegisterEmployee;
 import EmployeeManagementSystem.service.AttendanceService;
+import EmployeeManagementSystem.service.AttendanceTrackingService;
 import EmployeeManagementSystem.service.EmployeeService;
+import EmployeeManagementSystem.service.RegisterEmployeeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,6 +20,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/attendance")
+@RequiredArgsConstructor
 public class AttendanceController {
 
     @Autowired
@@ -22,6 +28,9 @@ public class AttendanceController {
 
     @Autowired
     private EmployeeService employeeService;
+
+    private final RegisterEmployeeService registerEmployeeService;
+    private final AttendanceTrackingService attendanceTrackingService;
 
     @GetMapping
     public String getAllAttendance(Model model) {
@@ -84,23 +93,5 @@ public class AttendanceController {
 //
 //    }
 
-    @GetMapping("/signoff-logs")
-    public String getSignoffLogs(Model model) {
-        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || !authentication.isAuthenticated()) {
-            return "redirect:/login";
-        }
-
-        String employeeId = authentication.getName(); // e.g., BT001
-
-        // 1. Database se is employee ke saare attendance records nikalen
-        // (Aap apne actual service/repository method ka naam use karein)
-        List<Attendance> logs = attendanceService.getAttendanceLogsByEmployeeId(employeeId);
-
-        model.addAttribute("attendanceLogs", logs);
-        model.addAttribute("currentPage", "signoff"); // Sidebar ko active dikhane ke liye
-
-        return "signoff-details"; // Naye HTML page ka naam
-    }
 
 }
