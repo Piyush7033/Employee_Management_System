@@ -47,6 +47,7 @@ public class LoginController {
         model.addAttribute("loginRequest", new LoginRequest());
         return "login";
     }
+
     @PostMapping("/login")
     public String login(@ModelAttribute("loginRequest") LoginRequest request,
                         HttpServletResponse response, Model model) {
@@ -95,6 +96,12 @@ public class LoginController {
             }
             if ("ROLE_HR".equalsIgnoreCase(role)){
                 return "redirect:/hr/dashboard";
+            }
+            if ("ROLE_SUPERADMIN".equalsIgnoreCase(role)){
+                return "redirect:/admin/dashboard";
+            }
+            if ("ROLE_TeamLead".equalsIgnoreCase(role)){
+                return "redirect:/admin/dashboard";
             }
             return "redirect:/login";
 

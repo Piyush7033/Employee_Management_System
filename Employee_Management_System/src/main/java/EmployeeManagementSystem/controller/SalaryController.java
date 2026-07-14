@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("employee/salary")
+@RequestMapping("/employee/salary")
 public class SalaryController {
 
     private final SalaryService salaryService;

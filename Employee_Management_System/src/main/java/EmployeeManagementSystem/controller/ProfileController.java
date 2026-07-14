@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-@RequestMapping("/profile")
+@RequestMapping("/employee/profile")
 @RequiredArgsConstructor
 public class ProfileController {
     private final EmployeeProfileService service;
@@ -49,7 +49,6 @@ public class ProfileController {
             return ResponseEntity.ok(photo);
 
         } catch (Exception e) {
-
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(e.getMessage());

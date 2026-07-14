@@ -8,7 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "employee_profiles")
+//@Table(name = "employee_profiles")
 @Data
 public class EmployeeProfile {
 
