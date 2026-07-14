@@ -33,4 +33,5 @@ public interface SalaryService {
 
     double getTotalPendingSalary();
 
+    List<Salary> findByEmployeeId(String employeeId);
 }

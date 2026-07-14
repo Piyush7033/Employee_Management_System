@@ -12,4 +12,6 @@ public interface SalaryRepository extends JpaRepository<Salary, Long> {
     List<Salary> findByPaymentStatus(String paymentStatus);
 
     long countByPaymentStatus(String paymentStatus);
+
+    List<Salary> findByEmployeeId(String employeeId);
 }
